@@ -51,7 +51,7 @@ def loginFunction(main):
 def createCompanyPage(main):
     ''' Show the Form for Create Company Page'''
     try:
-        main.hide()
+        # main.hide()
         main.companycreate.show()
 
 
