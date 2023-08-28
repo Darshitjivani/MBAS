@@ -6,54 +6,93 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>762</width>
+    <height>750</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Home Window</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 75 20pt &quot;MS Shell Dlg 2&quot;;</string>
+   <string notr="true">
+font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QLabel" name="label">
-    <property name="geometry">
-     <rect>
-      <x>230</x>
-      <y>120</y>
-      <width>321</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>Welcome to Home Screen</string>
-    </property>
-   </widget>
-   <widget class="QLabel" name="label_2">
-    <property name="geometry">
-     <rect>
-      <x>210</x>
-      <y>240</y>
-      <width>191</width>
-      <height>61</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>TextLabel</string>
-    </property>
-    <property name="openExternalLinks">
-     <bool>true</bool>
-    </property>
-   </widget>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="0" column="0">
+     <widget class="QWidget" name="left_sider" native="true">
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(71, 71, 71);
+border:none;
+
+</string>
+      </property>
+      <widget class="QPushButton" name="pbCreateCompany">
+       <property name="geometry">
+        <rect>
+         <x>0</x>
+         <y>0</y>
+         <width>411</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>Create Company</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pbListOfCompany">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>40</y>
+         <width>401</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>List Of Comapny</string>
+       </property>
+      </widget>
+      <widget class="QListWidget" name="listWidget">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>80</y>
+         <width>331</width>
+         <height>581</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+color: rgb(255, 255, 255);</string>
+       </property>
+      </widget>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="styleSheet">
+       <string notr="true">border:none;</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>800</width>
-     <height>39</height>
+     <width>762</width>
+     <height>31</height>
     </rect>
    </property>
   </widget>

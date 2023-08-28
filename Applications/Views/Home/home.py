@@ -9,6 +9,8 @@ import qdarkstyle
 import traceback
 import numpy as np
 # from model import ModelTS
+from Applications.Views.CompanyCreate.company_create import CompanyCreateWindow
+
 
 class HomeWindow(QMainWindow):
     def __init__(self):
@@ -17,10 +19,19 @@ class HomeWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
         uic.loadUi(ui_login, self)
 
-        self.label2 = QLabel("Click me!")
-        self.label2.setOpenExternalLinks(True)
-        self.label2.linkActivated.connect(self.on_link_activated)
+        # self.user_id = userid
+        # self.create_company.clicked.connect(self.companyCreateFunction)
 
-    def on_link_activated(self, link):
-        # Implement the action you want to perform when the text is clicked
-        print("Text clicked:", link)
+        #
+    # def companyCreateFunction(self):
+    #     print("Hello")
+    #     try:
+    #
+    #         company_create = CompanyCreateWindow(userid=1)
+    #         print(company_create)
+    #     except Exception as e:
+    #         print(e)
+    #
+    #
+    #     self.setCentralWidget(company_create)
+

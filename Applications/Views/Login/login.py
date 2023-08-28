@@ -11,24 +11,52 @@ import traceback
 import numpy as np
 # from model import ModelTS
 from Applications.Views.Home.home import HomeWindow
+import sqlite3
+
+from Applications.Utils.config_reader import *
+
+
 
 class LoginWindow(QMainWindow):
+
     def __init__(self):
         super(LoginWindow, self).__init__()
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'Login.ui')
         uic.loadUi(ui_login, self)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        # self.setAttribute(Qt.WA_TranslucentBackground)
+
+        self.setGeometry(100, 100, 800, 600)
+
+
+        self.initVaribles()
+
+        # self.db_handler = db_handler
+
 
         # self.passwordfield.setEachoMode(QtWidgets.QLineEdit.Password)
-        self.gotologin.clicked.connect(self.loginfunction)
-    #
-    def loginfunction(self):
+        # self.loginfunction()
+        # self.show()
+        # allSlots(self)
+        # self.gotologin.clicked.connect(self.loginFunction)
 
-        home = HomeWindow()
-        self.setCentralWidget(home)
-        # self.gotologin.clicked.connect(self.loginfunction)
-        # user = self.emailfield.text()
-        # password = self.passwordfield.text()
-        #
-        # if len(user) == 0 and len(password)==0:
-        #     self.error.setText("Please input all feild.")
+    def initVaribles(self):
+        userId,password=readConfig()
+
+        self.leUserName.setText(userId)
+        self.lePassword.setText(password)
+
+    #     self.ckSavedata.stateChanged.connect(self.updateConfig)
+    #
+    # def updateConfig(self, state):
+    #     if state == Qt.Checked:
+    #         print("hello")
+    #         userId = self.leUserName.text()
+    #         print(userId)
+    #         password = self.lePassword.text()
+    #         print(password)
+    #         self.updateConfig(userId, password)
+
+
+

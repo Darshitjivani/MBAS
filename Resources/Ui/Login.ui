@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>600</height>
+    <height>516</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>MBAS</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>-10</x>
+      <x>0</x>
       <y>0</y>
       <width>821</width>
       <height>471</height>
@@ -47,11 +47,11 @@ font: 75 30pt &quot;MS Shell Dlg 2&quot;;</string>
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="gotologin">
+    <widget class="QPushButton" name="pbLogin">
      <property name="geometry">
       <rect>
-       <x>340</x>
-       <y>290</y>
+       <x>350</x>
+       <y>320</y>
        <width>161</width>
        <height>41</height>
       </rect>
@@ -66,7 +66,7 @@ color: rgb(255, 255, 255);</string>
       <string>Login</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="leUserName">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -76,7 +76,7 @@ color: rgb(255, 255, 255);</string>
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="lePassword">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -86,7 +86,7 @@ color: rgb(255, 255, 255);</string>
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="username">
      <property name="geometry">
       <rect>
        <x>310</x>
@@ -102,7 +102,7 @@ color: rgb(255, 255, 255);</string>
       <string>Username</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="password">
      <property name="geometry">
       <rect>
        <x>310</x>
