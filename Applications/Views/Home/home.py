@@ -1,3 +1,6 @@
+import platform
+
+import self
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel
 import csv
@@ -22,7 +25,6 @@ class HomeWindow(QMainWindow):
         # self.user_id = userid
         # self.create_company.clicked.connect(self.companyCreateFunction)
 
-        #
     # def companyCreateFunction(self):
     #     print("Hello")
     #     try:

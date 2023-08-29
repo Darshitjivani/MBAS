@@ -18,8 +18,6 @@ from Applications.Utils.execute_support import *
 
 
 
-
-
 class UIMain(QMainWindow):
     def __init__(self):
         super(UIMain, self).__init__()
@@ -37,11 +35,6 @@ class UIMain(QMainWindow):
 
 
         # Create a QTableView to display company names and dates
-
-
-
-
-
         # self.db_handler = DatabaseHandler(os.path.join(loc1[0], 'Database', 'MBAS.db'))
 
 
@@ -79,12 +72,6 @@ class UIMain(QMainWindow):
     # def gotologin(self):
     #     login = LoginPage()
     #     self.setCentralWidget(login)
-
-
-
-
-
-
 # def main():
 
 
