@@ -18,7 +18,11 @@ class CompanyCreateWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'CompanyCreate.ui')
         uic.loadUi(ui_login, self)
+        # self.setWindowFlag(Qt.FramelessWindowHint)
 
+
+        # hide company window after creating company
+        self.pbSubmit.clicked.connect(self.hide)
 
 
 

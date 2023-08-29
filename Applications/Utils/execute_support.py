@@ -43,7 +43,7 @@ def allObjects(main):
 
     main.gateway = GatewaysWindow() # Gateway Window
     main.companycreate = CompanyCreateWindow()  # Create Company Window
-    # main.home = HomeWindow()
+    main.home = HomeWindow()
     main.masterlist = MasterListWindow()  # MaterList Window
     main.creategroup = CreateGroupWindow() # Create group Window
     main.createledger = CreateLedgerWindow() # Create Ledger Window
@@ -73,6 +73,7 @@ def allSlots(main):
 
     #------------------------------- Create Company Window --------------------------#
     main.companycreate.pbSubmit.clicked.connect(lambda: createCompany(main))
+
 
     #-------------------------------- Gateway Window -------------------------------#
     main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
