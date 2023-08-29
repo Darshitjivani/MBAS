@@ -28,6 +28,8 @@ class UIMain(QMainWindow):
         uic.loadUi(ui_main, self)
 
 
+
+
         # Create a layout for widget_2
         # widget_2_layout = QVBoxLayout()
         # self.widget_2.setLayout(widget_2_layout)

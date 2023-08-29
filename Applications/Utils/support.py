@@ -348,10 +348,10 @@ def creategrouppage(main):
         all_items = role_names + group_names
 
         # Clear existing items from the drop-down button
-        main.creategroup.comboBox.clear()
+        main.creategroup.cbUnderGroup.clear()
 
         # Populate the drop-down button with group role names
-        main.creategroup.comboBox.addItems(all_items)
+        main.creategroup.cbUnderGroup.addItems(all_items)
 
        # Connect the submit button's clicked signal to a function
 
@@ -366,7 +366,7 @@ def saveGroupData(main):
         # print(comapny_id)
         group_name = main.creategroup.lineEdit.text()
         # print("group_name:",group_name)
-        selected_role_index = main.creategroup.comboBox.currentIndex()
+        selected_role_index = main.creategroup.cbUnderGroup.currentIndex()
         # print("selected_role_index",selected_role_index)
 
         # Get the list of group roles
@@ -418,7 +418,7 @@ def saveGroupData(main):
 
                 # Clear the input fields
                 main.creategroup.lineEdit.clear()
-                main.creategroup.comboBox.setCurrentIndex(-1)
+                main.creategroup.cbUnderGroup.setCurrentIndex(-1)
 
         else:
             QMessageBox.warning(
@@ -533,10 +533,10 @@ def saveledger(main):
                 # main.gateway(main, company_name)
 
                 main.createledger.hide()
-
+                # main.alterledgerlist.hide()
                 main.masterlist.show()
 
-                # main.gateway.updateTitleLabel(company_name)
+                # main.gateway.updateTitleLabel(company_ name)
 
 
             else:

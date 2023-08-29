@@ -110,7 +110,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
      </rect>
     </property>
    </widget>
-   <widget class="QComboBox" name="comboBox">
+   <widget class="QComboBox" name="cbUnderGroup">
     <property name="geometry">
      <rect>
       <x>150</x>
