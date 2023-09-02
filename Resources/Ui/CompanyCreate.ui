@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>894</width>
-    <height>668</height>
+    <width>701</width>
+    <height>497</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -140,7 +140,7 @@ color: rgb(255, 255, 255);</string>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pbClose">
          <property name="minimumSize">
           <size>
            <width>25</width>
@@ -173,6 +173,25 @@ color: rgb(255, 255, 255);</string>
     </item>
     <item row="1" column="0">
      <widget class="QWidget" name="widget" native="true">
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+
+	font: 75 10pt &quot;Sitka Small&quot;;
+border-radius:06px;
+background-color: rgb(71, 71, 71);
+color: rgb(255, 255, 255);
+
+
+}
+QPushButton:selected {
+  background: #1464A0;
+  color: #19232d;
+}
+
+
+
+</string>
+      </property>
       <layout class="QGridLayout" name="gridLayout_2">
        <property name="leftMargin">
         <number>5</number>
@@ -310,8 +329,7 @@ color: rgb(255, 255, 255);</string>
        <item row="3" column="0">
         <widget class="QLabel" name="label_5">
          <property name="styleSheet">
-          <string notr="true">
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>State</string>
@@ -519,7 +537,10 @@ color: rgb(255, 255, 255);</string>
          </property>
         </widget>
        </item>
-       <item row="12" column="4" rowspan="2">
+       <item row="13" column="2">
+        <widget class="QLineEdit" name="leFormalName"/>
+       </item>
+       <item row="12" column="4" rowspan="2" colspan="2">
         <widget class="QPushButton" name="pbSubmit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -527,19 +548,19 @@ color: rgb(255, 255, 255);</string>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>80</width>
+           <height>25</height>
+          </size>
+         </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-
-
-color: rgb(255, 255, 255);</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Submit</string>
          </property>
         </widget>
-       </item>
-       <item row="13" column="2">
-        <widget class="QLineEdit" name="leFormalName"/>
        </item>
       </layout>
      </widget>

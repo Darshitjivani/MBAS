@@ -23,3 +23,6 @@ class AlterMasterListWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'AlterMasterList.ui')
         uic.loadUi(ui_login, self)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        # self.creategroup.pbClose.clicked.connect(self.creategroup.close)
+

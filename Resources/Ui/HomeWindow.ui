@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>628</width>
-    <height>673</height>
+    <width>651</width>
+    <height>663</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -72,6 +72,11 @@ font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
            <height>30</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: rgb(71, 71, 71);
+border:none;
+</string>
+         </property>
          <property name="frameShape">
           <enum>QFrame::StyledPanel</enum>
          </property>
@@ -81,7 +86,7 @@ font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pbClose">
          <property name="minimumSize">
           <size>
            <width>30</width>
@@ -132,6 +137,18 @@ font: 75 16pt &quot;MS Shell Dlg 2&quot;;</string>
        </property>
        <item row="0" column="0">
         <widget class="QWidget" name="left_sider" native="true">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>310</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(71, 71, 71);
 border:none;
@@ -232,6 +249,12 @@ color: rgb(255, 255, 255);</string>
           </item>
           <item row="3" column="0" colspan="3">
            <widget class="QListWidget" name="listWidget">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
             <property name="styleSheet">
              <string notr="true">font: 16pt &quot;Sitka Text&quot;;
 color: rgb(255, 255, 255);</string>
@@ -239,6 +262,16 @@ color: rgb(255, 255, 255);</string>
            </widget>
           </item>
          </layout>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFrame" name="fCreateCompany">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
         </widget>
        </item>
       </layout>

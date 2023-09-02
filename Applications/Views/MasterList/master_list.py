@@ -21,9 +21,25 @@ class MasterListWindow(QMainWindow):
 
         # Load your UI and set window flags
         loc1 = os.getcwd().split('Application')
-        ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'MasterList.ui')
+        ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'CreateMasterList.ui')
         uic.loadUi(ui_login, self)
-#         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.hideAllFrames()
+
+    def hideAllFrames(self):
+        self.fLedger.hide()
+        self.fGroup.hide()
+
+    def showCreateGroup(self):
+        self.hideAllFrames()
+        self.fGroup.show()
+
+
+    def showCreateLadger(self):
+        self.hideAllFrames()
+        self.fLedger.show()
+
+
 #         self.setGeometry(100, 100, 800, 600)
 #
 #         # Create a QDockWidget and add a close button

@@ -25,6 +25,7 @@ class LoginWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'Login.ui')
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
+
         # self.setAttribute(Qt.WA_TranslucentBackground)
 
         self.setGeometry(100, 100, 800, 600)

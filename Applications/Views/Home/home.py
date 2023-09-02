@@ -18,6 +18,7 @@ class HomeWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
         uic.loadUi(ui_login, self)
+        # self.setWindowFlag(Qt.FramelessWindowHint)
 
         # self.user_id = userid
         # self.create_company.clicked.connect(self.companyCreateFunction)

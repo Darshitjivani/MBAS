@@ -64,7 +64,7 @@
         <number>0</number>
        </property>
        <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton_6">
+        <widget class="QPushButton" name="pbClose">
          <property name="minimumSize">
           <size>
            <width>30</width>
@@ -156,7 +156,25 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
       <property name="styleSheet">
        <string notr="true">QWidget{
 	font: 75 10pt &quot;Sitka Small&quot;;
-}</string>
+}
+
+QPushButton{
+
+	font: 75 10pt &quot;Sitka Small&quot;;
+border-radius:06px;
+background-color: rgb(71, 71, 71);
+color: rgb(255, 255, 255);
+
+
+}
+QPushButton:selected {
+  background: #1464A0;
+  color: #19232d;
+}
+
+
+
+</string>
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <property name="leftMargin">
@@ -212,6 +230,9 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
            <italic>false</italic>
            <bold>false</bold>
           </font>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Submit</string>

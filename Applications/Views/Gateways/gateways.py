@@ -1,3 +1,4 @@
+import layout
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel
 import csv
@@ -8,6 +9,10 @@ from PyQt5 import *
 import qdarkstyle
 import traceback
 import numpy as np
+
+from Applications.Views.MasterList.master_list import MasterListWindow
+
+
 # from model import ModelTS
 
 
@@ -17,12 +22,65 @@ class GatewaysWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'Gateways.ui')
         uic.loadUi(ui_login, self)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+        self.masterlist = MasterListWindow()
+
+        # self.widget.hide()
+
+
+        # Hide all frames initially
+        self.hideAllFrames()
+
+
+
+        # Attribute initialization
+        self.lbCompanyName = self.findChild(QLabel, 'lbCompanyName')
+
+    def hideAllFrames(self):
+        self.fCreate.hide()
+        self.fAlter.hide()
+        self.fVouchers.hide()
+        self.fDayBook.hide()
+        self.fBalanceSheet.hide()
+        self.fTrailBalance.hide()
+
+    def showCreateFrame(self):
+        self.hideAllFrames()
+        self.fCreate.show()
+
+        # layout = QVBoxLayout()
+        # layout.addWidget(self.masterlist)
+        # self.fCreate.setLayout(layout)
+
+    def showAlterFrame(self):
+        self.hideAllFrames()
+        self.fAlter.show()
+
+    def showDayBookFrame(self):
+        self.hideAllFrames()
+        self.fDayBook.show()
+
+    def showVouchersFrame(self):
+        self.hideAllFrames()
+        self.fVouchers.show()
+
+    def showBalanceSheetFrame(self):
+        self.hideAllFrames()
+        self.fBalanceSheet.show()
+
+    def showTrailBalanceFrame(self):
+        self.hideAllFrames()
+        self.fTrailBalance.show()
+
+
 
         # self.setAttribute(Qt.WA_TranslucentBackground)
 
-        self.lbTitle = self.findChild(QLabel, 'lbTitle')  # Assuming lbTitle is the object name of your QLabel
+        self.lbCompanyName = self.findChild(QLabel, 'lbCompanyName')  # Assuming lbTitle is the object name of your QLabel
+
+
 
     def updateTitleLabel(self, company_name):
-        self.lbTitle.setText(f"Welcome to {company_name}")
+        self.lbCompanyName.setText(f"Welcome to {company_name}")
 
     # def initveriable(self):

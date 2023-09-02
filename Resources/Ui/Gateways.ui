@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>867</width>
-    <height>668</height>
+    <width>917</width>
+    <height>666</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,11 +30,98 @@
     <property name="horizontalSpacing">
      <number>0</number>
     </property>
+    <property name="verticalSpacing">
+     <number>5</number>
+    </property>
     <item row="1" column="1">
-     <widget class="QWidget" name="widget" native="true"/>
+     <widget class="QWidget" name="widget" native="true">
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QFrame" name="fCreate">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_4"/>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QFrame" name="fAlter">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6"/>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QFrame" name="fVouchers">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_7"/>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QFrame" name="fDayBook">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_8"/>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QFrame" name="fBalanceSheet">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_9"/>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QFrame" name="fTrailBalance">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_10"/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </item>
     <item row="2" column="0" colspan="2">
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="ffooter">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -148,76 +235,8 @@ color: rgb(255, 255, 255);
        <property name="verticalSpacing">
         <number>10</number>
        </property>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="pbAlterMaster_3">
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Alter</string>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>REPORTS</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPushButton" name="pbVouchers_3">
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Vouchers</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>TRANSACTIONS</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QPushButton" name="pbDayBook_3">
-         <property name="minimumSize">
-          <size>
-           <width>50</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Day Book</string>
-         </property>
-        </widget>
-       </item>
        <item row="9" column="0">
-        <widget class="QPushButton" name="pbTrailBalance_3">
+        <widget class="QPushButton" name="pbTrailBalance">
          <property name="minimumSize">
           <size>
            <width>50</width>
@@ -232,24 +251,8 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </item>
-       <item row="11" column="0">
-        <widget class="Line" name="line_3">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>260</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color:transparent;</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QPushButton" name="pbBalanceSheet_3">
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pbAlterMaster">
          <property name="minimumSize">
           <size>
            <width>50</width>
@@ -260,22 +263,28 @@ color: rgb(255, 255, 255);
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Balance Sheet</string>
+          <string>Alter</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_11">
+       <item row="6" column="0">
+        <widget class="QPushButton" name="pbDayBook">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>MASTERS</string>
+          <string>Day Book</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QPushButton" name="pbCreateMaster_3">
+        <widget class="QPushButton" name="pbCreateMaster">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
            <horstretch>0</horstretch>
@@ -302,11 +311,89 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>REPORTS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QPushButton" name="pbBalanceSheet">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Balance Sheet</string>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="Line" name="line_3">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>260</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pbVouchers">
+         <property name="minimumSize">
+          <size>
+           <width>50</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Vouchers</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>MASTERS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>TRANSACTIONS</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </item>
     <item row="0" column="0" colspan="2">
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="fheader">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
@@ -336,7 +423,7 @@ color: rgb(255, 255, 255);
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QLabel" name="lbTitle">
+        <widget class="QLabel" name="lbCompanyName">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -366,7 +453,48 @@ color: rgb(255, 255, 255);
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="pbChangeCompany">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>150</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+
+	font: 75 10pt &quot;Sitka Small&quot;;
+border-radius:06px;
+background-color: #ffffff;
+  color: #19232d;	
+
+
+}
+QPushButton:selected {
+  background: #1464A0;
+  color: #19232d;
+}
+
+QPushButton:hover {
+  border-radius: 08px;
+  padding: 5px;
+  background-color:#9a9a9a;
+  border: 0px solid ;
+}</string>
+         </property>
+         <property name="text">
+          <string>Change Company</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QPushButton" name="pbClose">
          <property name="minimumSize">
           <size>
            <width>30</width>

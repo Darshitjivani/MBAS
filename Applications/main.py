@@ -11,7 +11,7 @@ import traceback
 import numpy as np
 # from model import ModelTS
 import sqlite3
-
+from Resources.icons import icons_rc
 
 from Applications.Views.Login.login import LoginWindow
 from Applications.Utils.execute_support import *
@@ -26,6 +26,9 @@ class UIMain(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_main = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
         uic.loadUi(ui_main, self)
+        self.setWindowFlag(Qt.FramelessWindowHint)
+
+
 
 
         # Create a layout for widget_2

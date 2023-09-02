@@ -44,6 +44,25 @@
       <property name="layoutDirection">
        <enum>Qt::LeftToRight</enum>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+
+	font: 75 10pt &quot;Sitka Small&quot;;
+border-radius:06px;
+background-color: rgb(71, 71, 71);
+color: rgb(255, 255, 255);
+
+
+}
+QPushButton:selected {
+  background: #1464A0;
+  color: #19232d;
+}
+
+
+
+</string>
+      </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <property name="leftMargin">
         <number>10</number>
@@ -104,10 +123,14 @@
        </item>
        <item row="7" column="9">
         <widget class="QPushButton" name="pbDelete">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Delete</string>
@@ -151,10 +174,14 @@ text-decoration: underline;
        </item>
        <item row="7" column="10">
         <widget class="QPushButton" name="pbSubmit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Submit</string>
@@ -346,35 +373,6 @@ color: rgb(255, 255, 255);
        <property name="spacing">
         <number>0</number>
        </property>
-       <item row="0" column="2">
-        <widget class="QPushButton" name="pushButton">
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>30</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-         <property name="icon">
-          <iconset resource="../icons/icons.qrc">
-           <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="lbLedgerCreations">
          <property name="maximumSize">
@@ -390,33 +388,6 @@ color: rgb(255, 255, 255);
          </property>
          <property name="text">
           <string>Ledger Creations</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="lbCompanyName">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-</string>
-         </property>
-         <property name="text">
-          <string>Company Name</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>

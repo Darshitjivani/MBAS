@@ -7,6 +7,8 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import *
 
 
+
+
 def loginFunction(main):
 
     ''' It will Login through Username and Password and redirect to main Window.'''
@@ -21,8 +23,18 @@ def loginFunction(main):
         command = ''' SELECT * FROM User_table WHERE username= ? AND password = ? '''
 
         cursor = main.db_connection.cursor()
-        try:
 
+        ############################### Alert for user name and password ##############################
+        # if not user:
+        #     QMessageBox.warning(main, 'Warning', 'Please Fill The Username ')
+        #     return
+        # if not password:
+        #     QMessageBox.warning(main, 'Warning', 'Please Fill The Password.')
+        #     return
+
+
+
+        try:
             cursor.execute(command,(user, password))
 
             main.db_connection.commit()
@@ -48,8 +60,11 @@ def loginFunction(main):
         print(traceback.print_exc())
 
 
+
 def createCompanyPage(main):
     ''' Show the Form for Create Company Page'''
+
+
     try:
         # main.hide()
         main.companycreate.show()
@@ -64,34 +79,24 @@ def createCompany(main):
 
     ''' Execute the Quary for create company and save the data into database.'''
 
+    # main.widget_2.show(createCompany)
+
+
     try:
 
         company_name = main.companycreate.leComapnyName.text()
-
         mailing_name = main.companycreate.leMailingName.text()
-
         address = main.companycreate.ptAddress.toPlainText()
-
         state = main.companycreate.leState.text()
-
         country = main.companycreate.leCountry.text()
-
         pincode = main.companycreate.lePincode.text()
-
         mobile = main.companycreate.leMobile.text()
-
         fax = main.companycreate.leFax.text()
-
         email = main.companycreate.leEmail.text()
-
         website = main.companycreate.leWebsite.text()
-
         currency_symbol = main.companycreate.leCurrencySymbol.text()
-
         formal_name_currency = main.companycreate.leFormalName.text()
-
         fy_date = main.companycreate.deFYDate.text()
-
         book_date = main.companycreate.deBookYear.text()
 
 
@@ -108,6 +113,8 @@ def createCompany(main):
         #     QMessageBox.warning(main, 'Warning', 'A company with the same name already exists.')
         #     return
         # Check if any of the required fields are empty
+        # main.companycreate.show()
+
         if (
                 not company_name
                 or not mailing_name
@@ -142,6 +149,7 @@ def createCompany(main):
             cursor.execute(insert_query, values)
             main.db_connection.commit()
 
+
             # Close the database connection
             cursor.close()
             QMessageBox.information(main, 'Success', 'Company entry created successfully!')
@@ -174,6 +182,7 @@ def createCompany(main):
             QMessageBox.critical(main, 'Error', 'Error creating company entry.')
     except:
         print(traceback.print_exc())
+
 
 
 def listOfCompany(main):
@@ -257,28 +266,41 @@ def gateway(main, company_name, company_id):
     #
     # except:
     #     print(traceback.print_exc())
+
     try:
+
         main.hide()
+        # main.showMaximized()  # show the window in full screen
         # comapny_id = main.comapnyID
         # print(company_name)
         main.gateway.show()
         main.companyID = company_id
         main.companyName = company_name
         print(main.companyID)
-
         main.gateway.updateTitleLabel(company_name)
+
+
+
+        def goToMainWindow():
+            main.gateway.hide()  # Hide the gateway window
+            main.show()  # Show the main window
+
+        main.gateway.pbChangeCompany.clicked.connect(goToMainWindow)
+
     except:
         print(traceback.print_exc())
+
 
 def masterList(main):
     ''' This Function will show the Master list window for creation of ledger, group etc.'''
     try:
         # main_window = main.show()
-        main.gateway.hide()
+        # main.gateway.hide()
         main.masterlist.show()
         comapny_id = main.companyID
         company_name = main.companyName
         main.masterlist.lbCompanyName.setText(f"Welcome to {company_name}")
+
 
         def goToMainWindow():
             main.masterlist.hide()  # Hide the masterlist window
@@ -289,8 +311,11 @@ def masterList(main):
 
         # main.gateway.updateTitleLabel(comapny_id[1])
 
+
+
     except:
         print(traceback.print_exc())
+
 
 def getGroupRoles(main):
 
@@ -327,7 +352,6 @@ def getGroupsCreatedByCompany(main):
 
 
 
-
 def creategrouppage(main):
     ''' This Function will show the Window for Create Group.'''
     try:
@@ -357,6 +381,8 @@ def creategrouppage(main):
 
     except:
         print(traceback.print_exc())
+
+
 
 def saveGroupData(main):
 
@@ -428,6 +454,7 @@ def saveGroupData(main):
     except sqlite3.Error as e:
         print("Error creating group:", e)
         QMessageBox.critical(main.creategroup, 'Error', 'Error creating group.')
+
 
 
 def createLedgerPage(main):
@@ -558,7 +585,8 @@ def saveledger(main):
 def showAlterMasterPage(main):
     '''This Function will show master list window for Alteration.'''
     try:
-        main.gateway.hide()
+
+        # main.gateway.hide()
         main.altermasterlist.show()
         comapny_id = main.companyID
         company_name = main.companyName
@@ -593,9 +621,14 @@ def showAlterMasterPage(main):
 
 def alterLedgerListpage(main):
     ''' This function will show the all ledger list which is created by that perticular company.'''
+    # main.alterledgerlist.hide()
+
     try:
+        ############################### hide master list ############################
         main.altermasterlist.hide()
         main.alterledgerlist.show()
+
+
         # user = main.userID  # Assuming you store the logged-in user ID in main.userID
         # print(user)  # user= nisha@gmail.com
         company_id = main.companyID
@@ -634,12 +667,14 @@ def alterLedgerListpage(main):
 
 def alterLedgerPage(main,ledger_name,ledger_id):
     ''' This function will load the data of ledger page.'''
+
     try:
         main.ledgerID = ledger_id
         print(ledger_id)
         main.ledgerName = ledger_name
         print(ledger_name)
         main.createledger.show()
+
         try:
             cursor = main.db_connection.cursor()
             query = '''SELECT * FROM AccountMaster_table WHERE AcMasterID = ?'''
@@ -668,6 +703,8 @@ def alterLedgerPage(main,ledger_name,ledger_id):
             print("Error fetching ledger data:", e)
     except:
         print(traceback.print_exc())
+
+
 
 def deleteLedger(main):
     '''This function will delete '''

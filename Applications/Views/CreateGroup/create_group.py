@@ -19,3 +19,4 @@ class CreateGroupWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'CreateGroup.ui')
         uic.loadUi(ui_login, self)
+        self.setWindowFlag(Qt.FramelessWindowHint)

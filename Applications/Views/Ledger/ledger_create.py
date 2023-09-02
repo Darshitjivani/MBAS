@@ -19,3 +19,4 @@ class CreateLedgerWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'LedgerCreate.ui')
         uic.loadUi(ui_login, self)
+        self.setWindowFlag(Qt.FramelessWindowHint)
