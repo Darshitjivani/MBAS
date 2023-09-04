@@ -26,3 +26,18 @@ class AlterMasterListWindow(QMainWindow):
         self.setWindowFlag(Qt.FramelessWindowHint)
         # self.creategroup.pbClose.clicked.connect(self.creategroup.close)
 
+        # Hide all frames initially
+        self.hideAllFrames()
+
+    def hideAllFrames(self):
+        self.fAlterGroup.hide()
+        self.fAlterLedger.hide()
+
+    def showAlterGroup(self):
+        self.hideAllFrames()
+        self.fAlterGroup.show()
+
+
+    def showAlterLedger(self):
+        self.hideAllFrames()
+        self.fAlterLedger.show()

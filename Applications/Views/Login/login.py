@@ -9,6 +9,8 @@ from PyQt5 import *
 import qdarkstyle
 import traceback
 import numpy as np
+from qtpy import QtCore
+
 # from model import ModelTS
 from Applications.Views.Home.home import HomeWindow
 import sqlite3
@@ -24,7 +26,9 @@ class LoginWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'Login.ui')
         uic.loadUi(ui_login, self)
-        self.setWindowFlag(Qt.FramelessWindowHint)
+
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+        self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
 
         # self.setAttribute(Qt.WA_TranslucentBackground)
 

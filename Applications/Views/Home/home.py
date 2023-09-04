@@ -19,6 +19,14 @@ class HomeWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
         uic.loadUi(ui_login, self)
         # self.setWindowFlag(Qt.FramelessWindowHint)
+        # self.fCreateCompany.hide()
+
+
+
+
+
+
+
 
         # self.user_id = userid
         # self.create_company.clicked.connect(self.companyCreateFunction)
@@ -36,3 +44,12 @@ class HomeWindow(QMainWindow):
     #
     #     self.setCentralWidget(company_create)
 
+# if __name__ == '__main__':
+#     import sys
+#     app = QApplication(sys.argv)
+#     window = HomeWindow()
+#     window.show()
+#
+#     # window.show()
+#     # window.hide()
+#     app.exec()

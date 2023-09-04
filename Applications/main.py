@@ -27,8 +27,7 @@ class UIMain(QMainWindow):
         ui_main = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
         uic.loadUi(ui_main, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
-
-
+        self.pbMaximized.clicked.connect(self.showmaximized)
 
 
         # Create a layout for widget_2
@@ -39,14 +38,7 @@ class UIMain(QMainWindow):
 
         # Create a QTableView to display company names and dates
 
-
-
-
-
         # self.db_handler = DatabaseHandler(os.path.join(loc1[0], 'Database', 'MBAS.db'))
-
-
-
 
 
         # self.createObjects()
@@ -57,7 +49,17 @@ class UIMain(QMainWindow):
 
 
         self.login.show()
+        self.hideAllFrames()
 
+    def hideAllFrames(self):
+            self.fCreateCompany.hide()
+
+    def showCreateCompany(self):
+            self.hideAllFrames()
+            self.fCreateCompany.show()
+
+    def showmaximized(self):
+        self.showMaximized()  # show the window in full screen
         # self.home.show()
     #     self.login.loginSuccessful.connect(self.showHomeWindow)  # Connect the signal to the slot
     #

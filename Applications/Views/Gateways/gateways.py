@@ -24,9 +24,8 @@ class GatewaysWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.masterlist = MasterListWindow()
-
-        # self.widget.hide()
-
+        self.pbMaximized.clicked.connect(self.showmaximized)
+        # self.pbMinimized.clicked.connect(self.showMinimized)
 
         # Hide all frames initially
         self.hideAllFrames()
@@ -47,10 +46,6 @@ class GatewaysWindow(QMainWindow):
     def showCreateFrame(self):
         self.hideAllFrames()
         self.fCreate.show()
-
-        # layout = QVBoxLayout()
-        # layout.addWidget(self.masterlist)
-        # self.fCreate.setLayout(layout)
 
     def showAlterFrame(self):
         self.hideAllFrames()
@@ -75,10 +70,11 @@ class GatewaysWindow(QMainWindow):
 
 
         # self.setAttribute(Qt.WA_TranslucentBackground)
-
         self.lbCompanyName = self.findChild(QLabel, 'lbCompanyName')  # Assuming lbTitle is the object name of your QLabel
 
 
+    def showmaximized(self):
+        self.showMaximized()  # show the window in full screen
 
     def updateTitleLabel(self, company_name):
         self.lbCompanyName.setText(f"Welcome to {company_name}")

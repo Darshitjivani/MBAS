@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>856</width>
-    <height>704</height>
+    <width>475</width>
+    <height>473</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -34,12 +34,15 @@
      <number>0</number>
     </property>
     <item row="0" column="0">
-     <widget class="QFrame" name="frame">
+     <widget class="QFrame" name="fheader">
       <property name="maximumSize">
        <size>
         <width>16777215</width>
         <height>30</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(75, 75, 75);</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -64,7 +67,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="lbLedgerList">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -78,7 +81,7 @@
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
+          <string notr="true">
 color: rgb(255, 255, 255);
 </string>
          </property>
@@ -103,6 +106,9 @@ color: rgb(255, 255, 255);
            <width>30</width>
            <height>30</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: white</string>
          </property>
          <property name="text">
           <string/>
@@ -143,7 +149,7 @@ border:none</string>
      </widget>
     </item>
     <item row="2" column="0">
-     <widget class="QFrame" name="frame_2">
+     <widget class="QFrame" name="ffooter">
       <property name="minimumSize">
        <size>
         <width>0</width>

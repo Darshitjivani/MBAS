@@ -8,7 +8,6 @@ from PyQt5.QtWidgets import *
 
 
 
-
 def loginFunction(main):
 
     ''' It will Login through Username and Password and redirect to main Window.'''
@@ -359,7 +358,7 @@ def creategrouppage(main):
         comapny_id = main.companyID
         print(comapny_id)
         company_name = main.companyName
-        main.creategroup.lbCompanyName.setText(f"Welcome to {company_name}")
+        # main.creategroup.lbCompanyName.setText(f"Welcome to {company_name}")
 
         # Get the list of group roles and groups created by the company
         group_roles = getGroupRoles(main)
@@ -368,14 +367,17 @@ def creategrouppage(main):
 
         # Combine group roles and company groups into a single list
         role_names = [role[1] for role in group_roles]
+        print("roles name", role_names)
         group_names = [group[1] for group in company_groups]
+        print("grous name", group_names)
         all_items = role_names + group_names
+        print(all_items)
 
         # Clear existing items from the drop-down button
-        main.creategroup.comboBox.clear()
+        main.creategroup.cbUnderGroup.clear()
 
         # Populate the drop-down button with group role names
-        main.creategroup.comboBox.addItems(all_items)
+        main.creategroup.cbUnderGroup.addItems(all_items)
 
        # Connect the submit button's clicked signal to a function
 
@@ -392,7 +394,7 @@ def saveGroupData(main):
         # print(comapny_id)
         group_name = main.creategroup.lineEdit.text()
         # print("group_name:",group_name)
-        selected_role_index = main.creategroup.comboBox.currentIndex()
+        selected_role_index = main.creategroup.cbUnderGroup.currentIndex()
         # print("selected_role_index",selected_role_index)
 
         # Get the list of group roles
@@ -401,7 +403,7 @@ def saveGroupData(main):
 
         if selected_role_index >= 0 and selected_role_index < len(group_roles):
             selected_group_role_id = group_roles[selected_role_index][0]
-            # print("slected group index:", selected_group_role_id)
+            print("slected group index:", selected_group_role_id)
 
             # Perform the database insert operation
             cursor = main.db_connection.cursor()
@@ -409,7 +411,7 @@ def saveGroupData(main):
                 insert_query = '''INSERT INTO Group_table (Group_roleID,CompanyID, Group_name)
                                   VALUES (?, ?,?)'''
                 values = (selected_group_role_id,comapny_id, group_name)
-                # print("vaues:", values)
+                print("vaues:", values)
                 cursor.execute(insert_query, values)
                 main.db_connection.commit()
                 cursor.close()
@@ -444,7 +446,7 @@ def saveGroupData(main):
 
                 # Clear the input fields
                 main.creategroup.lineEdit.clear()
-                main.creategroup.comboBox.setCurrentIndex(-1)
+                main.creategroup.cbUnderGroup.setCurrentIndex(-1)
 
         else:
             QMessageBox.warning(
@@ -466,7 +468,7 @@ def createLedgerPage(main):
         comapny_id = main.companyID
         # print(comapny_id)
         company_name = main.companyName
-        main.createledger.lbCompanyName.setText(f"Welcome to {company_name}")
+        # main.createledger.lbCompanyName.setText(f"Welcome to {company_name}")
 
         # Get the list of group roles and groups created by the company
         group_roles = getGroupRoles(main)
@@ -619,48 +621,59 @@ def showAlterMasterPage(main):
 
 
 
+ledger_list_shown = False
 def alterLedgerListpage(main):
-    ''' This function will show the all ledger list which is created by that perticular company.'''
-    # main.alterledgerlist.hide()
+    ''' This function will show the all ledger list which is created by that particular company.'''
+    global ledger_list_shown  # Declare the flag variable as global
+
+    # Check if the ledger list is already shown, and show it only if it's not shown
+    if not ledger_list_shown:
+        try:
+            # Show the ledger list
+
+            company_id = main.companyID
+            print(company_id)
+            command = ''' SELECT * FROM AccountMaster_table WHERE CompanyID = ? '''
+            cursor = main.db_connection.cursor()
+
+            try:
+                cursor.execute(command, (company_id,))
+                ledger_data = cursor.fetchall()
+                main.listWidget.clear()
+
+                for ledger in ledger_data:
+                    ledger_name = ledger[2]
+                    print(ledger_name)
+                    ledger_id = ledger[0]
+
+                    item = QListWidgetItem()
+                    ledger_button = QPushButton(ledger_name)
+                    ledger_button.setStyleSheet("color: Black;")
+                    ledger_button.clicked.connect(
+                        lambda _, name=ledger_name, id=ledger_id: alterLedgerPage(main, name, id))
+                    item.setSizeHint(ledger_button.sizeHint())
+                    main.alterledgerlist.listWidget.addItem(item)
+                    main.alterledgerlist.listWidget.setItemWidget(item, ledger_button)
+                    item.setData(Qt.UserRole, ledger_id)
+
+                # Set the flag to True, indicating that the ledger list is now shown
+                ledger_list_shown = True
+            except sqlite3.Error as e:
+                print("Error executing query:", e)
+            cursor.close()
+
+        except:
+            print(traceback.print_exc())
+    else:
+        # If the ledger list is already shown, you can choose to do nothing or handle it differently
+
+        pass
+    main.alterledgerlist.show()
+
+def alterGroupListpage(main):
 
     try:
-        ############################### hide master list ############################
-        main.altermasterlist.hide()
-        main.alterledgerlist.show()
-
-
-        # user = main.userID  # Assuming you store the logged-in user ID in main.userID
-        # print(user)  # user= nisha@gmail.com
-        company_id = main.companyID
-        print(company_id)
-        command = ''' SELECT * FROM AccountMaster_table WHERE CompanyID = ? '''
-
-        cursor = main.db_connection.cursor()
-        try:
-            cursor.execute(command, (company_id,))
-            # print(user)
-            ledger_data = cursor.fetchall()
-            main.listWidget.clear()
-            for ledger in ledger_data:
-                ledger_name = ledger[2]
-                print(ledger_name)
-                ledger_id = ledger[0]
-
-                item = QListWidgetItem()
-                ledger_button = QPushButton(ledger_name)
-                ledger_button.setStyleSheet("color: Black;")
-                ledger_button.clicked.connect(lambda _, name=ledger_name, id=ledger_id: alterLedgerPage(main, name, id))
-                # company_button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
-                item.setSizeHint(ledger_button.sizeHint())  # Set the size of the item to match the button's size
-                main.alterledgerlist.listWidget.addItem(item)
-                main.alterledgerlist.listWidget.setItemWidget(item, ledger_button)
-
-                # Attach additional data (company ID) to the item
-                item.setData(Qt.UserRole, ledger_id)
-        except sqlite3.Error as e:
-            print("Error executing query:", e)
-        cursor.close()
-
+        main.altergrouplist.show()
     except:
         print(traceback.print_exc())
 
@@ -695,7 +708,7 @@ def alterLedgerPage(main,ledger_name,ledger_id):
                 main.createledger.leCountry.setText(ledger_data[7])
                 main.createledger.lePincode.setText(str(ledger_data[8]))
                 #  main.createledger.leAcName.text()
-                main.createledger.leBalance.setText(ledger_data[10])
+                main.createledger.leBalance.setText(str(ledger_data[10]))
 
 
 
@@ -728,3 +741,12 @@ def deleteLedger(main):
     except sqlite3.Error as e:
         print("Error executing query:", e)
         QMessageBox.critical(main, 'Error', 'Error deleting Ledger entry.')
+
+
+# def goToMasterList(main):
+#     try:
+#
+#         main.alterledgerlist.hide()  # Hide the current window (Ledger List)
+#         main.masterlist.show()  # Show the masterList window
+#     except:
+#         print(traceback.print_exc())
