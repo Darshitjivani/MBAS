@@ -6,161 +6,133 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>781</width>
-    <height>628</height>
+    <width>771</width>
+    <height>671</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>22</width>
+    <height>0</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">font: 11pt &quot;Sitka Text&quot;;</string>
+  </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
-    <item row="0" column="0">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="2" column="0">
      <widget class="QWidget" name="widget" native="true">
-      <layout class="QGridLayout" name="gridLayout_2">
-       <item row="12" column="6">
-        <widget class="QPushButton" name="pbDelete">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton{
+
+	font: 75 10pt &quot;Sitka Small&quot;;
+border-radius:06px;
+background-color: rgb(71, 71, 71);
 color: rgb(255, 255, 255);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+
+
+}
+QPushButton:selected {
+  background: #1464A0;
+  color: #19232d;
+}
+
+
+
 </string>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>5</number>
+       </property>
+       <property name="topMargin">
+        <number>5</number>
+       </property>
+       <property name="rightMargin">
+        <number>5</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <item row="1" column="2" colspan="3">
+        <widget class="QComboBox" name="cbUnderGroup"/>
+       </item>
+       <item row="7" column="9">
+        <widget class="QPushButton" name="pbDelete">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Delete</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="label_19">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Under Branch</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QLabel" name="label_20">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="7">
-        <widget class="QPushButton" name="pbSubmit">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
-</string>
-         </property>
-         <property name="text">
-          <string>Submit</string>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="2">
-        <widget class="QLineEdit" name="leBalance"/>
-       </item>
-       <item row="12" column="1">
-        <widget class="QLabel" name="label_18">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="4">
-        <widget class="QLabel" name="label_5">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Name</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label_11">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="6" colspan="2">
+       <item row="1" column="9" colspan="2">
         <widget class="QLineEdit" name="leMailingName"/>
        </item>
-       <item row="9" column="5">
-        <widget class="QLabel" name="label_16">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+       <item row="0" column="5" rowspan="8">
+        <widget class="Line" name="line">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
          </property>
-         <property name="text">
-          <string>:</string>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
          </property>
-        </widget>
-       </item>
-       <item row="7" column="6" colspan="2">
-        <widget class="QPlainTextEdit" name="ptAddress"/>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Under Group</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="4">
-        <widget class="QLabel" name="label_9">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Pincode</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2">
-        <widget class="QLineEdit" name="leAcName"/>
-       </item>
-       <item row="3" column="3" rowspan="8">
-        <widget class="Line" name="line_2">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" rowspan="3" colspan="8">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+       <item row="0" column="6" colspan="4">
+        <widget class="QLabel" name="label_12">
+         <property name="styleSheet">
+          <string notr="true">
+text-decoration: underline;
+</string>
+         </property>
+         <property name="text">
+          <string>Mailing Details</string>
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
+       <item row="1" column="1">
         <widget class="QLabel" name="label_10">
          <property name="styleSheet">
           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
@@ -170,8 +142,18 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
          </property>
         </widget>
        </item>
-       <item row="7" column="5">
-        <widget class="QLabel" name="label_14">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Under</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="3" rowspan="2">
+        <widget class="QLabel" name="label_18">
          <property name="styleSheet">
           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
          </property>
@@ -180,101 +162,27 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
          </property>
         </widget>
        </item>
-       <item row="8" column="5">
-        <widget class="QLabel" name="label_15">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>:</string>
-         </property>
-        </widget>
+       <item row="2" column="9" colspan="2">
+        <widget class="QPlainTextEdit" name="ptAddress"/>
        </item>
-       <item row="5" column="2">
-        <widget class="QComboBox" name="cbUnderGroup"/>
-       </item>
-       <item row="7" column="4">
-        <widget class="QLabel" name="label_6">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Address</string>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="4">
-        <widget class="QLabel" name="label_8">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>Country</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2" colspan="6">
-        <widget class="QLabel" name="lbCompanyName">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
-</string>
-         </property>
-         <property name="text">
-          <string>Company Name</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="4" rowspan="2" colspan="2">
-        <widget class="QLabel" name="label_12">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;
-text-decoration: underline;
-</string>
-         </property>
-         <property name="text">
-          <string>Mailing Details</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="5">
-        <widget class="QLabel" name="label_13">
-         <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
-         </property>
-         <property name="text">
-          <string>:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_2">
-         <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-font: 75 10pt &quot;MS Shell Dlg 2&quot;;
-</string>
-         </property>
-         <property name="text">
-          <string>Ledger Creations</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="6">
+       <item row="4" column="9" colspan="2">
         <widget class="QLineEdit" name="leCountry">
          <property name="text">
-          <string>India</string>
+          <string/>
          </property>
         </widget>
        </item>
-       <item row="10" column="5">
+       <item row="4" column="8">
+        <widget class="QLabel" name="label_16">
+         <property name="styleSheet">
+          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+         </property>
+         <property name="text">
+          <string>:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="8">
         <widget class="QLabel" name="label_17">
          <property name="styleSheet">
           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
@@ -284,59 +192,270 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
          </property>
         </widget>
        </item>
-       <item row="8" column="4">
-        <widget class="QLabel" name="label_7">
+       <item row="2" column="7" colspan="2">
+        <widget class="QLabel" name="label_14">
          <property name="styleSheet">
           <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+         </property>
+         <property name="text">
+          <string>:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="6">
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="6">
+        <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>State</string>
          </property>
         </widget>
        </item>
-       <item row="8" column="6" colspan="2">
-        <widget class="QComboBox" name="cbState"/>
-       </item>
-       <item row="10" column="6" colspan="2">
-        <widget class="QLineEdit" name="lePincode"/>
-       </item>
-       <item row="11" column="0" colspan="8">
-        <widget class="Line" name="line_3">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
+       <item row="6" column="0" rowspan="2" colspan="3">
         <widget class="QLabel" name="label_3">
          <property name="styleSheet">
-          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Opening Balance</string>
          </property>
         </widget>
        </item>
-       <item row="6" column="2">
-        <widget class="QComboBox" name="cbUnderBranch"/>
+       <item row="0" column="2" colspan="3">
+        <widget class="QLineEdit" name="leAcName"/>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Name</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="8">
+        <widget class="QLabel" name="label_15">
+         <property name="styleSheet">
+          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+         </property>
+         <property name="text">
+          <string>:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_11">
+         <property name="styleSheet">
+          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+         </property>
+         <property name="text">
+          <string>:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="6" colspan="2">
+        <widget class="QLabel" name="label_8">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Country</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="10">
+        <widget class="QPushButton" name="pbSubmit">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Submit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="7" colspan="2">
+        <widget class="QLabel" name="label_13">
+         <property name="styleSheet">
+          <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+         </property>
+         <property name="text">
+          <string>:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="9">
+        <widget class="QComboBox" name="cbState"/>
+       </item>
+       <item row="5" column="6" colspan="2">
+        <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true">font: 10pt &quot;Sitka Text&quot;;
+</string>
+         </property>
+         <property name="text">
+          <string>Pincode</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Address</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="9" rowspan="2" colspan="2">
+        <widget class="QLineEdit" name="lePincode"/>
+       </item>
+       <item row="6" column="4" rowspan="2">
+        <widget class="QLineEdit" name="leBalance"/>
+       </item>
+      </layout>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QFrame" name="ffooter">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QFrame" name="fheader">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>30</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(75,75,75);
+color: rgb(255, 255, 255);
+font: 12pt &quot;Sitka Text&quot;;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lbLedgerCreations">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Ledger Creations</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="pbClose">
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:white</string>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="../icons/icons.qrc">
+           <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
     </item>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menubar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>781</width>
-     <height>21</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QStatusBar" name="statusbar"/>
  </widget>
- <resources/>
+ <resources>
+  <include location="../icons/icons.qrc"/>
+ </resources>
  <connections/>
 </ui>
