@@ -25,4 +25,21 @@ class AlterLedgerListWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
 
+    #     # Hide all frames initially
+    #     self.hideAllFrames()
+    #
+    # def hideAllFrames(self):
+    #     self.fListView.hide()
+    #     self.fAlterLedger.hide()
+    #
+    # def showListViewFrame(self):
+    #     self.hideAllFrames()
+    #     self.fListView.show()
+    #
+    # def showAlterLedgerFrame(self):
+    #     self.hideAllFrames()
+    #     self.fAlterLedger.show()
+
+
+
 

@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel, QVariant
+from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel, QVariant, pyqtSignal
 import csv
 # from tabletask import Ui_MainWindow
 import os
@@ -12,12 +12,13 @@ import numpy as np
 # from model import ModelTS
 import sqlite3
 from Resources.icons import icons_rc
+import sys
+from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QMouseEvent, QKeySequence
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 
 from Applications.Views.Login.login import LoginWindow
 from Applications.Utils.execute_support import *
-
-
-
 
 
 class UIMain(QMainWindow):
@@ -28,14 +29,14 @@ class UIMain(QMainWindow):
         uic.loadUi(ui_main, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.pbMaximized.clicked.connect(self.showmaximized)
-
+        self.dragging = False
+        self.offset = None
+        self.createShortcuts()
 
         # Create a layout for widget_2
         # widget_2_layout = QVBoxLayout()
         # self.widget_2.setLayout(widget_2_layout)
         # Create a model for the QTableView
-
-
         # Create a QTableView to display company names and dates
 
         # self.db_handler = DatabaseHandler(os.path.join(loc1[0], 'Database', 'MBAS.db'))
@@ -60,35 +61,33 @@ class UIMain(QMainWindow):
 
     def showmaximized(self):
         self.showMaximized()  # show the window in full screen
-        # self.home.show()
-    #     self.login.loginSuccessful.connect(self.showHomeWindow)  # Connect the signal to the slot
-    #
-    # def showHomeWindow(self, user_id):
-    #     home = HomeWindow(user_id)
-    #     self.setCentralWidget(home)
+
+    def showEvent(self, event):
+        super().showEvent(event)
+        listOfCompany(self)
+
+    def mousePressEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            # Calculate the offset between the mouse click and the window position
+            self.offset = event.globalPos() - self.pos()
+            self.dragging = True
 
 
-                # self.setWindowTitle("MBAS")
-
-        # self.title = tBar('MBAS')
-        # self.gotologin1.clicked.connect(self.createObjects)
-
-    # def createslote(self):
-    #     self.login = loginFunction()
+    def mouseMoveEvent(self, event: QMouseEvent):
+        if self.dragging:
+            # Move the window with the mouse while dragging
+            self.move(event.globalPos() - self.offset)
 
 
-        # self.gotologin1.clicked.connect(self.LoginPage)
+    def mouseReleaseEvent(self, event: QMouseEvent):
+        if event.button() == Qt.LeftButton:
+            # Stop dragging when the left mouse button is released
+            self.dragging = False
+            self.offset = None
 
-    # def gotologin(self):
-    #     login = LoginPage()
-    #     self.setCentralWidget(login)
-
-
-
-
-
-
-# def main():
+    def createShortcuts(self):
+        self.quitSc = QShortcut(QKeySequence('Esc'), self)
+        self.quitSc.activated.connect(self.close)
 
 
 
@@ -96,7 +95,7 @@ if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = UIMain()
     window.setWindowTitle("MBAS")
-    window.setGeometry(100, 100, 800, 600)
+    window.setGeometry(350, 100, 800, 600)
     # window.show()
     # window.hide()
     app.exec()

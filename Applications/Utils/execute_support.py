@@ -18,6 +18,7 @@ from Applications.Utils.support import *
 from Applications.Views.CreateGroup.alter_group_list import AlterGroupListWindow
 from Applications.Views.CreateGroup.create_group import CreateGroupWindow
 from Applications.Views.Ledger.alter_ledger_list import AlterLedgerListWindow
+from Applications.Views.Ledger.alter_ledger_show import AlterLedgerWindow
 from Applications.Views.Ledger.ledger_create import CreateLedgerWindow
 from Applications.Views.Login.login import LoginWindow
 from Applications.Views.Home.home import HomeWindow
@@ -49,6 +50,8 @@ def allObjects(main):
     main.altergrouplist = AlterGroupListWindow()  # Group List Window For Alteration
     # main.homewindow = HomeWindow() #home window
     # main.backwindow = goToMasterList
+    main.alterledger = AlterLedgerWindow()
+
 
 
     ##################################### Gateway ###################################################
@@ -76,19 +79,13 @@ def intialSlots(main):
     # ------------------------------- Main Window --------------#
 
     # main.pbCreateCompany.clicked.connect(lambda: createCompanyPage(main))
+    # main.pbListOfCompany.clicked.connect(lambda: listOfCompany(main))
     main.pbCreateCompany.clicked.connect(main.showCreateCompany)
-    main.pbListOfCompany.clicked.connect(lambda: listOfCompany(main))
     main.pbClose.clicked.connect(main.close)
-    # main.cbListOfComapny.addItems(lambda:listOfCompany(main))
-    # company_names = listOfCompany(main)
-    # print("comapny names",company_names)
-    #
-    # main.cbListOfComapny.addItems(company_names)
-    #
-    # # Connect the dropdown signal to a function
-    # main.cbListOfComapny.currentIndexChanged.connect(
-    #     lambda index: displayCompanyDetails(main, index)
-    # )
+
+    ##-------------------- Connect the dropdown signal to a function -------------------------#
+    # main.cbListOfComapny.currentIndexChanged.connect(lambda index: displayCompanyDetails(main, index)
+
 
 
 def allSlots(main):
@@ -98,7 +95,14 @@ def allSlots(main):
     # main.creategroup.pbCreate
     # ------------------------------- Create Company Window --------------------------#
     main.companycreate.pbSubmit.clicked.connect(lambda: createCompany(main))
+    main.companycreate.pbSubmit.clicked.connect(main.companycreate.hide)
     main.companycreate.pbClose.clicked.connect(main.companycreate.hide)
+    main.pbCreateCompany.clicked.connect(main.companycreate.show)
+
+    # Connect the "Add" button to the clear function
+    main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
+
+
 
     # -------------------------------- Gateway Window -------------------------------#
     # main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
@@ -109,6 +113,7 @@ def allSlots(main):
     main.gateway.pbVouchers.clicked.connect(main.gateway.showVouchersFrame)
     main.gateway.pbBalanceSheet.clicked.connect(main.gateway.showBalanceSheetFrame)
     main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrailBalanceFrame)
+
     main.gateway.pbClose.clicked.connect(main.gateway.close)
 
     # -------------------------------- Master List Window -------------------------------#
@@ -130,20 +135,22 @@ def allSlots(main):
     main.createledger.pbClose.clicked.connect(main.createledger.close)
 
     # ------------------------------ Alter Master List Window ---------------------------#
-    # Disconnect the previously connected signals (if any)
-    # main.altermasterlist.pbAlterGroup.clicked.disconnect(alterLedgerListpage)
-    # main.altermasterlist.pbAlterLedger.clicked.disconnect(alterLedgerListpage)
-
-    # main.altermasterlist.pbAlterLedger.clicked.disconnect()
-
-
-    # Connect the buttons to the respective slots
     main.altermasterlist.pbAlterGroup.clicked.connect(lambda: alterGroupListpage(main))
     main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerListpage(main))
     main.altermasterlist.pbAlterGroup.clicked.connect(main.altermasterlist.showAlterGroup)
+
+    # main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerPage(main))
     main.altermasterlist.pbAlterLedger.clicked.connect(main.altermasterlist.showAlterLedger)
     main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
     main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
+
+    main.alterledger.pbSubmit.clicked.connect(lambda:saveAlterLedgerData(main))
+    # main.alterledger.pbSubmit.clicked.connect(main.alterledgerlist.hide)
+    main.alterledger.pbDelete.clicked.connect(lambda: deleteLedger(main))
+    main.alterledger.pbClose.clicked.connect(main.alterledger.close)
+
+
+
     # main.alterledgerlist.pbClose.clicked.connect(goToMasterList)
 
 

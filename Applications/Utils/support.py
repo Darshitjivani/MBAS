@@ -30,9 +30,6 @@ def loginFunction(main):
         # if not password:
         #     QMessageBox.warning(main, 'Warning', 'Please Fill The Password.')
         #     return
-
-
-
         try:
             cursor.execute(command,(user, password))
 
@@ -48,7 +45,7 @@ def loginFunction(main):
         if user_data!=[]:
 
             main.userID=user_data[0]
-
+            # print(main.userID)
             main.login.hide()
             main.show()
             print('Login Successful')
@@ -67,10 +64,12 @@ def createCompanyPage(main):
     try:
         # main.hide()
         main.companycreate.show()
+        main.hide()
 
 
     except:
         print(traceback.print_exc())
+    listOfCompany(main)
 
 
 
@@ -78,8 +77,8 @@ def createCompany(main):
 
     ''' Execute the Quary for create company and save the data into database.'''
 
-    # main.widget_2.show(createCompany)
 
+    #     # Check if any of the required fields are empty
 
     try:
 
@@ -110,9 +109,9 @@ def createCompany(main):
         #
         # if existing_count > 0:
         #     QMessageBox.warning(main, 'Warning', 'A company with the same name already exists.')
-        #     return
-        # Check if any of the required fields are empty
-        # main.companycreate.show()
+        # return
+    #     # Check if any of the required fields are empty
+        main.companycreate.show()
 
         if (
                 not company_name
@@ -153,6 +152,8 @@ def createCompany(main):
             cursor.close()
             QMessageBox.information(main, 'Success', 'Company entry created successfully!')
 
+            clearCompanyCreateFields(main) # clear the all fields in company create
+
             # Show a confirmation dialog
             reply = QMessageBox.question(
                 main,
@@ -166,7 +167,7 @@ def createCompany(main):
 
                 # User chose to continue, show the gateway window
                 # main.gateway(main, company_name)
-                main.gateway.show()
+                # main.gateway.show()
                 main.gateway.updateTitleLabel(company_name)
 
             else:
@@ -176,11 +177,31 @@ def createCompany(main):
             # QMessageBox.information(main, 'Success', 'Company entry created successfully!')
             # main.showConfirmationDialog()
 
+
         except sqlite3.Error as e:
             print("Error executing query:", e)
             QMessageBox.critical(main, 'Error', 'Error creating company entry.')
     except:
         print(traceback.print_exc())
+    listOfCompany(main)
+
+
+
+def clearCompanyCreateFields(main):
+    main.companycreate.leComapnyName.clear()
+    main.companycreate.leMailingName.clear()
+    main.companycreate.ptAddress.clear()
+    main.companycreate.leState.clear()
+    main.companycreate.leCountry.clear()
+    main.companycreate.lePincode.clear()
+    main.companycreate.leMobile.clear()
+    main.companycreate.leFax.clear()
+    main.companycreate.leEmail.clear()
+    main.companycreate.leWebsite.clear()
+    main.companycreate.leCurrencySymbol.clear()
+    main.companycreate.leFormalName.clear()
+    main.companycreate.deFYDate.clear()
+    main.companycreate.deBookYear.clear()
 
 
 
@@ -193,19 +214,22 @@ def listOfCompany(main):
         user = main.userID  # Assuming you store the logged-in user ID in main.userID
         print(user) # user= nisha@gmail.com
         command = ''' SELECT * FROM Company_table WHERE UserID = ? '''
-
+        # command='SELECT * FROM Company_table'
         cursor = main.db_connection.cursor()
 
         try:
             cursor.execute(command, (user,))
-            # print(user)
+            # cursor.execute(command)
+            print("user",user)
             company_data = cursor.fetchall()
             main.listWidget.clear()
+                # print("123c",row)
 
             # Create a QPushButton for each company and add it to the layout
             for company in company_data:
                 company_name = company[2]
                 company_id = company[1]
+
 
 
                 item = QListWidgetItem()
@@ -219,28 +243,12 @@ def listOfCompany(main):
 
                 # Attach additional data (company ID) to the item
                 item.setData(Qt.UserRole, company_id)
-
-                # print(company_name)
-                # item = QListWidgetItem(company_name)
-                # main.listWidget.addItem(item)
-                #
-                # # Attach additional data (company ID) to the item
-                # item.setData(Qt.UserRole, company_id)
-
-        #         company_button = QPushButton(company_name)
-        #         company_button.setStyleSheet("color: white;")
-        #         layout.addWidget(company_button)
-        # #
-        # #
-        #
-        #         company_button.clicked.connect(lambda _, name=company_name,id=company_id: gateway(main, name ,id))
+                company_button.clicked.connect(lambda _, name=company_name,id=company_id: gateway(main, name ,id))
 
 
         except sqlite3.Error as e:
             print("Error executing query:", e)
         cursor.close()
-
-
 
     except:
         print(traceback.print_exc())
@@ -491,6 +499,7 @@ def createLedgerPage(main):
         print(traceback.print_exc())
 
 
+
 def saveledger(main):
     '''This Function will execute the Query to save the data of ledger into database.'''
     try:
@@ -582,6 +591,8 @@ def saveledger(main):
             QMessageBox.critical(main, 'Error', 'Error creating Ledger entry.')
     except:
         print(traceback.print_exc())
+    alterLedgerListpage(main)
+
 
 
 def showAlterMasterPage(main):
@@ -643,7 +654,7 @@ def alterLedgerListpage(main):
 
                 for ledger in ledger_data:
                     ledger_name = ledger[2]
-                    print(ledger_name)
+                    # print(ledger_name)
                     ledger_id = ledger[0]
 
                     item = QListWidgetItem()
@@ -655,27 +666,21 @@ def alterLedgerListpage(main):
                     main.alterledgerlist.listWidget.addItem(item)
                     main.alterledgerlist.listWidget.setItemWidget(item, ledger_button)
                     item.setData(Qt.UserRole, ledger_id)
+                    # ledger_button.clicked.connect(main.alterledgerlist.showAlterLedgerFrame)
 
                 # Set the flag to True, indicating that the ledger list is now shown
+                # global ledger_list_shown
                 ledger_list_shown = True
             except sqlite3.Error as e:
                 print("Error executing query:", e)
             cursor.close()
-
         except:
             print(traceback.print_exc())
     else:
         # If the ledger list is already shown, you can choose to do nothing or handle it differently
-
         pass
     main.alterledgerlist.show()
 
-def alterGroupListpage(main):
-
-    try:
-        main.altergrouplist.show()
-    except:
-        print(traceback.print_exc())
 
 
 def alterLedgerPage(main,ledger_name,ledger_id):
@@ -683,40 +688,156 @@ def alterLedgerPage(main,ledger_name,ledger_id):
 
     try:
         main.ledgerID = ledger_id
-        print(ledger_id)
+        print("alter ledger",ledger_id)
         main.ledgerName = ledger_name
         print(ledger_name)
-        main.createledger.show()
+        main.alterledger.show()
+
 
         try:
             cursor = main.db_connection.cursor()
             query = '''SELECT * FROM AccountMaster_table WHERE AcMasterID = ?'''
             cursor.execute(query, (ledger_id,))
             ledger_data = cursor.fetchone()
+            group_roles = getGroupRoles(main)
+            # print("group roles ", group_roles)
+            company_groups = getGroupsCreatedByCompany(main)
+            # print("company roles", company_groups)
+
+            # Combine group roles and company groups into a single list
+            role_names = [role[1] for role in group_roles]
+            group_names = [group[1] for group in company_groups]
+            all_items = role_names + group_names
+            # print(all_items)
+
+            # Clear existing items from the drop-down button
+            main.alterledger.cbUnderGroup.clear()
+
+            # Populate the drop-down button with group role names
+            main.alterledger.cbUnderGroup.addItems(all_items)
 
             if ledger_data:
                 # Populate the fields in the "Create Ledger" form with the retrieved data
-                main.createledger.leAcName.setText(ledger_data[2])  # Assuming ledger name is at index 4
-                main.createledger.leMailingName.setText(ledger_data[4])  # Assuming mailing name is at index 6
+                main.alterledger.leAcName.setText(ledger_data[2])  # Assuming ledger name is at index 4
+                main.alterledger.leMailingName.setText(ledger_data[4])  # Assuming mailing name is at index 6
                 # Set the selected role in the comboBox
-                selected_role = ledger_data[3]  # Assuming group role is at index 3
-                main.createledger.cbUnderGroup.setCurrentText(selected_role)
+                selected_role = ledger_data[3]# Assuming group role is at index 3
+                print("selected_role",selected_role)
+
+                # main.alterledger.cbUnderGroup.addItem(selected_role)
+                main.alterledger.cbUnderGroup.setCurrentText(selected_role)
                 # main.createledger.cbUnderGroup.setText(ledger_data[3])
                 # main.createledger.leMailingName.text()
-                main.createledger.ptAddress.setPlainText(ledger_data[5])
+                main.alterledger.ptAddress.setPlainText(ledger_data[5])
                 #state = main.createledger.leAcName.text()
-                main.createledger.leCountry.setText(ledger_data[7])
-                main.createledger.lePincode.setText(str(ledger_data[8]))
+                main.alterledger.leCountry.setText(ledger_data[7])
+                main.alterledger.lePincode.setText(str(ledger_data[8]))
                 #  main.createledger.leAcName.text()
-                main.createledger.leBalance.setText(str(ledger_data[10]))
-
-
+                main.alterledger.leBalance.setText(str(ledger_data[10]))
 
         except sqlite3.Error as e:
             print("Error fetching ledger data:", e)
+
+
     except:
         print(traceback.print_exc())
 
+
+def saveAlterLedgerData(main):
+    '''This Function will execute the Query to save the data of ledger into database.'''
+    try:
+        name = main.alterledger.leAcName.text()
+        print(name)
+        mailing_name = main.alterledger.leMailingName.text()
+        address = main.alterledger.ptAddress.toPlainText()
+        # state = main.alterledger.leAcName.text()
+        country = main.alterledger.leCountry.text()
+        pincode = main.alterledger.lePincode.text()
+        # date = main.alterledger.leAcName.text()
+        balance = main.alterledger.leBalance.text()
+
+
+        selected_role = main.alterledger.cbUnderGroup.currentText()
+        print("selected_role_index", selected_role)
+        # Get the list of group roles
+        group_roles = getGroupRoles(main)
+        print("group roles:", group_roles)
+        #
+        # if selected_role_index >= 0 and selected_role_index < len(group_roles):
+        #     selected_group_role_id = group_roles[selected_role_index][0]
+        #     print("slected group index:", selected_group_role_id)
+
+            # Perform the database insert operation
+        cursor = main.db_connection.cursor()
+        try:
+            if hasattr(main, 'ledgerID') and main.ledgerID is not None:
+                # If a ledger ID is available (i.e., editing an existing ledger), perform an update
+                update_query = '''UPDATE AccountMaster_table SET Ac_name=?,Under_groupName=?, Mailing_name=?,Address=?,
+                                Country=?,Pincode=?,Balance=? WHERE AcMasterID=?'''
+                update_values = (name,selected_role,mailing_name,address,country,pincode,balance,main.ledgerID)
+                print("update values:",update_values)
+                cursor.execute(update_query, update_values)
+            else:
+                insert_query = '''INSERT INTO AccountMaster_table (CompanyID,Ac_name,Under_groupName, Mailing_name,Address
+                                ,Country,Pincode,Balance)
+                                          VALUES (?,?,?,?,?,?,?,?)'''
+                values = (main.companyID,name,selected_role,mailing_name,address,country,pincode,balance)
+                print("vaues:", values)
+                cursor.execute(insert_query, values)
+            main.db_connection.commit()
+            cursor.close()
+
+
+
+
+            QMessageBox.information(
+
+                main.creategroup, 'Success', ' Ledger Changes successfully!'
+
+            )
+
+            reply = QMessageBox.question(
+
+                main,
+
+                'Confirmation',
+
+                'Company entry created successfully!\nDo you want to continue?',
+
+                QMessageBox.Yes | QMessageBox.No,
+
+                QMessageBox.No
+
+            )
+
+            if reply == QMessageBox.Yes:
+
+                # User chose to continue, show the gateway window
+
+                # main.gateway(main, company_name)
+
+                main.alterledger.close()
+
+                # main.masterlist.show()
+
+                # main.gateway.updateTitleLabel(company_name)
+
+
+            else:
+
+                # User chose not to continue, clear the company creation UI
+
+                main.companycreate.clearFields()
+
+        except sqlite3.Error as e:
+
+            print("Error executing query:", e)
+
+            QMessageBox.critical(main, 'Error', 'Error creating Ledger entry.')
+
+    except:
+        print(traceback.print_exc())
+    # alterLedgerListpage(main)
 
 
 def deleteLedger(main):
@@ -741,12 +862,36 @@ def deleteLedger(main):
     except sqlite3.Error as e:
         print("Error executing query:", e)
         QMessageBox.critical(main, 'Error', 'Error deleting Ledger entry.')
+    main.alterledger.close()
 
 
-# def goToMasterList(main):
-#     try:
-#
-#         main.alterledgerlist.hide()  # Hide the current window (Ledger List)
-#         main.masterlist.show()  # Show the masterList window
-#     except:
-#         print(traceback.print_exc())
+def alterGroupListpage(main):
+
+    try:
+        main.altergrouplist.show()
+    except:
+        print(traceback.print_exc())
+
+
+def updateLedgerList(main):
+    try:
+        # Clear the existing items in the list widget
+        main.listWidget.clear()
+
+        # Fetch the updated ledger data from the database
+        cursor = main.db_connection.cursor()
+        query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table'''
+        cursor.execute(query)
+        ledger_data = cursor.fetchall()
+        cursor.close()
+
+        # Populate the list widget with the ledger data
+        for item in ledger_data:
+            ledger_id, ledger_name = item
+            list_item = QListWidgetItem(ledger_name)
+            list_item.setData(Qt.UserRole, ledger_id)  # Store the ledger ID as user data
+            main.listWidget.addItem(list_item)
+
+    except sqlite3.Error as e:
+        print("Error updating ledger list:", e)
+

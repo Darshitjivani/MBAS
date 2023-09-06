@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 10pt &quot;Sitka Text&quot;;</string>
+   <string notr="true">font: 11pt &quot;Sitka Text&quot;;</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -372,7 +372,8 @@ text-decoration: underline;
       </property>
       <property name="styleSheet">
        <string notr="true">background-color: rgb(75,75,75);
-color: rgb(255, 255, 255);</string>
+color: rgb(255, 255, 255);
+font: 12pt &quot;Sitka Text&quot;;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -405,8 +406,7 @@ color: rgb(255, 255, 255);</string>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Ledger Creations</string>

@@ -20,6 +20,8 @@ class CompanyCreateWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
 
+
+
     #     self.hideAllFrames()
     #
     # def hideAllFrames(self):
