@@ -22,7 +22,7 @@ class CompanyCreateWindow(QMainWindow):
 
 
         # hide company window after creating company
-        self.pbSubmit.clicked.connect(self.hide)
+        # self.pbSubmit.clicked.connect(self.hide)
 
 
 

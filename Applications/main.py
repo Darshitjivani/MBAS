@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel, QVariant
+from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel, QVariant, pyqtSignal
 import csv
 # from tabletask import Ui_MainWindow
 import os
@@ -19,6 +19,7 @@ from Applications.Utils.execute_support import *
 
 
 class UIMain(QMainWindow):
+    loginSuccessful = pyqtSignal()
     def __init__(self):
         super(UIMain, self).__init__()
         loc1 = os.getcwd().split('Application')
@@ -49,6 +50,14 @@ class UIMain(QMainWindow):
 
 
         self.login.show()
+
+        # self.pbLogin.loginSuccessful.connect(self.onLoginSuccessful)
+
+    # def onLoginSuccessful(self):
+    #     # This method will be called when the login is successful.
+    #     # You can now call allObjects and allSlots.
+    #     self.allObjects()
+    #     self.allSlots()
 
         # self.home.show()
     #     self.login.loginSuccessful.connect(self.showHomeWindow)  # Connect the signal to the slot

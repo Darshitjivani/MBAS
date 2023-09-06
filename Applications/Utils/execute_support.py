@@ -15,6 +15,8 @@ import numpy as np
 
 # ---------------------------------------- Imports For Files -----------------------------#
 from Applications.Utils.support import *
+from Applications.Views.Branch.alter_branch_company_list import AlterBranchLedgerListWindow
+from Applications.Views.Branch.create_branch import BranchCreateWindow
 from Applications.Views.CreateGroup.create_group import CreateGroupWindow
 from Applications.Views.Ledger.alter_ledger_list import AlterLedgerListWindow
 from Applications.Views.Ledger.ledger_create import CreateLedgerWindow
@@ -24,6 +26,8 @@ from Applications.Views.CompanyCreate.company_create import CompanyCreateWindow
 from Applications.Views.Gateways.gateways import GatewaysWindow
 from Applications.Views.MasterList.alter_master_list import AlterMasterListWindow
 from Applications.Views.MasterList.master_list import MasterListWindow
+from Applications.Views.Voucher.create_voucher import CreateVoucherWindow
+from Applications.Views.Voucher.table import Terminal
 
 
 def initialObjects(main):
@@ -49,7 +53,11 @@ def allObjects(main):
     main.createledger = CreateLedgerWindow() # Create Ledger Window
     main.altermasterlist = AlterMasterListWindow()  # Master List window For Alteration
     main.alterledgerlist = AlterLedgerListWindow() # Ledger List Window For Alteration
-
+    main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
+    main.createvoucher  = CreateVoucherWindow()  # Create Voucher Window
+    # main.alterbranchledgerlist = AlterBranchLedgerListWindow()  #Ledger list Branch wise for Alteration
+    # main.combo_delegate = ComboBoxDelegate()
+    main.tableview = Terminal()
 def intialSlots(main):
 
     # ------------------------------- Main Window --------------#
@@ -67,7 +75,7 @@ def intialSlots(main):
     #     lambda index: displayCompanyDetails(main, index)
     # )
 
-def allSlots(main):
+def allSlots(main, data=None):
     #-----------------------  Login Window ----------------------------------------------#
     main.login.pbLogin.clicked.connect(lambda:loginFunction(main))
 
@@ -78,10 +86,13 @@ def allSlots(main):
     #-------------------------------- Gateway Window -------------------------------#
     main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
+    main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
 
     #-------------------------------- Master List Window -------------------------------#
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
+    main.masterlist.pbBranchCreate.clicked.connect(lambda: createBranchpage(main))
+
     # main.masterlist.pbChangeCompany.clicked.connect(main.home.show())
 
     # --------------------------------- Create Group Window --------------------------#
@@ -93,8 +104,19 @@ def allSlots(main):
 
     #------------------------------ Alter Master List Window ---------------------------#
     main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerListpage(main))
+    main.altermasterlist.pbAlterBranch.clicked.connect(lambda: alterBranchList(main))
 
 
+    #---------------------------- Create Branch Window ----------------------------------#
+    main.createbranch.pbSubmit.clicked.connect(lambda: saveBranchData(main))
+
+    #------------------------------------- Create Voucher Window -------------------------------#
+    main.createvoucher.pbSubmit.clicked.connect(lambda: saveVoucherData(main, data))
+    main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
+
+
+    #----------------------------------- Table Window ---------------------------------------------#
+    main.tableview.pdAddRaw.clicked.connect(lambda: addRaw(main))
     # main.creategroup.pbSubmit.clicked.connect(lambda: creategrouppage(main))
     # main.masterlist.pbChangeCompany.clicked.connect()
 

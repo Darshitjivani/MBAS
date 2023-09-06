@@ -92,7 +92,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
        <property name="geometry">
         <rect>
          <x>50</x>
-         <y>150</y>
+         <y>190</y>
          <width>75</width>
          <height>23</height>
         </rect>
@@ -102,6 +102,22 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
        </property>
        <property name="text">
         <string>Ledger</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pbAlterBranch">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>160</y>
+         <width>75</width>
+         <height>23</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 10pt &quot;MS Shell Dlg 2&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Branch</string>
        </property>
       </widget>
      </widget>

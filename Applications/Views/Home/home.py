@@ -1,6 +1,6 @@
 import platform
 
-import self
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel
 import csv

@@ -2,7 +2,7 @@ import json
 import sqlite3
 import traceback
 from functools import partial
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import *
 
 from PyQt5.QtWidgets import *
 
@@ -53,6 +53,8 @@ def loginFunction(main):
             main.login.hide()
             main.show()
             print('Login Successful')
+            # if login_successful:  # Replace this with your actual login logic
+            # main.loginSuccessful.emit()  # Emit the signal when login is successful
         else:
             print('Please check your Userid or password')
 
@@ -335,6 +337,22 @@ def getGroupsCreatedByCompany(main):
         return []
 
 
+def getBranch(main):
+
+    ''' This function will execute the query to get the group roles from Group role.'''
+    try:
+        company_id = main.companyID
+        cursor = main.db_connection.cursor()
+        query = '''SELECT BranchID,Owner_name FROM Branch_table WHERE CompanyID = ?'''
+        cursor.execute(query, (company_id,))
+        branch = cursor.fetchall()
+        print("groups:", branch)
+        cursor.close()
+        return branch
+    except sqlite3.Error as e:
+        print("Error fetching branch:", e)
+        return []
+
 
 def creategrouppage(main):
     ''' This Function will show the Window for Create Group.'''
@@ -457,6 +475,8 @@ def createLedgerPage(main):
         # print("group roles ", group_roles)
         company_groups = getGroupsCreatedByCompany(main)
         # print("company roles", company_groups)
+        branches = getBranch(main)
+        print("Branch name:", branches)
 
         # Combine group roles and company groups into a single list
         role_names = [role[1] for role in group_roles]
@@ -464,11 +484,21 @@ def createLedgerPage(main):
         all_items = role_names + group_names
         # print(all_items)
 
+        branch_name = [branch[1] for branch in branches]
+        print(branch_name)
+
+
+
         # Clear existing items from the drop-down button
         main.createledger.cbUnderGroup.clear()
-
+        main.createledger.cbUnderBranch.clear()
         # Populate the drop-down button with group role names
         main.createledger.cbUnderGroup.addItems(all_items)
+        main.createledger.cbUnderBranch.addItems(branch_name)
+
+        main.branches = branches
+
+
     except:
         print(traceback.print_exc())
 
@@ -476,6 +506,8 @@ def createLedgerPage(main):
 def saveledger(main):
     '''This Function will execute the Query to save the data of ledger into database.'''
     try:
+        # branch_name = main.branch_name
+
         name = main.createledger.leAcName.text()
         print(name)
         mailing_name = main.createledger.leMailingName.text()
@@ -488,10 +520,28 @@ def saveledger(main):
 
 
         selected_role = main.createledger.cbUnderGroup.currentText()
-        print("selected_role_index", selected_role)
+        print("selected_role", selected_role)
+        # selected_branch_index = main.createledger.cbUnderBranch.currentText()
+        # print("selected_branch_text", selected_branch_index)
+        selected_branch_text = main.createledger.cbUnderBranch.currentText()
+        print("selected_branch_text", selected_branch_text)
+
+        # Find the index of the selected branch name in the branch_name list
+        # selected_branch_index = branch_name.index(selected_branch_text)
+        # print("selected_branch_index:",selected_branch_index)
+        selected_branch_index = None
+        for branch in main.branches:
+            if branch[1] == selected_branch_text:
+                selected_branch_index = branch[0]
+                break
+        print("selecetd branch index:", selected_branch_index)
+        if selected_branch_index is None:
+            print("Selected branch not found in the branchs list.")
+            return
+
         # Get the list of group roles
-        group_roles = getGroupRoles(main)
-        print("group roles:", group_roles)
+        # group_roles = getGroupRoles(main)
+        # print("group roles:", group_roles)
         #
         # if selected_role_index >= 0 and selected_role_index < len(group_roles):
         #     selected_group_role_id = group_roles[selected_role_index][0]
@@ -508,10 +558,10 @@ def saveledger(main):
                 print("update values:",update_values)
                 cursor.execute(update_query, update_values)
             else:
-                insert_query = '''INSERT INTO AccountMaster_table (CompanyID,Ac_name,Under_groupName, Mailing_name,Address
-                                ,Country,Pincode,Balance)
-                                          VALUES (?,?,?,?,?,?,?,?)'''
-                values = (main.companyID,name,selected_role,mailing_name,address,country,pincode,balance)
+                insert_query = '''INSERT INTO AccountMaster_table (CompanyID,Ac_name,Under_groupName,Under_branchName, Mailing_name,Address
+                                ,Country,Pincode,Balance,BranchID)
+                                          VALUES (?,?,?,?,?,?,?,?,?,?)'''
+                values = (main.companyID,name,selected_role,selected_branch_text,mailing_name,address,country,pincode,balance,selected_branch_index)
                 print("vaues:", values)
                 cursor.execute(insert_query, values)
             main.db_connection.commit()
@@ -712,3 +762,382 @@ def deleteLedger(main):
     except sqlite3.Error as e:
         print("Error executing query:", e)
         QMessageBox.critical(main, 'Error', 'Error deleting Ledger entry.')
+
+
+def createBranchpage(main):
+    try:
+        main.createbranch.show()
+        comapny_id = main.companyID
+        print(comapny_id)
+        company_name = main.companyName
+        main.createbranch.lbCompanyName.setText(f"Welcome to {company_name}")
+    except:
+        print(traceback.print_exc())
+
+def saveBranchData(main):
+    try:
+        name = main.createbranch.leOwnerName.text()
+        print(name)
+        # company_name = main.createbranch.leCompanyName.text()
+        cursor = main.db_connection.cursor()
+        try:
+            insert_query = '''INSERT INTO Branch_table (CompanyID,Owner_name)
+                                                      VALUES (?,?)'''
+            values = (main.companyID, name)
+            print("vaues:", values)
+            cursor.execute(insert_query, values)
+            main.db_connection.commit()
+            cursor.close()
+
+            QMessageBox.information(
+
+                main.creategroup, 'Success', 'Branch created successfully!'
+
+            )
+            reply = QMessageBox.question(
+
+                main,
+
+                'Confirmation',
+
+                'Company entry created successfully!\nDo you want to continue?',
+
+                QMessageBox.Yes | QMessageBox.No,
+
+                QMessageBox.No
+
+            )
+
+            if reply == QMessageBox.Yes:
+
+                # User chose to continue, show the gateway window
+
+                # main.gateway(main, company_name)
+
+                main.createbranch.close()
+                # main.alterledgerlist.hide()
+                # main.masterlist.show()
+
+                # main.gateway.updateTitleLabel(company_ name)
+
+
+            else:
+
+                # User chose not to continue, clear the company creation UI
+
+                main.createbranch.clearFields()
+
+        except sqlite3.Error as e:
+
+            print("Error executing query:", e)
+
+            QMessageBox.critical(main, 'Error', 'Error creating Branch entry.')
+
+
+    except:
+        print(traceback.print_exc())
+
+
+def alterBranchList(main):
+    try:
+        ############################### hide master list ############################
+        main.altermasterlist.hide()
+        company_id = main.companyID
+        print(company_id)
+        # main.alterledgerlist.show()
+
+        # user = main.userID  # Assuming you store the logged-in user ID in main.userID
+        # print(user)  # user= nisha@gmail.com
+        if  not main.alterledgerlist.isVisible():
+            main.alterledgerlist.show()
+
+            command = ''' SELECT * FROM Branch_table WHERE CompanyID = ? '''
+
+            cursor = main.db_connection.cursor()
+            try:
+                cursor.execute(command, (company_id,))
+                # print(user)
+                branch_data = cursor.fetchall()
+                main.listWidget.clear()
+                for branch in branch_data:
+                    branch_name = branch[2]
+                    print(branch_name)
+                    branch_id = branch[1]
+
+                    item = QListWidgetItem()
+                    branch_button = QPushButton(branch_name)
+                    branch_button.setStyleSheet("color: Black;")
+                    branch_button.clicked.connect(lambda _, name=branch_name, id=branch_id: branchPageList(main, name, id))
+                    # company_button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
+                    item.setSizeHint(branch_button.sizeHint())  # Set the size of the item to match the button's size
+                    main.alterledgerlist.listWidget.addItem(item)
+                    main.alterledgerlist.listWidget.setItemWidget(item, branch_button)
+
+                    # Attach additional data (company ID) to the item
+                    item.setData(Qt.UserRole, branch_id)
+            except sqlite3.Error as e:
+                print("Error executing query:", e)
+            cursor.close()
+        else:
+            pass
+
+    except:
+        print(traceback.print_exc())
+
+def branchPageList(main, branch_name,branch_id):
+    try:
+        # main.alterbranchledgerlist.show()
+        company_id = main.companyID
+        print(company_id)
+        main.branchID = branch_id
+        print(branch_id)
+        main.branchName = branch_name
+        print(branch_name)
+
+        # main.createledger.show()
+        command = ''' SELECT * FROM AccountMaster_table WHERE BranchID = ? '''
+
+        cursor = main.db_connection.cursor()
+        try:
+            cursor.execute(command, (branch_id,))
+            # print(user)
+            branch_data = cursor.fetchall()
+            print("branch data:", branch_data)
+            main.listWidget.clear()
+            for branch in branch_data:
+                branch_name = branch[2]
+                print(branch_name)
+                branch_id = branch[12]
+                print("Branch Id:",branch_id)
+
+                # branch_combo = QComboBox()  # Create a QComboBox for each branch
+                # item = QListWidgetItem()
+
+                # Create a QPushButton for the branch item and set it as a delegate
+                # delegate_button = QPushButton(branch_name)
+                # delegate_button.setStyleSheet("color: Black;")
+                # branch_combo.addItem("")
+                # branch_combo.setItemDelegate(ButtonDelegate(delegate_button))  # Set custom delegate
+                #
+                # item.setSizeHint(branch_combo.sizeHint())  # Set the size of the item to match the combo box's size
+                # main.alterledgerlist.listWidget.addItem(item)
+                # main.alterledgerlist.listWidget.setItemWidget(item, branch_combo)
+                # #
+                item = QListWidgetItem()
+                branch_combo = QComboBox()
+                branch_combo.addItem(branch_name)
+                # You can add more items to the combo box if needed
+
+                item.setSizeHint(branch_combo.sizeHint())  # Set the size of the item to match the combo box's size
+                main.alterledgerlist.listWidget.addItem(item)
+                main.alterledgerlist.listWidget.setItemWidget(item, branch_combo)
+
+
+
+                # Attach additional data (company ID) to the item
+                item.setData(Qt.UserRole, branch_id)
+        except sqlite3.Error as e:
+            print("Error executing query:", e)
+        cursor.close()
+
+    except:
+        print(traceback.print_exc())
+
+
+def createComboBoxDelegate(parent):
+    combo_box = QComboBox(parent)
+    combo_box.addItems(['cell11', 'cell12', 'cell13', 'cell14', 'cell15'])
+
+    delegate = QStyledItemDelegate()
+
+    def setComboBoxEditor(model, index):
+        return combo_box
+
+    delegate.createEditor = setComboBoxEditor
+
+    return delegate
+
+#
+# def createComboBoxDelegate(parent):
+#     combo_box = QComboBox(parent)
+#     combo_box.addItems(['cell11', 'cell12', 'cell13', 'cell14', 'cell15'])
+#
+#     delegate = QStyledItemDelegate()
+#     delegate.setItemEditorFactory(lambda parent, option, index: combo_box)
+#
+#     return delegate
+
+def showVoucherPage(main):
+    try:
+        # accountNamesReady = pyqtSignal(list)  # Define a signal
+        company_id = main.companyID
+
+        main.createvoucher.show()
+        company_name = main.companyName
+        main.createvoucher.lbCompanyName.setText(f"Welcome to {company_name}")
+
+        voucher_type = getVoucherType(main)
+        account = getAccountMaster(main)
+        print(account)
+        # print("group roles ",group_roles)
+        # company_groups = getGroupsCreatedByCompany(main)
+
+        # Combine group roles and company groups into a single list
+        role_names = [role[1] for role in voucher_type]
+        account_name = [name[2] for name in account]
+        # group_names = [group[1] for group in company_groups]
+        # all_items = role_names + group_names
+
+        # Clear existing items from the drop-down button
+        main.createvoucher.cbVoucherType.clear()
+        main.createvoucher.cbDebitedAccount.clear()
+        # main.createvoucher.cbCreditedAccount.clear()
+        # main.createvoucher.cbAccountName.clear()
+        main.createvoucher.tableWidget.setColumnCount(4)  # Assuming you have 4 columns
+        main.createvoucher.tableWidget.setHorizontalHeaderLabels(["UserID", "Perticular", "Debit", "Credit"])
+
+        # Connect the custom signal to the ComboBoxDelegate's updateComboBox method
+        # main.createvoucher.accountNamesReady.connect(main.combo_delegate.updateComboBox)
+        # main.createvoucher.accountNamesReady.emit(account_name)
+
+        # Populate the drop-down button with group role names
+        main.createvoucher.cbVoucherType.addItems(role_names)
+        main.createvoucher.cbDebitedAccount.addItems(account_name)
+        # main.createvoucher.tableView.setItemDelegateForColumn(1, main.combo_delegate)
+
+        # main.createvoucher.cbCreditedAccount.addItems(account_name)
+        # main.createvoucher.cbAccountName.addItems(account_name)
+
+    except:
+        print(traceback.print_exc())
+
+
+def getVoucherType(main):
+
+    ''' This function will execute the query to get the group roles from Group role.'''
+    try:
+        company_id = main.companyID
+        cursor = main.db_connection.cursor()
+        query = '''SELECT VoucherTypeID,Voucher_name FROM VoucherType_table'''
+        cursor.execute(query)
+        voucher = cursor.fetchall()
+        print("groups:", voucher)
+        cursor.close()
+        return voucher
+    except sqlite3.Error as e:
+        print("Error fetching branch:", e)
+        return []
+
+
+
+def getAccountMaster(main):
+    print("hello")
+
+    try:
+        company_id = main.companyID
+        # print("company id",company_id)
+        cursor = main.db_connection.cursor()
+
+        command = ''' SELECT * FROM AccountMaster_table WHERE CompanyID = ? '''
+        cursor.execute(command, (company_id,))
+        # print(user)
+        ledger_data = cursor.fetchall()
+        # print("ledger data:", ledger_data)
+        cursor.close()
+        return ledger_data
+
+    except sqlite3.Error as e:
+        print("Error fetchig branch:", e)
+        return []
+
+def saveVoucherData(main,data):
+    print("hello voucher")
+    print(data)
+    try:
+        try:
+
+            company_id = main.companyID
+            voucher_type = main.createvoucher.cbVoucherType.currentText()
+            debit_account = main.createvoucher.cbDebitedAccount.currentText()
+            narration = main.createvoucher.leNarration.text()
+            date = main.createvoucher.leDate.text()
+            # You can retrieve other data as needed from voucher window widgets
+
+            cursor = main.db_connection.cursor()
+
+            # Insert voucher data into the database
+            cursor.execute("INSERT INTO voucher_table (CompanyID, VoucherType, DebitAccount, Narration, Date) "
+                           "VALUES (?, ?, ?, ?, ?)", (company_id, voucher_type, debit_account, narration, date))
+
+            main.db_connection.commit()
+            cursor.close()
+        except sqlite3.Error as e:
+            print("Error fetchig branch:", e)
+            # return []
+
+
+    except:
+        print(traceback.print_exc())
+
+
+def createVoucherpage(main):
+    try:
+        company_id = main.companyID
+        # branch_id = main.branchID
+
+
+
+
+    except:
+        print(traceback.print_exc())
+
+def showTableView(main):
+    try:
+        main.tableview.show()
+        account = getAccountMaster(main)
+        # account_name = [name[2] for name in account]
+        # main.createvoucher.cbVoucherType.clear()
+        # main.tableview.cbAccountName.addItems(account_name)
+
+    except:
+        print(traceback.print_exc())
+
+def addRaw(main):
+    try:
+        company_id = main.companyID
+
+        # print(account_name)
+        # main.tableview.cbAccountName.clear()
+        user_id = main.tableview.line1.text()
+        print(user_id)
+        perticular = main.tableview.line3.text()
+        # perticular = main.tableview.cbAccountName.currentText()
+        # print(perticular)
+        debit = main.tableview.line3.text()
+        credit = main.tableview.line4.text()
+
+        # Create a new row in the QTableWidget
+        current_row = main.createvoucher.tableWidget.rowCount()
+        main.createvoucher.tableWidget.insertRow(current_row)
+
+        # Populate the new row with the data
+        main.createvoucher.tableWidget.setItem(current_row, 0, QTableWidgetItem(user_id))
+        main.createvoucher.tableWidget.setItem(current_row, 1, QTableWidgetItem(perticular))
+        main.createvoucher.tableWidget.setItem(current_row, 2, QTableWidgetItem(debit))
+        main.createvoucher.tableWidget.setItem(current_row, 3, QTableWidgetItem(credit))
+        cursor = main.db_connection.cursor()
+
+
+        cursor.execute("INSERT INTO data_table (Type, Perticular, Debit, Credit) VALUES (?, ?, ?, ?)",
+                       (user_id, perticular, debit, credit))
+        main.db_connection.commit()
+        cursor.close()
+
+        # Clear the QLineEdit widgets for the next entry
+        main.tableview.line1.clear()
+        main.tableview.line2.clear()
+        main.tableview.line3.clear()
+        main.tableview.line4.clear()
+    except:
+        print(traceback.print_exc())
+
