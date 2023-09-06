@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>856</width>
-    <height>706</height>
+    <width>524</width>
+    <height>560</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -31,7 +31,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
 </string>
          </property>
          <property name="text">
-          <string>Ledger List</string>
+          <string>List of Branch</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -51,7 +51,7 @@ font: 75 10pt &quot;MS Shell Dlg 2&quot;;
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>856</width>
+     <width>524</width>
      <height>21</height>
     </rect>
    </property>

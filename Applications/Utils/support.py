@@ -304,13 +304,13 @@ def masterList(main):
         main.masterlist.show()
         comapny_id = main.companyID
         company_name = main.companyName
-        main.masterlist.lbCompanyName.setText(f"Welcome to {company_name}")
+        # main.masterlist.lbCompanyName.setText(f"Welcome to {company_name}")
 
-        def goToMainWindow():
-            main.masterlist.hide()  # Hide the masterlist window
-            main.show()  # Show the main window
-
-        main.masterlist.pbChangeCompany.clicked.connect(goToMainWindow)
+        # def goToMainWindow():
+        #     main.masterlist.hide()  # Hide the masterlist window
+        #     main.show()  # Show the main window
+        #
+        # main.masterlist.pbChangeCompany.clicked.connect(goToMainWindow)
         # main.masterlist.pbChangeCompany.clicked.connect(main_window)
 
         # main.gateway.updateTitleLabel(comapny_id[1])
@@ -644,7 +644,7 @@ def showAlterMasterPage(main):
         comapny_id = main.companyID
         company_name = main.companyName
         # print(company_name)
-        main.altermasterlist.lbCompanyName.setText(f"Welcome to {company_name}")
+        # main.altermasterlist.lbCompanyName.setText(f"Welcome to {company_name}")
         # Get the list of group roles and groups created by the company
         group_roles = getGroupRoles(main)
         # print("group roles ", group_roles)
@@ -662,11 +662,11 @@ def showAlterMasterPage(main):
         # Populate the drop-down button with group role names
         main.createledger.cbUnderGroup.addItems(all_items)
 
-        def goToMainWindow():
-            main.altermasterlist.hide()  # Hide the masterlist window
-            main.show()  # Show the main window
+        # def goToMainWindow():
+        #     main.altermasterlist.hide()  # Hide the masterlist window
+        #     main.show()  # Show the main window
 
-        main.altermasterlist.pbChangeCompany.clicked.connect(goToMainWindow)
+        # main.altermasterlist.pbChangeCompany.clicked.connect(goToMainWindow)
     except:
         print(traceback.print_exc())
 
@@ -1022,8 +1022,8 @@ def alterBranchList(main):
 
         # user = main.userID  # Assuming you store the logged-in user ID in main.userID
         # print(user)  # user= nisha@gmail.com
-        if  not main.alterledgerlist.isVisible():
-            main.alterledgerlist.show()
+        if  not main.alterbranchlist.isVisible():
+            main.alterbranchlist.show()
 
             command = ''' SELECT * FROM Branch_table WHERE CompanyID = ? '''
 
@@ -1032,7 +1032,7 @@ def alterBranchList(main):
                 cursor.execute(command, (company_id,))
                 # print(user)
                 branch_data = cursor.fetchall()
-                main.listWidget.clear()
+                main.alterbranchlist.listWidget.clear()
                 for branch in branch_data:
                     branch_name = branch[2]
                     print(branch_name)
@@ -1044,8 +1044,8 @@ def alterBranchList(main):
                     branch_button.clicked.connect(lambda _, name=branch_name, id=branch_id: branchPageList(main, name, id))
                     # company_button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
                     item.setSizeHint(branch_button.sizeHint())  # Set the size of the item to match the button's size
-                    main.alterledgerlist.listWidget.addItem(item)
-                    main.alterledgerlist.listWidget.setItemWidget(item, branch_button)
+                    main.alterbranchlist.listWidget.addItem(item)
+                    main.alterbranchlist.listWidget.setItemWidget(item, branch_button)
 
                     # Attach additional data (company ID) to the item
                     item.setData(Qt.UserRole, branch_id)
@@ -1224,9 +1224,9 @@ def getAccountMaster(main):
         print("Error fetchig branch:", e)
         return []
 
-def saveVoucherData(main,data):
+def saveVoucherData(main):
     print("hello voucher")
-    print(data)
+    # print(data)
     try:
         try:
 
@@ -1234,14 +1234,14 @@ def saveVoucherData(main,data):
             voucher_type = main.createvoucher.cbVoucherType.currentText()
             debit_account = main.createvoucher.cbDebitedAccount.currentText()
             narration = main.createvoucher.leNarration.text()
-            date = main.createvoucher.leDate.text()
+            # date = main.createvoucher.leDate.text()
             # You can retrieve other data as needed from voucher window widgets
 
             cursor = main.db_connection.cursor()
 
             # Insert voucher data into the database
-            cursor.execute("INSERT INTO voucher_table (CompanyID, VoucherType, DebitAccount, Narration, Date) "
-                           "VALUES (?, ?, ?, ?, ?)", (company_id, voucher_type, debit_account, narration, date))
+            cursor.execute("INSERT INTO voucher_table (CompanyID, VoucherType, DebitAccount, Narration) "
+                           "VALUES (?, ?, ?, ?)", (company_id, voucher_type, debit_account, narration))
 
             main.db_connection.commit()
             cursor.close()

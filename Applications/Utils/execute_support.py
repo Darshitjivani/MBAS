@@ -53,10 +53,10 @@ def allObjects(main):
     main.alterledgerlist = AlterLedgerListWindow() # Ledger List Window For Alteration
     main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
     main.createvoucher  = CreateVoucherWindow()  # Create Voucher Window
-    # main.alterbranchledgerlist = AlterBranchLedgerListWindow()  #Ledger list Branch wise for Alteration
+    main.alterbranchlist = AlterBranchLedgerListWindow()  #Ledger list Branch wise for Alteration
     # main.combo_delegate = ComboBoxDelegate()
     main.tableview = Terminal()
-    main.alterledgerlist = AlterLedgerListWindow()  # Ledger List Window For Alteration
+    # main.alterledgerlist = AlterLedgerListWindow()  # Ledger List Window For Alteration
     main.altergrouplist = AlterGroupListWindow()  # Group List Window For Alteration
     # main.homewindow = HomeWindow() #home window
     # main.backwindow = goToMasterList
@@ -135,7 +135,7 @@ def allSlots(main):
     main.masterlist.pbCreateGroup.clicked.connect(main.masterlist.showCreateGroup)
 
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
-    main.masterlist.pbBranchCreate.clicked.connect(lambda: createBranchpage(main))
+    main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
 
     # main.masterlist.pbChangeCompany.clicked.connect(main.home.show())
     main.masterlist.pdCreateLedger.clicked.connect(main.masterlist.showCreateLadger)
@@ -160,7 +160,7 @@ def allSlots(main):
 
     # main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerPage(main))
     main.altermasterlist.pbAlterLedger.clicked.connect(main.altermasterlist.showAlterLedger)
-    main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
+    # main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
     main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
 
     #---------------------------- Create Branch Window ----------------------------------#
@@ -171,7 +171,7 @@ def allSlots(main):
     main.alterledger.pbClose.clicked.connect(main.alterledger.close)
 
     #------------------------------------- Create Voucher Window -------------------------------#
-    main.createvoucher.pbSubmit.clicked.connect(lambda: saveVoucherData(main, data))
+    main.createvoucher.pbSubmit.clicked.connect(lambda: saveVoucherData(main))
     main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
 
 
