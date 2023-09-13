@@ -25,42 +25,38 @@
     </property>
     <property name="styleSheet">
      <string notr="true">QWidget {
-background-color: #000000;
+background-color: #eaf0fa;
 font: 75 10pt &quot;Sitka Small&quot;;
  border-radius: 10px;
-color: rgb(255, 255, 255);
+color:#ffffff;
 
 }
 
 QPushButton{
-background-color:#eacfad;
-color:black;
+background-color:#fe6b68;
+color:#ffffff;
 font: 75 14pt &quot;Sitka Small&quot;;
 
 
 }
 QPushButton:hover{
 background-color:#ffffff;
+color:#000000;
+
 }
 
 QLabel{
-color:#ffffff;
+color:#000000;
 }
 
 QLineEdit {
-    border: 0px solid gray;
+    border: 1px solid #000000;
     border-radius: 06px;
-    background-color:white;
-	color:rgb(0, 0, 0);
+    background-color:#ffffff;
+	color:#000000;
 
 }
 
-QLineEdit:hover {
-  border-radius: 06px;
-  padding: 5px;
-  border: 0px solid rgb(52, 52, 52);
-  color: rgb(0, 0,0);
-}
 
 
 
@@ -606,40 +602,30 @@ background-color:transparent;</string>
        <x>240</x>
        <y>260</y>
        <width>30</width>
-       <height>31</height>
+       <height>30</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
        <width>30</width>
-       <height>31</height>
+       <height>30</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>30</width>
-       <height>31</height>
+       <height>30</height>
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">QPushButton{
-background-color: white;
-color:black;
-font: 75 14pt &quot;Sitka Small&quot;;
-}</string>
+      <string notr="true">background-color: none</string>
      </property>
      <property name="text">
       <string/>
      </property>
      <property name="icon">
-      <iconset resource="../icons/icons.qrc">
+      <iconset resource="../../../backup ui for mbas/icons/icons.qrc">
        <normaloff>:/newPrefix/icons/eye-off.svg</normaloff>:/newPrefix/icons/eye-off.svg</iconset>
-     </property>
-     <property name="iconSize">
-      <size>
-       <width>14</width>
-       <height>14</height>
-      </size>
      </property>
     </widget>
    </widget>
@@ -647,6 +633,7 @@ font: 75 14pt &quot;Sitka Small&quot;;
  </widget>
  <resources>
   <include location="../icons/icons.qrc"/>
+  <include location="../../../backup ui for mbas/icons/icons.qrc"/>
  </resources>
  <connections/>
 </ui>
