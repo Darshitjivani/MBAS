@@ -11,6 +11,7 @@ import traceback
 import numpy as np
 # from model import ModelTS
 import sqlite3
+
 from Resources.icons import icons_rc
 import sys
 from PyQt5.QtCore import Qt
@@ -19,7 +20,6 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 
 from Applications.Views.Login.login import LoginWindow
 from Applications.Utils.execute_support import *
-
 
 
 class UIMain(QMainWindow):
@@ -49,14 +49,14 @@ class UIMain(QMainWindow):
 
         # self.createObjects()
         initialObjects(self)
-        allObjects(self)
-        allSlots(self)
+        # allObjects(self)
+        # allSlots(self)
         intialSlots(self)
 
 
         self.login.show()
         self.hideAllFrames()
-
+        # self.showMaximized()
     def hideAllFrames(self):
             self.fCreateCompany.hide()
 
@@ -80,7 +80,7 @@ class UIMain(QMainWindow):
 
     def mouseMoveEvent(self, event: QMouseEvent):
         if self.dragging:
-            # Move the window with the mouse while dragging
+            # Move the window with the1 mouse while dragging
             self.move(event.globalPos() - self.offset)
 
 
