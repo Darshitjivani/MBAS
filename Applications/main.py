@@ -11,16 +11,17 @@ import traceback
 import numpy as np
 # from model import ModelTS
 import sqlite3
+
+# from Applications.Utils.execute_support import allObjects
 from Resources.icons import icons_rc
 import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QMouseEvent, QKeySequence
+from Themes.dt3 import dt3
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 
-from Applications.Views.Login.login import LoginWindow
+# from Applications.Views.Login.login import LoginWindow
 from Applications.Utils.execute_support import *
-
-
 
 class UIMain(QMainWindow):
     def __init__(self):
@@ -29,47 +30,63 @@ class UIMain(QMainWindow):
         ui_main = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
         uic.loadUi(ui_main, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
-        self.pbMaximized.clicked.connect(self.showmaximized)
         self.dragging = False
         self.offset = None
         self.createShortcuts()
-
-        # Create a layout for widget_2
-        # widget_2_layout = QVBoxLayout()
-        # self.widget_2.setLayout(widget_2_layout)
-        # Create a model for the QTableView
-
-
-        # Create a QTableView to display company names and dates
-        # self.db_handler = DatabaseHandler(os.path.join(loc1[0], 'Database', 'MBAS.db'))
-
-
-
-
+        # self.companycreate = CompanyCreateWindow()  # Create Company Window
 
         # self.createObjects()
         initialObjects(self)
-        allObjects(self)
-        allSlots(self)
         intialSlots(self)
-
+        # allObjects(self)
+        # allSlots(self)
 
         self.login.show()
+
+
         self.hideAllFrames()
+        # self.lbLanding.show()
+
+        self.maxwin = True
+
+        self.pbMaximized.clicked.connect(self.showmaxORnormal)
+        self.pbMinimized.clicked.connect(self.showminimized)
+
+        self.setStyleSheet(dt3)
+
+    def showminimized(self):
+        self.showMinimized()  # show the window in minimized screen
+
+
+    def showmaxORnormal(self):
+        if self.isMaximized():
+            self.showNormal()
+        else:
+            self.showMaximized()
+
 
     def hideAllFrames(self):
-            self.fCreateCompany.hide()
+        self.fCreateCompany.hide()
+
 
     def showCreateCompany(self):
-            self.hideAllFrames()
-            self.fCreateCompany.show()
+        self.hideAllFrames()
+        self.fCreateCompany.show()
+        # self.lbLanding.hide()
+
+
+
 
     def showmaximized(self):
         self.showMaximized()  # show the window in full screen
 
+    #----------------------------------- Show List Of Company --------------------------------#
     def showEvent(self, event):
         super().showEvent(event)
         listOfCompany(self)
+
+
+    #---------------------------------- Movement of window ----------------------------------#
 
     def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
@@ -90,10 +107,11 @@ class UIMain(QMainWindow):
             self.dragging = False
             self.offset = None
 
+    #----------------------------- Shortcut For Close ------------------------------------#
+
     def createShortcuts(self):
         self.quitSc = QShortcut(QKeySequence('Esc'), self)
         self.quitSc.activated.connect(self.close)
-
 
 
 if __name__ == '__main__':

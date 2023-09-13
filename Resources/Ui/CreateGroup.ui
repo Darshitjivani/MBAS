@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>631</width>
-    <height>437</height>
+    <width>628</width>
+    <height>230</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -20,9 +20,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">QWidget{
-	font: 11pt &quot;Sitka Text&quot;;
-}</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
@@ -46,8 +44,13 @@
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>25</height>
+        <height>20</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(212, 212, 212);
+font: 63 11pt &quot;Segoe UI Semibold&quot;;
+color:#000000</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -62,13 +65,13 @@
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>30</height>
+        <height>28</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(75,75,75);
-color: rgb(255, 255, 255);
-font: 75 12pt &quot;Sitka Small&quot;;</string>
+       <string notr="true">
+font: 63 11pt &quot;Segoe UI Semibold&quot;;
+color:#000000</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -96,18 +99,18 @@ font: 75 12pt &quot;Sitka Small&quot;;</string>
         <widget class="QPushButton" name="pbClose">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>25</width>
+           <height>25</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>25</width>
+           <height>25</height>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color:white</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string/>
@@ -129,7 +132,7 @@ font: 75 12pt &quot;Sitka Small&quot;;</string>
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>28</height>
           </size>
          </property>
          <property name="styleSheet">
@@ -149,22 +152,7 @@ font: 75 12pt &quot;Sitka Small&quot;;</string>
     <item row="1" column="0">
      <widget class="QWidget" name="widget" native="true">
       <property name="styleSheet">
-       <string notr="true">QPushButton{
-
-	font: 75 10pt &quot;Sitka Small&quot;;
-border-radius:06px;
-background-color: rgb(75,75,75);
-color: rgb(255, 255, 255);
-
-}
-QPushButton:selected {
-  background: #1464A0;
-  color: #19232d;
-}
-
-
-
-</string>
+       <string notr="true"/>
       </property>
       <layout class="QGridLayout" name="gridLayout">
        <property name="leftMargin">
@@ -197,9 +185,7 @@ QPushButton:selected {
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Submit</string>

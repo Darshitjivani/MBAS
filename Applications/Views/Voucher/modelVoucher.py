@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt, QModelIndex
 from PyQt5.QtWidgets import QTableView
 import time
 
+
 from PyQt5 import QtGui
 from PyQt5.QtGui import QBrush
 
@@ -20,6 +21,7 @@ class ModelVoucher(QtCore.QAbstractTableModel):
             self.lastSerialNo = data.shape[0]
         else:
             self.lastSerialNo = 0
+
 
 
 

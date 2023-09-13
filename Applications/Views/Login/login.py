@@ -1,8 +1,8 @@
 from PyQt5 import uic
 from qtpy import QtCore
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QMouseEvent
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtGui import QMouseEvent, QKeySequence
+from PyQt5.QtWidgets import QMainWindow, QShortcut
 from Applications.Utils.config_reader import *
 
 
@@ -19,9 +19,26 @@ class LoginWindow(QMainWindow):
         self.setAttribute(QtCore.Qt.WA_TranslucentBackground)
         self.setGeometry(350, 100, 800, 600)
         self.initVaribles()
-
+        self.createShortcuts()
         self.dragging = False
         self.offset = None
+        self.click = 0
+
+
+        #-------------------------------- by default hide password ---------------------------------------#
+        self.lePassword.setEchoMode(self.lePassword.Password)
+        self.pbhide.clicked.connect(self.hidePass)
+
+    def hidePass(self):
+        self.click += 1
+        if self.click % 2 == 1:
+            self.lePassword.setEchoMode(self.lePassword.Normal)
+        else:
+            self.lePassword.setEchoMode(self.lePassword.Password)
+
+    def createShortcuts(self):
+        self.quitSc = QShortcut(QKeySequence('Esc'), self)
+        self.quitSc.activated.connect(self.close)
     def initVaribles(self):
         userId,password=readConfig()
 

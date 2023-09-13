@@ -15,6 +15,7 @@ from PyQt5.QtGui import QMouseEvent, QKeySequence
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 
 from Applications.Views.MasterList.master_list import MasterListWindow
+from Themes.dt3 import dt3
 
 
 # from model import ModelTS
@@ -27,20 +28,47 @@ class GatewaysWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'Gateways.ui')
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.lbCompanyName = self.findChild(QLabel, 'lbCompanyName')# Attribute initialization
         self.masterlist = MasterListWindow()
-        self.pbMaximized.clicked.connect(self.showmaximized)
-        # self.pbMinimized.clicked.connect(self.showMinimized)
+        # self.showMaximized()
+        self.createShortcuts()  # Create A shortcut
+
+        #----------------------------------- For Window Movement ----------------------------------$
         self.dragging = False
         self.offset = None
-        self.createShortcuts()
+
+        #------------------------------------- Maximize And Minimize -------------------------------#
+        self.maxwin = True
+        self.pbMaximized.clicked.connect(self.showmaxORnormal)
+        self.pbMinimized.clicked.connect(self.showminimized)
+
+        #-------------------------------------------- For MenuBar Hide -----------------------------------#
+        self.pbMenubar.clicked.connect(self.menuHideShow)
 
         # Hide all frames initially
         self.hideAllFrames()
+        self.setStyleSheet(dt3)
 
+        #
+        # self.lbChangeCompany.hide()
+        # self.pbChangeCompany.clicked.connect(self.lbChangeCompany.show)
+        # self.pbChangeCompany.setToolTip("Change Company")
 
+    def menuHideShow(self):
+        try:
+            self.wMenubar.setVisible(not self.wMenubar.isVisible())
+        except:
+            print(traceback.print_exc())
 
-        # Attribute initialization
-        self.lbCompanyName = self.findChild(QLabel, 'lbCompanyName')
+    def showminimized(self):
+        self.showMinimized()  # show the window in minimized screen
+
+    def showmaxORnormal(self):
+        if self.isMaximized():
+            self.showNormal()
+        else:
+            self.showMaximized()
+
     def createShortcuts(self):
         self.quitSc = QShortcut(QKeySequence('Esc'), self)
         self.quitSc.activated.connect(self.close)
@@ -51,7 +79,7 @@ class GatewaysWindow(QMainWindow):
         self.fVouchers.hide()
         self.fDayBook.hide()
         self.fBalanceSheet.hide()
-        self.fTrailBalance.hide()
+        self.fTrialBalance.hide()
 
     def showCreateFrame(self):
         self.hideAllFrames()
@@ -73,25 +101,12 @@ class GatewaysWindow(QMainWindow):
         self.hideAllFrames()
         self.fBalanceSheet.show()
 
-    def showTrailBalanceFrame(self):
+    def showTrialBalanceFrame(self):
         self.hideAllFrames()
-        self.fTrailBalance.show()
-
-
-
-        # self.setAttribute(Qt.WA_TranslucentBackground)
-        self.lbCompanyName = self.findChild(QLabel, 'lbCompanyName')  # Assuming lbTitle is the object name of your QLabel
-
-
-    def showmaximized(self):
-        self.showMaximized()  # show the window in full screen
+        self.fTrialBalance.show()
 
     def updateTitleLabel(self, company_name):
         self.lbCompanyName.setText(f"Welcome to {company_name}")
-
-    # def initveriable(self):
-
-
 
 
     def mousePressEvent(self, event: QMouseEvent):

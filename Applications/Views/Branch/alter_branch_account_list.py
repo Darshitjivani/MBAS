@@ -4,6 +4,7 @@ import csv
 # from tabletask import Ui_MainWindow
 import os
 from PyQt5 import uic
+from Themes.dt3 import dt3
 from PyQt5 import *
 import qdarkstyle
 import traceback
@@ -12,9 +13,10 @@ import numpy as np
 from Applications.Views.Gateways.gateways import GatewaysWindow
 import sqlite3
 
-class AlterBranchLedgerListWindow(QMainWindow):
+class AlterBranchAccountListWindow(QMainWindow):
     def __init__(self):
-        super(AlterBranchLedgerListWindow, self).__init__()
+        super(AlterBranchAccountListWindow, self).__init__()
         loc1 = os.getcwd().split('Application')
-        ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'AlterBranchCompanyList.ui')
+        ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'AlterBranchAccountList.ui')
         uic.loadUi(ui_login, self)
+        self.setStyleSheet(dt3)

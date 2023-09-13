@@ -5,6 +5,7 @@ from PyQt5 import *
 import qdarkstyle
 import traceback
 import numpy as np
+from Themes.dt3 import dt3
 # from model import ModelTS
 
 import sys
@@ -20,3 +21,4 @@ class CreateGroupWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'CreateGroup.ui')
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setStyleSheet(dt3)

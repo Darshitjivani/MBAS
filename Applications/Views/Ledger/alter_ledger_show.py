@@ -3,7 +3,7 @@ from PyQt5 import uic
 from PyQt5.QtGui import QMouseEvent
 from PyQt5.QtWidgets import QMainWindow
 from PyQt5.QtCore import Qt
-
+from Themes.dt3 import dt3
 
 
 class AlterLedgerWindow(QMainWindow):
@@ -15,6 +15,7 @@ class AlterLedgerWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'LedgerUpdate.ui')
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setStyleSheet(dt3)
         self.dragging = False
         self.offset = None
 

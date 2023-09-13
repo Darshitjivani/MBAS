@@ -10,6 +10,7 @@ import qdarkstyle
 import traceback
 import numpy as np
 # from model import ModelTS
+from Themes.dt3 import dt3
 
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDockWidget, QWidget, QPushButton
@@ -24,14 +25,16 @@ class AlterMasterListWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'AlterMasterList.ui')
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setStyleSheet(dt3)
         # self.creategroup.pbClose.clicked.connect(self.creategroup.close)
-
+        # self.pbClose.clicked.connect(self.close)
         # Hide all frames initially
         self.hideAllFrames()
 
     def hideAllFrames(self):
         self.fAlterGroup.hide()
         self.fAlterLedger.hide()
+        self.fAlterBranch.hide()
 
     def showAlterGroup(self):
         self.hideAllFrames()
@@ -41,3 +44,7 @@ class AlterMasterListWindow(QMainWindow):
     def showAlterLedger(self):
         self.hideAllFrames()
         self.fAlterLedger.show()
+
+    def showAlterBranch(self):
+        self.hideAllFrames()
+        self.fAlterBranch.show()
