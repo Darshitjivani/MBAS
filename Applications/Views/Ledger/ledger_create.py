@@ -10,6 +10,7 @@ import numpy as np
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QDockWidget, QWidget, QPushButton
 from PyQt5.QtCore import Qt
+from Themes.dt3 import dt3
 
 class CreateLedgerWindow(QMainWindow):
     def __init__(self):
@@ -20,3 +21,4 @@ class CreateLedgerWindow(QMainWindow):
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'LedgerCreate.ui')
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
+        self.setStyleSheet(dt3)

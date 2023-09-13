@@ -20,7 +20,7 @@
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 11pt &quot;Sitka Text&quot;;</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
@@ -44,19 +44,19 @@
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>30</height>
+        <height>28</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>25</height>
+        <height>28</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(75,75,75);
-color: rgb(255, 255, 255);
-font: 12pt &quot;Sitka Text&quot;;</string>
+       <string notr="true">
+font: 63 11pt &quot;Segoe UI Semibold&quot;;
+color:#000000</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -80,22 +80,41 @@ font: 12pt &quot;Sitka Text&quot;;</string>
        <property name="spacing">
         <number>0</number>
        </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="lbLedgerCreations">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>28</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Ledger Creations</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
        <item row="0" column="1">
         <widget class="QPushButton" name="pbClose">
          <property name="minimumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>25</width>
+           <height>25</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>30</width>
-           <height>30</height>
+           <width>25</width>
+           <height>25</height>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true">background-color:white</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string/>
@@ -112,25 +131,6 @@ font: 12pt &quot;Sitka Text&quot;;</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lbLedgerCreations">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Ledger Creations</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
       </layout>
      </widget>
     </item>
@@ -139,14 +139,19 @@ font: 12pt &quot;Sitka Text&quot;;</string>
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>30</height>
+        <height>20</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>30</height>
+        <height>20</height>
        </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(212, 212, 212);
+font: 63 11pt &quot;Segoe UI Semibold&quot;;
+color:#000000</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -162,54 +167,74 @@ font: 12pt &quot;Sitka Text&quot;;</string>
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton{
-
-	font: 75 10pt &quot;Sitka Small&quot;;
-border-radius:06px;
-background-color: rgb(71, 71, 71);
-color: rgb(255, 255, 255);
-
-
-}
-QPushButton:selected {
-  background: #1464A0;
-  color: #19232d;
-}
-
-
-
-</string>
+       <string notr="true"/>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="0">
-        <widget class="QLabel" name="label">
+       <item row="6" column="4">
+        <widget class="QLabel" name="label_9">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Name      :</string>
+          <string>Pincode   :</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QLineEdit" name="leAcName"/>
+       <item row="2" column="4">
+        <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Address :</string>
+         </property>
+        </widget>
        </item>
-       <item row="0" column="3" rowspan="9">
-        <widget class="Line" name="line">
+       <item row="8" column="7">
+        <widget class="QPushButton" name="pbSubmit">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>0</height>
+           <height>30</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Submit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QComboBox" name="cbUnderGroup"/>
+       </item>
+       <item row="2" column="5" rowspan="2" colspan="3">
+        <widget class="QPlainTextEdit" name="ptAddress"/>
+       </item>
+       <item row="8" column="0" colspan="2">
+        <widget class="QLabel" name="label_3">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
-           <height>16777215</height>
+           <height>25</height>
           </size>
          </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Opening Balance  :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Name     :</string>
          </property>
         </widget>
        </item>
@@ -225,6 +250,36 @@ text-decoration: underline;
          </property>
         </widget>
        </item>
+       <item row="4" column="4">
+        <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>State      :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="6">
+        <widget class="Line" name="line_3">
+         <property name="styleSheet">
+          <string notr="true">background-color:transparent</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="5" colspan="3">
+        <widget class="QLineEdit" name="leCountry">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5" colspan="3">
+        <widget class="QLineEdit" name="leMailingName"/>
+       </item>
        <item row="1" column="0">
         <widget class="QLabel" name="label_4">
          <property name="styleSheet">
@@ -235,21 +290,44 @@ text-decoration: underline;
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QComboBox" name="cbUnderGroup"/>
+       <item row="3" column="2" rowspan="5">
+        <widget class="Line" name="line_2">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
        </item>
-       <item row="1" column="4">
-        <widget class="QLabel" name="label_5">
+       <item row="6" column="5" colspan="3">
+        <widget class="QLineEdit" name="lePincode"/>
+       </item>
+       <item row="8" column="5">
+        <widget class="QPushButton" name="pbDelete">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Name     :</string>
+          <string>Delete</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="5" colspan="3">
-        <widget class="QLineEdit" name="leMailingName"/>
+       <item row="5" column="4">
+        <widget class="QLabel" name="label_8">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Country :</string>
+         </property>
+        </widget>
        </item>
        <item row="2" column="0">
         <widget class="QLabel" name="label_2">
@@ -274,98 +352,8 @@ text-decoration: underline;
          </property>
         </widget>
        </item>
-       <item row="2" column="4">
-        <widget class="QLabel" name="label_6">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Address :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="5" rowspan="2" colspan="3">
-        <widget class="QPlainTextEdit" name="ptAddress"/>
-       </item>
-       <item row="3" column="2" rowspan="5">
-        <widget class="Line" name="line_2">
-         <property name="styleSheet">
-          <string notr="true">background-color: transparent</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="4">
-        <widget class="QLabel" name="label_7">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>State      :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="5" colspan="2">
-        <widget class="QComboBox" name="cbState"/>
-       </item>
-       <item row="5" column="4">
-        <widget class="QLabel" name="label_8">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Country :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="5" colspan="3">
-        <widget class="QLineEdit" name="leCountry">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="4">
-        <widget class="QLabel" name="label_9">
-         <property name="styleSheet">
-          <string notr="true">font: 10pt &quot;Sitka Text&quot;;
-</string>
-         </property>
-         <property name="text">
-          <string>Pincode   :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="5" colspan="3">
-        <widget class="QLineEdit" name="lePincode"/>
-       </item>
-       <item row="7" column="6">
-        <widget class="Line" name="line_3">
-         <property name="styleSheet">
-          <string notr="true">background-color:transparent</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QLabel" name="label_3">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Opening Balance  :</string>
-         </property>
-        </widget>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="leAcName"/>
        </item>
        <item row="8" column="2">
         <widget class="QLineEdit" name="leBalance">
@@ -383,37 +371,37 @@ text-decoration: underline;
          </property>
         </widget>
        </item>
-       <item row="8" column="5">
-        <widget class="QPushButton" name="pbDelete">
+       <item row="0" column="3" rowspan="9">
+        <widget class="Line" name="line">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>30</height>
+           <height>0</height>
           </size>
          </property>
-         <property name="styleSheet">
-          <string notr="true"/>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>16777215</height>
+          </size>
          </property>
-         <property name="text">
-          <string>Delete</string>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="8" column="7">
-        <widget class="QPushButton" name="pbSubmit">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Submit</string>
+          <string>Name      :</string>
          </property>
         </widget>
+       </item>
+       <item row="4" column="5" colspan="2">
+        <widget class="QComboBox" name="cbState"/>
        </item>
       </layout>
      </widget>

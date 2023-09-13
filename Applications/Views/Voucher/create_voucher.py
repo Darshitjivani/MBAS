@@ -21,6 +21,15 @@ from Applications.Views.Voucher.table import Terminal
 # class ComboBoxDelegate(QItemDelegate):
 #     def __init__(self, parent=None):
 #         super(ComboBoxDelegate, self).__init__(parent)
+from Themes.dt3 import dt3
+# from PyQt5 import *
+# import qdarkstyle
+# import traceback
+# import numpy as np
+# # from model import ModelTS
+# from Applications.Utils.support import saveVoucherData
+# from Applications.Views.Gateways.gateways import GatewaysWindow
+# import sqlite3
 #
 #     def createEditor(self, parent, option, index):
 #         combo_box = QComboBox(parent)
@@ -32,12 +41,12 @@ from Applications.Views.Voucher.table import Terminal
     #     self.comboBox.addItems(account_names)
 
 class CreateVoucherWindow(QMainWindow):
-
     def __init__(self):
         super(CreateVoucherWindow, self).__init__()
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'CreateVoucher.ui')
         uic.loadUi(ui_login, self)
+        self.setStyleSheet(dt3)
 
         # self.tableWidget.setColumnCount(4)  # Assuming you have 4 columns
         # self.tableWidget.setHorizontalHeaderLabels(["Dr/Cr", "Account Name", "Amount", "Currency"])
