@@ -67,29 +67,7 @@ color: rgb(255, 255, 255);</string>
        <property name="spacing">
         <number>0</number>
        </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lbAccountingVoucher">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Accounting Voucher Creating</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
+       <item row="1" column="1">
         <widget class="QLabel" name="lbCompanyName">
          <property name="minimumSize">
           <size>
@@ -114,7 +92,29 @@ color: rgb(255, 255, 255);</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="2">
+       <item row="1" column="0">
+        <widget class="QLabel" name="lbAccountingVoucher">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Accounting Voucher Creating</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2">
         <widget class="QPushButton" name="pbClose">
          <property name="minimumSize">
           <size>
@@ -144,6 +144,13 @@ color: rgb(255, 255, 255);</string>
            <width>20</width>
            <height>20</height>
           </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="pbBack">
+         <property name="text">
+          <string>PushButton</string>
          </property>
         </widget>
        </item>

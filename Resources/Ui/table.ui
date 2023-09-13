@@ -40,7 +40,7 @@
      </widget>
     </item>
     <item row="4" column="4">
-     <widget class="QPushButton" name="cancel">
+     <widget class="QPushButton" name="pbcancel">
       <property name="text">
        <string>Cancel</string>
       </property>

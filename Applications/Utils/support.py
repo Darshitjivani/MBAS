@@ -9,27 +9,13 @@ from PyQt5.QtCore import *
 
 from PyQt5.QtWidgets import *
 from PyQt5.uic.properties import QtCore
-
-from Applications.Views.Branch.alter_branch_company_list import AlterBranchLedgerListWindow
-from Applications.Views.Branch.create_branch import BranchCreateWindow
-from Applications.Views.CompanyCreate.company_create import CompanyCreateWindow
-from Applications.Views.CreateGroup.alter_group_list import AlterGroupListWindow
-from Applications.Views.CreateGroup.create_group import CreateGroupWindow
 from Applications.Views.DayBook.day_book import DayBookWindow
-from Applications.Views.Gateways.gateways import GatewaysWindow
-from Applications.Views.Ledger.alter_ledger_list import AlterLedgerListWindow
-from Applications.Views.Ledger.alter_ledger_show import AlterLedgerWindow
-from Applications.Views.Ledger.ledger_create import CreateLedgerWindow
-from Applications.Views.MasterList.alter_master_list import AlterMasterListWindow
-from Applications.Views.MasterList.master_list import MasterListWindow
-from Applications.Views.Voucher.create_voucher import CreateVoucherWindow
-from Applications.Views.Voucher.table import Terminal
 from Applications.Views.Branch.alter_branch_list import AlterBranchListWindow
 from Applications.Views.Branch.create_branch import BranchCreateWindow
 from Applications.Views.CompanyCreate.company_create import CompanyCreateWindow
 from Applications.Views.CreateGroup.alter_group_list import AlterGroupListWindow
 from Applications.Views.CreateGroup.create_group import CreateGroupWindow
-from Applications.Views.DayBook.create_daybook import DayBookWindow
+from Applications.Views.DayBook.day_book import DayBookWindow
 from Applications.Views.Gateways.gateways import GatewaysWindow
 from Applications.Views.Home.home import HomeWindow
 from Applications.Views.Ledger.alter_ledger_list import AlterLedgerListWindow
@@ -45,8 +31,6 @@ from Applications.Views.Voucher.table import Terminal
 def allObjects(main):
     main.gateway = GatewaysWindow()  # Gateway Window
     main.companycreate = CompanyCreateWindow()  # Create Company Window
-    # main.home = HomeWindow() # Homewindow
-    # main.tableshow = Terminal()
     main.masterlist = MasterListWindow()  # MaterList Window
     main.creategroup = CreateGroupWindow()  # Create group Window
     main.createledger = CreateLedgerWindow()  # Create Ledger Window
@@ -54,16 +38,13 @@ def allObjects(main):
     main.alterledgerlist = AlterLedgerListWindow() # Ledger List Window For Alteration
     main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
     main.createvoucher  = CreateVoucherWindow()  # Create Voucher Window
-    main.alterbranchlist = AlterBranchLedgerListWindow()  #Ledger list Branch wise for Alteration
-    # main.combo_delegate = ComboBoxDelegate()
+    main.alterbranchlist = AlterBranchListWindow()  #Ledger list Branch wise for Alteration
     main.tableshow = Terminal()
-    # main.createvoucher.pbAdd.clicked.connect(main.tableshow.show)
-    # main.alterledgerlist = AlterLedgerListWindow()  # Ledger List Window For Alteration
     main.altergrouplist = AlterGroupListWindow()  # Group List Window For Alteration
-    # main.homewindow = HomeWindow() #home window
-    # main.backwindow = goToMasterList
     main.alterledger = AlterLedgerWindow()
     main.daybook = DayBookWindow()
+    main.trialbalance = TrialBalanceWindow()
+    # main.daybook = DayBookWindow()
 
 
 
@@ -71,10 +52,10 @@ def allObjects(main):
 
     main.gateway.fCreate.layout().addWidget(main.masterlist)
     main.gateway.fAlter.layout().addWidget(main.altermasterlist)
-    # main.gateway.fVouchers.layout().addWidget(main.masterlist)
-    # main.gateway.fDayBook.layout().addWidget(main.masterlist)
+    main.gateway.fVouchers.layout().addWidget(main.createvoucher)
+    main.gateway.fDayBook.layout().addWidget(main.daybook)
     # main.gateway.fBalanceSheet.layout().addWidget(main.masterlist)
-    # main.gateway.fTrailBalance.layout().addWidget(main.masterlist)
+    main.gateway.fTrialBalance.layout().addWidget(main.trialbalance)
 
     ##################################### MasterList ###################################################
     main.masterlist.fGroup.layout().addWidget(main.creategroup)
@@ -114,25 +95,23 @@ def allSlots(main):
     main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
     main.gateway.pbAlterMaster.clicked.connect(main.gateway.showAlterFrame)
     main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
-    main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
-
     main.gateway.pbVouchers.clicked.connect(main.gateway.showVouchersFrame)
     main.gateway.pbBalanceSheet.clicked.connect(main.gateway.showBalanceSheetFrame)
-    main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrailBalanceFrame)
+    main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
+
+    main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
 
     main.gateway.pbClose.clicked.connect(main.gateway.close)
-
     # -------------------------------- Master List Window -------------------------------#
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
-    main.masterlist.pbCreateGroup.clicked.connect(main.masterlist.showCreateGroup)
-
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
     main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
 
-    # main.masterlist.pbChangeCompany.clicked.connect(main.home.show())
+    main.masterlist.pbBack.clicked.connect(main.masterlist.hide)
+
+    main.masterlist.pbCreateGroup.clicked.connect(main.masterlist.showCreateGroup)
+    main.masterlist.pbCreateBranch.clicked.connect(main.masterlist.showCreateBranch)
     main.masterlist.pdCreateLedger.clicked.connect(main.masterlist.showCreateLadger)
-    # main.masterlist.pbClose.clicked.connect(main.masterlist.hide)
-    # main.masterlist.pbChangeCompany.clicked.connect(main.show)
 
     # --------------------------------- Create Group Window --------------------------#
     main.creategroup.pbSubmit.clicked.connect(lambda: saveGroupData(main))
@@ -147,18 +126,20 @@ def allSlots(main):
     main.altermasterlist.pbAlterGroup.clicked.connect(lambda: alterGroupListpage(main))
     main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerListpage(main))
     main.altermasterlist.pbAlterBranch.clicked.connect(lambda: alterBranchList(main))
+    main.altermasterlist.pbBack.clicked.connect(main.altermasterlist.hide)
 
     main.altermasterlist.pbAlterGroup.clicked.connect(main.altermasterlist.showAlterGroup)
-
-    # main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerPage(main))
     main.altermasterlist.pbAlterLedger.clicked.connect(main.altermasterlist.showAlterLedger)
-    # main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
+    #####################################################################################
+    main.altermasterlist.pbAlterBranch.clicked.connect(main.altermasterlist.showAlterBranch)
+    main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
     main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
 
     #---------------------------- Create Branch Window ----------------------------------#
     main.createbranch.pbSubmit.clicked.connect(lambda: saveBranchData(main))
-    main.alterledger.pbSubmit.clicked.connect(lambda:saveAlterLedgerData(main))
+    main.alterledger.pbSubmit.clicked.connect(lambda: saveAlterLedgerData(main))
     # main.alterledger.pbSubmit.clicked.connect(main.alterledgerlist.hide)
+
     main.alterledger.pbDelete.clicked.connect(lambda: deleteLedger(main))
     main.alterledger.pbClose.clicked.connect(main.alterledger.close)
 
@@ -255,8 +236,8 @@ def allSlots(main):
     main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
 
 
-    #----------------------------------- Table Window ---------------------------------------------#
-    main.tableview.pdAddRaw.clicked.connect(lambda: addRaw(main))
+    # #----------------------------------- Table Window ---------------------------------------------#
+    # main.tableview.pdAddRaw.clicked.connect(lambda: addRaw(main))
 
     #----------------------------------- Day Book -------------------------------------#
     # main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
@@ -1803,7 +1784,7 @@ def fetchDayBookData(main):
         cursor = main.db_connection.cursor()
         cursor.execute("SELECT Date,DebitAccount, VoucherType FROM Voucher_table")
         data = cursor.fetchall()
-        # print("data:", data)
+        print("data:", data)
 
         main.daybook.model.beginResetModel()  # Reset the model
         main.daybook.model._data = np.array(data, dtype=object)
