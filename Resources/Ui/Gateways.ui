@@ -641,7 +641,7 @@ QPushButton:hover {
          </property>
          <property name="icon">
           <iconset>
-           <normaloff>../icons/icons/Alter.svg</normaloff>../icons/icons/Alter.svg</iconset>
+           <normaloff>../icons/Alter.svg</normaloff>../icons/Alter.svg</iconset>
          </property>
          <property name="iconSize">
           <size>
