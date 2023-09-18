@@ -33,19 +33,7 @@ class UIMain(QMainWindow):
         self.pbMaximized.clicked.connect(self.showmaximized)
         self.dragging = False
         self.offset = None
-        self.createShortcuts()
-
-        # Create a layout for widget_2
-        # widget_2_layout = QVBoxLayout()
-        # self.widget_2.setLayout(widget_2_layout)
-        # Create a model for the QTableView
-
-
-        # Create a QTableView to display company names and dates
-        # self.db_handler = DatabaseHandler(os.path.join(loc1[0], 'Database', 'MBAS.db'))
-
-
-
+        # self.createShortcuts()
 
 
         # self.createObjects()
@@ -66,6 +54,7 @@ class UIMain(QMainWindow):
 
         self.setStyleSheet(dt3)
 
+    #
     def showminimized(self):
         self.showMinimized()  # show the window in minimized screen
 
@@ -83,6 +72,7 @@ class UIMain(QMainWindow):
     def showCreateCompany(self):
         self.hideAllFrames()
         self.fCreateCompany.show()
+        # self.flogo.hide()
         # self.lbLanding.hide()
 
 
@@ -120,9 +110,9 @@ class UIMain(QMainWindow):
 
     #----------------------------- Shortcut For Close ------------------------------------#
 
-    def createShortcuts(self):
-        self.quitSc = QShortcut(QKeySequence('Esc'), self)
-        self.quitSc.activated.connect(self.close)
+    # def createShortcuts(self):
+    #     self.quitSc = QShortcut(QKeySequence('Esc'), self)
+    #     self.quitSc.activated.connect(self.close)
 
 
 

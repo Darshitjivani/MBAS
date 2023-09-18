@@ -67,26 +67,7 @@ margin:0px;
           </sizepolicy>
          </property>
          <property name="styleSheet">
-          <string notr="true">QListWidget {
-
-    background-color: #ffffff;
-}
-QListWidget::item {
-    padding: 0px; 
-margin:0px;
-    border: 0px solid gray; 
-}
-QListWidget::item:selected {
-    background-color: transparent;  
-    color: white; 
-}
-
-QListWidget::item:hover{
-    padding: 0px; 
-margin:0px;
-    background-color: transparent;  
-    color: white; 
-}</string>
+          <string notr="true"/>
          </property>
         </widget>
        </item>
@@ -180,7 +161,7 @@ font: 63 11pt &quot;Segoe UI Semibold&quot;;
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
          </property>
          <property name="iconSize">

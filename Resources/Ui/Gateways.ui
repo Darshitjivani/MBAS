@@ -267,7 +267,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/minimize.svg</normaloff>:/newPrefix/icons/minimize.svg</iconset>
             </property>
            </widget>
@@ -293,7 +293,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/maximize-2.svg</normaloff>:/newPrefix/icons/maximize-2.svg</iconset>
             </property>
             <property name="iconSize">
@@ -346,7 +346,7 @@ background-color: rgb(186, 73, 51);
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
             </property>
             <property name="iconSize">
@@ -402,7 +402,7 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/menu.svg</normaloff>:/newPrefix/icons/menu.svg</iconset>
          </property>
          <property name="iconSize">
@@ -463,7 +463,7 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/pie-chart.svg</normaloff>:/newPrefix/icons/pie-chart.svg</iconset>
          </property>
         </widget>
@@ -550,13 +550,13 @@ QPushButton:hover {
       </property>
       <layout class="QGridLayout" name="gridLayout_5">
        <property name="leftMargin">
-        <number>9</number>
+        <number>0</number>
        </property>
        <property name="topMargin">
-        <number>9</number>
+        <number>5</number>
        </property>
        <property name="rightMargin">
-        <number>9</number>
+        <number>0</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>

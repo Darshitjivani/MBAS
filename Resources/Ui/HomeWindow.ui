@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>987</width>
-    <height>738</height>
+    <width>867</width>
+    <height>635</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -204,7 +204,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/minimize.svg</normaloff>:/newPrefix/icons/minimize.svg</iconset>
             </property>
            </widget>
@@ -230,7 +230,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/maximize-2.svg</normaloff>:/newPrefix/icons/maximize-2.svg</iconset>
             </property>
             <property name="iconSize">
@@ -283,7 +283,7 @@ background-color: rgb(186, 73, 51);
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
             </property>
             <property name="iconSize">
@@ -298,6 +298,33 @@ background-color: rgb(186, 73, 51);
         </widget>
        </item>
       </layout>
+     </widget>
+    </item>
+    <item row="2" column="0">
+     <widget class="QFrame" name="ffooter">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>20</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>202</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(212, 212, 212);
+font: 63 11pt &quot;Segoe UI Semibold&quot;;
+color:#000000</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
      </widget>
     </item>
     <item row="1" column="0">
@@ -458,19 +485,25 @@ margin:0px;
            <number>0</number>
           </property>
           <property name="topMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
            <number>0</number>
           </property>
           <property name="bottomMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="spacing">
            <number>0</number>
           </property>
           <item row="0" column="0">
            <widget class="QFrame" name="fCreateCompany">
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16777215</height>
+             </size>
+            </property>
             <property name="frameShape">
              <enum>QFrame::StyledPanel</enum>
             </property>
@@ -500,33 +533,6 @@ margin:0px;
         </widget>
        </item>
       </layout>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QFrame" name="ffooter">
-      <property name="minimumSize">
-       <size>
-        <width>0</width>
-        <height>20</height>
-       </size>
-      </property>
-      <property name="maximumSize">
-       <size>
-        <width>16777215</width>
-        <height>202</height>
-       </size>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background-color: rgb(212, 212, 212);
-font: 63 11pt &quot;Segoe UI Semibold&quot;;
-color:#000000</string>
-      </property>
-      <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
-      </property>
-      <property name="frameShadow">
-       <enum>QFrame::Raised</enum>
-      </property>
      </widget>
     </item>
    </layout>
