@@ -123,6 +123,7 @@ class ModelTS(QtCore.QAbstractTableModel):
             # Client_logger.error(f"{e}", exc_info=True)
 
 
+
     def flags(self, index):
         '''
          The flags function  in this code defines the item flags for an item at a given index in a Qt model,
@@ -132,8 +133,31 @@ class ModelTS(QtCore.QAbstractTableModel):
                              '''
         try:
 
-            return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
-        except Exception as e:
+            dr_cr=self._data[index.row()][0]
+
+            # print(dr_cr)
+
+            # if dr_cr== 'Dr':
+
+            if index.column() in [2]:
+                if dr_cr == 'Dr':
+                    return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+                else:
+                    return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+            elif index.column() in [3]:
+                if dr_cr == 'Cr':
+                    return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+                else:
+                    return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+            else:
+                return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+            # elif dr_cr== 'Cr':
+            #     if index.column() == 3:
+            #         return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+            # else:
+            #     return Qt.ItemIsSelectable | Qt.ItemIsEnabled
+
+        except:
             print(traceback.print_exc())
             # Client_logger.error(f"{e}", exc_info=True)
 

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>750</width>
-    <height>524</height>
+    <height>522</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -207,22 +207,25 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="label_18">
+       <item row="8" column="0" colspan="2">
+        <widget class="QLineEdit" name="leNarration">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>25</width>
+           <width>0</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>64</width>
-           <height>25</height>
+           <width>1645645</width>
+           <height>40</height>
           </size>
-         </property>
-         <property name="text">
-          <string>Account  :</string>
          </property>
         </widget>
        </item>
@@ -248,25 +251,22 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </item>
-       <item row="8" column="0" colspan="2">
-        <widget class="QLineEdit" name="leNarration">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="3" column="0">
+        <widget class="QLabel" name="label_18">
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>25</width>
            <height>0</height>
           </size>
          </property>
          <property name="maximumSize">
           <size>
-           <width>1645645</width>
-           <height>40</height>
+           <width>64</width>
+           <height>25</height>
           </size>
+         </property>
+         <property name="text">
+          <string>Account  :</string>
          </property>
         </widget>
        </item>
@@ -274,13 +274,6 @@ color: rgb(255, 255, 255);
         <widget class="Line" name="line">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="5">
-        <widget class="QPushButton" name="pbSubmit">
-         <property name="text">
-          <string>Submit</string>
          </property>
         </widget>
        </item>
@@ -319,6 +312,13 @@ color: rgb(255, 255, 255);
          </property>
         </widget>
        </item>
+       <item row="8" column="5">
+        <widget class="QPushButton" name="pbSubmit">
+         <property name="text">
+          <string>Submit</string>
+         </property>
+        </widget>
+       </item>
        <item row="5" column="0">
         <widget class="QLabel" name="label_6">
          <property name="sizePolicy">
@@ -347,6 +347,56 @@ color: rgb(255, 255, 255);
           </size>
          </property>
         </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="cbDebitedAccount">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>125</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>120</width>
+           <height>25</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="5">
+        <widget class="QLineEdit" name="leCredit">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>150</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>130</width>
+           <height>25</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="5">
+        <widget class="QDateEdit" name="deDate"/>
+       </item>
+       <item row="4" column="0" colspan="6">
+        <widget class="QTableView" name="tableView"/>
        </item>
        <item row="3" column="5">
         <widget class="QLineEdit" name="leDay">
@@ -378,56 +428,6 @@ color: rgb(255, 255, 255);
           <string>day</string>
          </property>
         </widget>
-       </item>
-       <item row="7" column="5">
-        <widget class="QLineEdit" name="leCredit">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>150</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>130</width>
-           <height>25</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="cbDebitedAccount">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>125</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>120</width>
-           <height>25</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="5">
-        <widget class="QDateEdit" name="deDate"/>
-       </item>
-       <item row="4" column="0" colspan="6">
-        <widget class="QTableView" name="tableView"/>
        </item>
       </layout>
      </widget>

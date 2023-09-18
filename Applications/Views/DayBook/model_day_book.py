@@ -132,7 +132,7 @@ class ModelDBK(QtCore.QAbstractTableModel):
                              '''
         try:
 
-            return Qt.ItemIsSelectable | Qt.ItemIsEnabled | Qt.ItemIsEditable
+            return Qt.ItemIsSelectable | Qt.ItemIsEnabled
         except Exception as e:
             print(traceback.print_exc())
             # Client_logger.error(f"{e}", exc_info=True)

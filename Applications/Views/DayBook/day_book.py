@@ -4,7 +4,7 @@ from Themes.dt3 import dt3
 import numpy as np
 from PyQt5 import uic
 from PyQt5.QtGui import QMouseEvent
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QTableView
 from PyQt5.QtCore import Qt, QSortFilterProxyModel
 
 from Applications.Views.DayBook.model_day_book import ModelDBK
@@ -26,11 +26,13 @@ class DayBookWindow(QMainWindow):
         self.tables_details_DBK()
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
+        self.tableView.setSelectionBehavior(QTableView.SelectRows)
+
 
     def tables_details_DBK(self):
         try:
 
-            self.heads = ['Date', 'particular', 'Voucher Type']
+            self.heads = ['Date', 'particular', 'Voucher Type', 'Debit Amount', 'Credit Amount']
             self.visibleColumns = len(self.heads)
             self.table = np.zeros((2000, len(self.heads)), dtype=object)
             self.model = ModelDBK(self.table, self.heads)

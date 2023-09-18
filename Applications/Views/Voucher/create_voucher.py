@@ -1,3 +1,6 @@
+import json
+import sys
+
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel
 import csv
@@ -60,61 +63,20 @@ class CreateVoucherWindow(QMainWindow):
         # self.pbAdd.clicked.connect(self.tableshow.show)
 
         self.last_serialno=0
+        self.dr_last_serialno = 0
+        self.cr_last_serialno = 0
         # self.initUI()
         self.tables_details_TWM()
         # self.window = Terminal()
         # self.pbAdd.clicked.connect(self.window.show)
         # self.window.adddata.clicked.connect(self.AddRow)
 
-    # def AddRow(self):
-    #     try:
-    #         self.window.hide()
-    #         v1 = self.window.line1.text()
-    #         v2 = self.window.line2.text()
-    #         v3 = self.window.line3.text()
-    #         v4 = self.window.line4.text()
-    #         # v5 = self.window.line5.text()
-    #
-    #         fltr = self.table[(np.where(self.table[:, 0] == v1))]
-    #
-    #         if fltr.size != 0:
-    #             srno = fltr[0][4]
-    #
-    #             editlist = [1, 2, 3]
-    #             self.table[srno, editlist] = [v2, v3, v4]
-    #             for j in editlist:
-    #                 ind = self.model.index(srno, j)
-    #                 self.model.dataChanged.emit(ind, ind)
-    #
-    #         else:
-    #             self.table[self.lastSerialNo] = [v1, v2, v3, v4]
-    #             # self.last .lastSerialNo += 1
-    #             self.model.insertRows()
-    #             self.model.rowCount()
-    #             ind = self.model.index(0, 0)
-    #             ind1 = self.model.index(0, 1)
-    #             self.model.dataChanged.emit(ind, ind1)
-                # Check if the sum of "Debit" and "Credit" columns is equal
 
-                # debit_sum = np.sum(self.table[:self.lastSerialNo, 3].astype(float))
-                # print("debit sum:", debit_sum)
-                # credit_sum = np.sum(self.table[:self.lastSerialNo, 2].astype(float))
-                # print("credit sum:", credit_sum)
-                #
-                # if debit_sum == credit_sum:
-                #     # Disable further insertion of rows
-                #     self.pbAdd.setEnabled(False)
-                #     print("sum of both is same.")
-
-                # print(self.table)
-        #     print("data table :",self.table)
-        # except:
-        #     print(traceback.print_exc())
 
     def tables_details_TWM(self):
         try:
 
-            self.heads = ['Cr/Dr', 'perticular', 'Credit Amount', 'Debite Amount','Currency']
+            self.heads = ['Cr/Dr', 'perticular', 'Debite Amount','Credit Amount','Currency']
             self.visibleColumns = len(self.heads)
             self.table = np.zeros((2000, len(self.heads)), dtype=object)
             self.model = ModelTS(self.table, self.heads)
@@ -152,4 +114,16 @@ class CreateVoucherWindow(QMainWindow):
         #
         except:
             print(traceback.print_exc())
+
+    def clearFields(self):
+        # Add code here to clear the input fields in your window
+        self.cbVoucherType.setCurrentIndex(0)
+        self.cbDebitedAccount.setCurrentIndex(0)
+        self.model.removeRows(0, self.model.rowCount())
+        # self.tableshow.cbCurrency.setCurrentIndex(0)
+        self.leNarration.clear()
+        self.leCredit.clear()
+        self.leDebit.clear()
+
+
 

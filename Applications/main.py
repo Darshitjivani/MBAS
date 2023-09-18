@@ -55,7 +55,6 @@ class UIMain(QMainWindow):
         intialSlots(self)
 
 
-        self.login.show()
         self.hideAllFrames()
         # self.lbLanding.show()
 
@@ -65,6 +64,8 @@ class UIMain(QMainWindow):
         self.pbMinimized.clicked.connect(self.showminimized)
 
         self.setStyleSheet(dt3)
+
+        self.login.show()
 
     def showminimized(self):
         self.showMinimized()  # show the window in minimized screen
