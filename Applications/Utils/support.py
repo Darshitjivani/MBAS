@@ -7,7 +7,7 @@ from functools import partial
 
 import numpy as np
 from PyQt5.QtCore import *
-from PyQt5.QtGui import QStandardItem
+from PyQt5.QtGui import QStandardItem, QDoubleValidator
 
 from PyQt5.QtWidgets import *
 from PyQt5.uic.properties import QtCore
@@ -161,6 +161,7 @@ def allSlots(main):
     # ------------------------------------- Create Voucher Window -------------------------------#
     main.createvoucher.pbSubmit.clicked.connect(lambda: saveVoucherData(main))
     main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
+    main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
     main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
 
     #----------------------------------- Table Window ---------------------------------------------#
@@ -1462,7 +1463,9 @@ def branchPageList(main, branch_name,branch_id):
 
 # ------------------------------------ For Voucher ---------------------------------------
 
-
+def updateDayName(main, date):
+    day_name = date.toString("dddd")
+    main.createvoucher.leDay.setText(day_name)
 
 def showVoucherPage(main):
     try:
@@ -1491,14 +1494,7 @@ def showVoucherPage(main):
         # Clear existing items from the drop-down button
         main.createvoucher.cbVoucherType.clear()
         main.createvoucher.cbDebitedAccount.clear()
-        # main.createvoucher.cbCreditedAccount.clear()
-        # main.createvoucher.cbAccountName.clear()
-        # main.createvoucher.tableWidget.setColumnCount(4)  # Assuming you have 4 columns
-        # main.createvoucher.tableWidget.setHorizontalHeaderLabels(["Account Name", "Dr/Cr", "Amount", "Currency"])
 
-        # Connect the custom signal to the ComboBoxDelegate's updateComboBox method
-        # main.createvoucher.accountNamesReady.connect(main.combo_delegate.updateComboBox)
-        # main.createvoucher.accountNamesReady.emit(account_name)
 
         current_date = QDate.currentDate()
 
@@ -1513,6 +1509,8 @@ def showVoucherPage(main):
 
         # Set the day name as text in your QLineEdit widget
         main.createvoucher.leDay.setText(day_name)
+        # Connect the slot to the dateChanged signal
+        main.createvoucher.deDate.dateChanged.connect(lambda date: updateDayName(main, date))
         # Populate the drop-down button with group role names
         main.createvoucher.cbVoucherType.addItems(role_names)
         main.createvoucher.cbDebitedAccount.addItems(account_name)
@@ -1711,11 +1709,15 @@ def createVoucherpage(main):
 def showTableView(main):
     try:
         main.tableshow.show()
+        # Create a QDoubleValidator
+        validator = QDoubleValidator()
+        # Set the validator to allow only numbers and decimals
+        validator.setDecimals(2)
+        main.tableshow.leAmount.setValidator(validator)
+
         # # Connect the signal for cbDrCr combobox
         main.tableshow.cbDrCr.activated.connect(lambda: updateCrDrComboBox(main))
-        # account = getAccountMaster(main)
-        # account_name = [name[2] for name in account]
-        # main.tableshow.cbAccountName.addItems(account_name)
+
 
     except:
         print(traceback.print_exc())
@@ -1730,122 +1732,19 @@ def updateCrDrComboBox(main):
         refreshComboBoxForCr(main)
 
 
-def updateSums(main):
-    debit_sum = main.createvoucher.table[:main.createvoucher.last_serialno, 2].sum()
-    credit_sum = main.createvoucher.table[:main.createvoucher.last_serialno, 3].sum()
-
-    main.createvoucher.leDebit.setText(str(debit_sum))
-    main.createvoucher.leCredit.setText(str(credit_sum))
-
-    main.createvoucher.pbSubmit.setVisible(debit_sum == credit_sum)
-
-    # if main.dr_cr == "Dr":
-    #     main.tableshow.cbDrCr.clear()
-    #     main.tableshow.cbDrCr.addItem("Cr")
-    # elif main.dr_cr == "Cr":
-    #     main.tableshow.cbDrCr.clear()
-    #     main.tableshow.cbDrCr.addItem("Dr")
-    #
-    # if debit_sum != credit_sum:
-    #     # If the sums are not equal, update the initial selection and continue with the same selection
-    #     main.dr_cr = "Cr" if main.dr_cr == "Dr" else "Dr"
-
-    # if debit_sum == credit_sum:
-    #     main.createvoucher.pbSubmit.setVisible(True)
-    # else:
-        # main.createvoucher.pbSubmit.setVisible(False)
-
-
 def updateSumsOnSelectionChange(main):
     try:
 
         # Calculate and update the sums here
         # Convert the values in the column to integers before summing
         debitSum = np.sum(main.createvoucher.table[:, 2].astype(int))
+        print("debit sum", debitSum)
         main.createvoucher.leDebit.setText(str(debitSum))
 
         creditSum = np.sum(main.createvoucher.table[:, 3].astype(int))
         main.createvoucher.leCredit.setText(str(creditSum))
 
         main.createvoucher.pbSubmit.setVisible(debitSum == creditSum)
-        # if debitSum != creditSum:
-        #     if main.createvoucher.table is not None:
-        #        if main.createvoucher.last_serialno == 2:   # Replace this with your logic
-        #             first_column_value = main.createvoucher.table[main.createvoucher.last_serialno, 0]
-        #             if first_column_value == "Cr":
-        #                 main.tableshow.cbDrCr.clear()
-        #                 main.tableshow.cbDrCr.addItem("Dr")
-        #             elif main.dr_cr == "Dr":
-        #                 main.tableshow.cbDrCr.clear()
-        #                 main.tableshow.cbDrCr.addItem("Cr")
-
-
-            # last_row_dr_cr = "Cr"
-            # if last_row_dr_cr == "Cr":
-            #     main.tableshow.cbDrCr.setCurrentIndex(1)  # Set it to "Cr"
-            #     main.tableshow.cbDrCr.setItemData(0, QtCore.Qt.UserRole, False)  # Hide "Dr" option
-            # elif last_row_dr_cr == "Dr":
-            #     main.tableshow.cbDrCr.setCurrentIndex(0)  # Set it to "Dr"
-            #     main.tableshow.cbDrCr.setItemData(1, QtCore.Qt.UserRole, False)  # Hide "Cr" option
-
-
-
-    # Check if the selected option has changed
-        # Check if the selected option has changed
-        # if main.dr_cr == "Dr":
-        #     main.tableshow.cbDrCr.clear()
-        #     main.tableshow.cbDrCr.addItem("Cr")
-        # elif main.dr_cr == "Cr":
-        #     main.tableshow.cbDrCr.clear()
-        #     main.tableshow.cbDrCr.addItem("Dr")
-        #
-        # if debitSum != creditSum:
-        #     # If the sums are not equal, update the initial selection and continue with the same selection
-        #     main.dr_cr = "Cr" if main.dr_cr == "Dr" else "Dr"
-        # last_selected_option = None
-        #
-        #
-        # if main.dr_cr != last_selected_option:
-        #     last_selected_option = main.dr_cr
-        #
-        #     if main.dr_cr == "Dr":
-        #         main.tableshow.cbDrCr.clear()
-        #         main.tableshow.cbDrCr.addItem("Cr")
-        #     elif main.dr_cr == "Cr":
-        #         main.tableshow.cbDrCr.clear()
-        #         main.tableshow.cbDrCr.addItem("Dr")
-
-
-        # Check if the selected option has changed
-
-            # elif main.dr_cr == "Cr":
-            #     main.dr_cr == "Dr"
-            #     main.tableshow.cbDrCr.clear()
-            #     main.tableshow.cbDrCr.addItem(main.dr_cr)
-            #     main.dr_cr = last_selected_option
-
-                # last_selected_option = main.dr_cr
-                # main.tableshow.cbDrCr.clear()
-                # main.tableshow.cbDrCr.addItem(main.dr_cr)
-        # last_selected_option = None
-        # if main.dr_cr != last_selected_option:
-        #     last_selected_option = main.dr_cr
-        # if main.dr_cr == "Dr":
-        #     if debitSum == creditSum:
-        #         pass
-        #         # main.tableshow.cbDrCr.setCurrentIndex(1)  # Set it to Cr
-        #         # main.tableshow.cbDrCr.setEnabled(False)  # Disable the combobox
-        #     else:
-        #         main.tableshow.cbDrCr.clear()
-        #         main.tableshow.cbDrCr.addItems(["Cr"])
-        # elif main.dr_cr == "Cr":
-        #     if debitSum == creditSum:
-        #         pass
-        #         # main.tableshow.cbDrCr.setCurrentIndex(0)  # Set it to Dr
-        #         # main.tableshow.cbDrCr.setEnabled(False)  # Disable the combobox
-        #     else:
-        #         main.tableshow.cbDrCr.clear()
-        #         main.tableshow.cbDrCr.addItems(["Dr"])
 
     except:
         print(traceback.print_exc())
@@ -1854,26 +1753,6 @@ def updateSumsOnSelectionChange(main):
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names = {"Dr": [], "Cr": []}
 
-# Add a function to refresh the comboboxes
-# def refreshComboBoxes(main, dr_cr):
-#     try:
-#         account_name = [name[2] for name in main.account]
-#
-#         # Clear existing items from the drop-down button
-#         main.tableshow.cbAccountName.clear()
-#
-#         # Populate the drop-down button with account names based on the selection
-#         if dr_cr == "Cr":
-#             available_account_names = [name for name in account_name if name not in selected_account_names["Cr"]]
-#         elif dr_cr == "Dr":
-#             available_account_names = [name for name in account_name if name not in selected_account_names["Dr"]]
-#         else:
-#             available_account_names = account_name
-#
-#         main.tableshow.cbAccountName.addItems(available_account_names)
-#
-#     except Exception as e:
-#         print(traceback.print_exc())
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDr(main):
     try:
@@ -1909,28 +1788,38 @@ def refreshComboBoxForCr(main):
     except Exception as e:
         print(traceback.print_exc())
 
-# Function to update the selected "Cr/Dr" value
-def updateDrCr(main, index):
-    main.dr_cr = main.tableshow.cbDrCr.itemText(index)
-    # refreshComboBoxes(main, main.dr_cr)
+def addEntary(main):
+    # Calculate the sum of amounts in the "Cr" and "Dr" columns
+    total_cr = sum(row[3] for row in main.createvoucher.table if row[0] == "Cr")
+    total_dr = sum(row[2] for row in main.createvoucher.table if row[0] == "Dr")
+    if main.dr_cr == "Cr":
+        amount_needed = total_dr - total_cr - main.amount
+        print("amount needed in cr", amount_needed)
+        if amount_needed > 0:
+            # Add a new row with the calculated "Dr" amount
+            main.createvoucher.table[main.createvoucher.last_serialno, [0, 1, 3, 4]] = ["Cr", main.account_name,
+                                                                                        amount_needed,
+                                                                                        main.currency]
+            main.createvoucher.last_serialno += 1
+            main.createvoucher.model.last_serialno += 1
+            main.createvoucher.model.insertRows()
 
-# def onDrCrIndexChanged(main):
-#     dr_cr = main.tableshow.cbDrCr.currentText()
-#     refreshComboBoxes(main, dr_cr)
-#
-#
-# # Add a function to initialize and refresh the comboboxes
-# def initAndRefreshComboBoxes(main):
-#     try:
-#         # Initialize the comboboxes with "Dr" selected
-#         main.tableshow.cbDrCr.setCurrentIndex(0)  # Set it to "Dr"
-#         dr_cr = "Dr"
-#
-#         # Call the refreshComboBoxes function to populate account names for "Dr"
-#         refreshComboBoxes(main, dr_cr)
-#
-#     except Exception as e:
-#         print(traceback.print_exc())
+    elif main.dr_cr == "Dr":
+        amount_needed = total_cr - total_dr - main.amount
+        print("amount needed in dr", amount_needed)
+        if amount_needed > 0:
+            # Add a new row with the calculated "Cr" amount
+            main.createvoucher.table[main.createvoucher.last_serialno, [0, 1, 2, 4]] = ["Dr", main.account_name,
+                                                                                        amount_needed,
+                                                                                        main.currency]
+            main.createvoucher.last_serialno += 1
+
+            main.createvoucher.model.last_serialno += 1
+            main.createvoucher.model.insertRows()
+
+    else:
+        return  # Invalid selection
+
 
 
 def addRaw(main):
@@ -1941,19 +1830,19 @@ def addRaw(main):
         main.dr_cr = main.tableshow.cbDrCr.currentText()
         # Add the selected account name to the appropriate list
         selected_account_names[main.dr_cr].append(main.account_name)
-        amount =float(main.tableshow.leAmount.text())
+        main.amount =float(main.tableshow.leAmount.text())
 
-        currency = main.tableshow.cbCurrency.currentText()
+        main.currency = main.tableshow.cbCurrency.currentText()
 
         # Calculate the sum of amounts in the "Cr" and "Dr" columns
         total_cr = sum(row[3] for row in main.createvoucher.table if row[0] == "Cr")
         total_dr = sum(row[2] for row in main.createvoucher.table if row[0] == "Dr")
 
         # Disable other currency options if INR is selected in the first row
-        if currency == "INR":
+        if main.currency == "INR":
             main.tableshow.cbCurrency.setCurrentIndex(0)  # Set it to INR
             main.tableshow.cbCurrency.setEnabled(False)  # Disable the combobox
-        elif currency == "USD":
+        elif main.currency == "USD":
             main.tableshow.cbCurrency.setCurrentIndex(1)  # Set it to USD
             main.tableshow.cbCurrency.setEnabled(False)
 
@@ -1963,49 +1852,27 @@ def addRaw(main):
         # Determine the column to update based on "Cr/Dr" selection
         if main.dr_cr == "Cr":
             indexlist = [0, 1, 3, 4]
-            main.createvoucher.cr_last_serialno += 1
-            last_serialno = main.createvoucher.cr_last_serialno
-            print("last serial no for cr", last_serialno)
+            # main.createvoucher.cr_last_serialno +=1
+            # print("last serial no of cr", main.createvoucher.cr_last_serialno)
 
-            # Calculate the amount needed in the "Dr" column to balance
-            amount_needed = total_dr - total_cr - amount
-            print("amount in cr",amount_needed)
-            if amount_needed > 0:
-                # Add a new row with the calculated "Dr" amount
-                main.createvoucher.table[last_serialno, [0, 1, 2, 4]] = ["Dr", main.account_name, amount_needed,
-                                                                         currency]
-                main.createvoucher.last_serialno += 1
-                main.createvoucher.model.last_serialno += 1
-                main.createvoucher.model.insertRows()
 
         elif main.dr_cr == "Dr":
             indexlist = [0, 1, 2, 4]
-            main.createvoucher.dr_last_serialno += 1
-            last_serialno = main.createvoucher.dr_last_serialno
-            print("last serial no for dr", last_serialno)
-
-            # Calculate the amount needed in the "Cr" column to balance
-            amount_needed = total_cr - total_dr - amount
-            print("amount in dr ", amount_needed)
-            if amount_needed > 0:
-                # Add a new row with the calculated "Cr" amount
-                main.createvoucher.table[last_serialno, [0, 1, 3, 4]] = ["Cr", main.account_name, amount_needed,
-                                                                         currency]
-                main.createvoucher.last_serialno += 1
-                main.createvoucher.model.last_serialno += 1
-                main.createvoucher.model.insertRows()
+            # main.createvoucher.dr_last_serialno += 1
+            # print("last serial no of dr", main.createvoucher.dr_last_serialno)
 
 
         else:
             return  # Invalid selection
 
-
+        # addEntary(main)
 
         # Update the table with the values
-        main.createvoucher.table[main.createvoucher.last_serialno,indexlist] = [main.dr_cr, main.account_name, amount,currency]
+        main.createvoucher.table[main.createvoucher.last_serialno,indexlist] = [main.dr_cr, main.account_name, main.amount,main.currency]
 
 
-        # Increment the last_serialno
+        #
+        # # Increment the last_serialno
         main.createvoucher.last_serialno += 1
         main.createvoucher.model.last_serialno += 1
         main.createvoucher.model.insertRows()
@@ -2015,7 +1882,6 @@ def addRaw(main):
         ind = main.createvoucher.model.index(0, 0)
         ind1 = main.createvoucher.model.index(0, 1)
         main.createvoucher.model.dataChanged.emit(ind, ind1)
-
 
 
         # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
@@ -2029,6 +1895,23 @@ def addRaw(main):
         main.tableshow.hide()
 
 
+    except:
+        print(traceback.print_exc())
+
+
+def deleteRows(main):
+    try:
+        main.createvoucher.last_serialno -= 1
+        main.createvoucher.model.last_serialno -= 1
+        main.createvoucher.model.DelRows()
+        main.createvoucher.model.rowCount()
+
+        # Recalculate the sums after deleting the row
+        updateSumsOnSelectionChange(main)
+
+        ind = main.createvoucher.model.index(0, 0)
+        ind1 = main.createvoucher.model.index(0, 1)
+        main.createvoucher.model.dataChanged.emit(ind, ind1)
     except:
         print(traceback.print_exc())
 
