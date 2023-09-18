@@ -158,7 +158,7 @@ def allSlots(main):
     # ------------------------------------- Create Voucher Window -------------------------------#
     main.createvoucher.pbSubmit.clicked.connect(lambda: saveVoucherData(main))
     main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
-    main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
+    # main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
     main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
 
     #----------------------------------- Table Window ---------------------------------------------#
