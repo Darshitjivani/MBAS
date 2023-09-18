@@ -99,7 +99,7 @@ background-color: #9a9a9a
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/corner-down-left.svg</normaloff>:/newPrefix/icons/corner-down-left.svg</iconset>
          </property>
         </widget>
@@ -154,6 +154,9 @@ background-color: #9a9a9a
          </property>
         </widget>
        </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QTableView" name="tableView"/>
+       </item>
        <item row="0" column="1">
         <widget class="QDateEdit" name="deDateEdit">
          <property name="minimumSize">
@@ -168,10 +171,10 @@ background-color: #9a9a9a
            <height>16777215</height>
           </size>
          </property>
+         <property name="displayFormat">
+          <string>dd-MM-yyyy</string>
+         </property>
         </widget>
-       </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QTableView" name="tableView"/>
        </item>
       </layout>
      </widget>

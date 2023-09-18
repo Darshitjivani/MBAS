@@ -20,6 +20,13 @@ class HomeWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setStyleSheet(dt3)
 
+        # self.maxwin = True
+    #     self.pbMaximized.clicked.connect(self.showmaxORnormal)
+    # def showmaxORnormal(self):
+    #     if self.isMaximized():
+    #         self.showNormal()
+    #     else:
+    #         self.showMaximized()
 
 
 

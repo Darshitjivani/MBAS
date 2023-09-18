@@ -31,7 +31,7 @@ class GatewaysWindow(QMainWindow):
         self.lbCompanyName = self.findChild(QLabel, 'lbCompanyName')# Attribute initialization
         self.masterlist = MasterListWindow()
         # self.showMaximized()
-        self.createShortcuts()  # Create A shortcut
+        # self.createShortcuts()  # Create A shortcut
 
         #----------------------------------- For Window Movement ----------------------------------$
         self.dragging = False
@@ -69,9 +69,9 @@ class GatewaysWindow(QMainWindow):
         else:
             self.showMaximized()
 
-    def createShortcuts(self):
-        self.quitSc = QShortcut(QKeySequence('Esc'), self)
-        self.quitSc.activated.connect(self.close)
+    # def createShortcuts(self):
+    #     self.quitSc = QShortcut(QKeySequence('Esc'), self)
+    #     self.quitSc.activated.connect(self.close)
 
     def hideAllFrames(self):
         self.fCreate.hide()

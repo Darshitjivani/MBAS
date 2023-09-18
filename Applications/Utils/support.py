@@ -1,3 +1,4 @@
+import datetime
 import json
 import sqlite3
 import traceback
@@ -8,6 +9,7 @@ from functools import partial
 import numpy as np
 from PyQt5.QtCore import *
 from PyQt5.QtGui import QStandardItem, QDoubleValidator
+from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 from PyQt5.QtWidgets import *
 from PyQt5.uic.properties import QtCore
@@ -31,7 +33,6 @@ from Applications.Views.Voucher.table import Terminal
 
 #---------------------------------------------------- All Objects ---------------------------------------------#
 def allObjects(main):
-
     main.gateway = GatewaysWindow()  # Gateway Window
     main.companycreate = CompanyCreateWindow()  # Create Company Window
     main.masterlist = MasterListWindow()  # MaterList Window
@@ -63,6 +64,7 @@ def allObjects(main):
     ##################################### MasterList ###################################################
     main.masterlist.fGroup.layout().addWidget(main.creategroup)
     main.masterlist.fLedger.layout().addWidget(main.createledger)
+    main.masterlist.fBranch.layout().addWidget(main.createbranch)
 
     ##################################### AlterMAsterList ##############################################
     main.altermasterlist.fAlterLedger.layout().addWidget(main.alterledgerlist)
@@ -92,11 +94,11 @@ def allSlots(main):
     #-------------------------------- Gateway Window -------------------------------#
     main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
-    main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
-    main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
-
-    # -----------------------------------------------------------------------#
+    main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
+    # -------------------------------- Gateway Window -------------------------------#
+    # main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
+    # main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
     main.gateway.pbAlterMaster.clicked.connect(main.gateway.showAlterFrame)
     main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
@@ -104,22 +106,20 @@ def allSlots(main):
     main.gateway.pbBalanceSheet.clicked.connect(main.gateway.showBalanceSheetFrame)
     main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
 
+    main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
+
     main.gateway.pbClose.clicked.connect(main.gateway.close)
-
-
-
     # -------------------------------- Master List Window -------------------------------#
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
     main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
+    # main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
 
     main.masterlist.pbBack.clicked.connect(main.masterlist.hide)
 
     main.masterlist.pbCreateGroup.clicked.connect(main.masterlist.showCreateGroup)
     main.masterlist.pbCreateBranch.clicked.connect(main.masterlist.showCreateBranch)
     main.masterlist.pdCreateLedger.clicked.connect(main.masterlist.showCreateLadger)
-
-
 
     # --------------------------------- Create Group Window --------------------------#
     main.creategroup.pbSubmit.clicked.connect(lambda: saveGroupData(main))
@@ -142,9 +142,6 @@ def allSlots(main):
     main.altermasterlist.pbAlterBranch.clicked.connect(main.altermasterlist.showAlterBranch)
     main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
     main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
-
-
-
 
     #---------------------------- Create Branch Window ----------------------------------#
     main.createbranch.pbSubmit.clicked.connect(lambda: saveBranchData(main))
@@ -172,25 +169,11 @@ def allSlots(main):
     main.daybook.pbBack.clicked.connect(main.daybook.hide)
 
     # ------------------------------------- Trial Balance ------------------------------#
-
     main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
-
-    # main.alterledgerlist.pbClose.clicked.connect(goToMasterList)
-
-
-    # main.altermasterlist.pbAlterLedger.clicked.disconnect()
-    # main.creategroup.pbSubmit.clicked.connect(lambda: creategrouppage(main))
-    # main.masterlist.pbChangeCompany.clicked.connect()
-
-
-
-
-
-
-
-    # #----------------------------------- Day Book -------------------------------------#
-    # # main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
-    # main.daybook.pbBack.clicked.connect(main.daybook.hide)
+    main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
+    main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
+    main.trialbalance.cbMonth.activated.connect(lambda: filterByMonth(main))
+    # main.trialbalance.deFrom.dateChanged.connect(lambda: filterDataByMonth(main))
 
 
 
@@ -413,7 +396,6 @@ def listOfCompany(main):
 
             # Create a QPushButton for each company and add it to the layout
             for company in company_data:
-                ###company[2]=company_Name
                 company_name = company[2]
                 company_id = company[1]
 
@@ -509,10 +491,12 @@ def gateway(main, company_name, company_id):
         print(traceback.print_exc())
 
 
-# ------------------------------------ For Masters ---------------------------------------
 def goToMainWindow(main):
     main.gateway.hide()  # Hide the gateway window
-    main.show()
+    main.show()  # Show the main window
+
+# ------------------------------------ For Masters ---------------------------------------
+
 
 def masterList(main):
     ''' This Function will show the Master list window for creation of ledger, group etc.'''
@@ -684,7 +668,7 @@ def saveGroupData(main):
                 )
 
                 if reply == QMessageBox.Yes:
-                    # print("hello")
+                    print("hello")
                     # User chose to continue, show the gateway window
                     # main.gateway(main, company_name)
                     main.creategroup.hide()
@@ -738,31 +722,8 @@ def alterGroupListpage(main):
                     group_id = group[0]
                     item = QListWidgetItem()
                     group_button = QPushButton(group_name)
-                    group_button.setStyleSheet("QPushButton {"
-                             "    background-color: #ffffff;"
-                             "  border-radius: 4px;"
-                             "    color: #000000;"
-                             "   font: 63 11pt Segoe UI Semibold;"
-                             "   padding: 5px;"
-                              "outline: none;"
-                              "margin: 6px;"
-                               "text-align:center;"
-                             "}"
-                                          "QPushButton:selected {"
-                                      "background: #1464A0;"
-                                      "color: #19232d;"
-                                                    "}"
-                             "QPushButton:hover {"
-                            "border-radius: 4px;"
-                             "color: #ffffff;"
-                             "   font: 63 11pt Segoe UI Semibold;"
-                              "outline: none;"
-
-                            " padding: 5px;"
-                             "    background-color: #9BA4B5;"
-                             "}")
-                    group_button.clicked.connect(
-                        lambda _, name=group_name, id=group_id: alterLedgerPage(main, name, id))
+                    # group_button.clicked.connect(
+                    #     lambda _, name=group_name, id=group_id: alterLedgerPage(main, name, id))
                     item.setSizeHint(group_button.sizeHint())
                     main.altergrouplist.listwidget.addItem(item)
                     main.altergrouplist.listwidget.setItemWidget(item, group_button)
@@ -784,28 +745,6 @@ def alterGroupListpage(main):
 
 # ------------------------------------ For Ledger ---------------------------------------
 
-# def getRolesAndGroupsCreatedByCompany(main):
-#     ''' This function will execute the query to get both roles and groups created by that particular company.'''
-#     try:
-#         company_id = main.companyID
-#         cursor = main.db_connection.cursor()
-#         query = '''
-#             SELECT G.Role_name, GT.Group_name
-#             FROM Group_role AS G
-#             LEFT JOIN Group_table AS GT ON G.Group_roleID = GT.Group_roleID
-#             WHERE GT.CompanyID = ?
-#         '''
-#         cursor.execute(query, (company_id,))
-#         roles_and_groups = cursor.fetchall()
-#         print("roles and groups:", roles_and_groups)
-#         cursor.close()
-#         return roles_and_groups
-#     except sqlite3.Error as e:
-#         print("Error fetching roles and groups:", e)
-#         return []
-
-
-
 
 def createLedgerPage(main):
 
@@ -822,11 +761,9 @@ def createLedgerPage(main):
         group_roles = getGroupRoles(main)
         # print("group roles ", group_roles)
         company_groups = getGroupsCreatedByCompany(main)
-
-
         # print("company roles", company_groups)
         branches = getBranch(main)
-        # print("Branch name:", branches)
+        print("Branch name:", branches)
 
         # Combine group roles and company groups into a single list
         role_names = [role[1] for role in group_roles]
@@ -835,7 +772,7 @@ def createLedgerPage(main):
         # print(all_items)
 
         branch_name = [branch[1] for branch in branches]
-        # print(branch_name)
+        print(branch_name)
 
 
 
@@ -868,11 +805,11 @@ def saveledger(main):
 
 
         selected_role = main.createledger.cbUnderGroup.currentText()
-        # print("selected_role", selected_role)
+        print("selected_role", selected_role)
         # selected_branch_index = main.createledger.cbUnderBranch.currentText()
         # print("selected_branch_text", selected_branch_index)
         selected_branch_text = main.createledger.cbUnderBranch.currentText()
-        # print("selected_branch_text", selected_branch_text)
+        print("selected_branch_text", selected_branch_text)
 
         # Find the index of the selected branch name in the branch_name list
         # selected_branch_index = branch_name.index(selected_branch_text)
@@ -993,29 +930,6 @@ def alterLedgerListpage(main):
 
                     item = QListWidgetItem()
                     ledger_button = QPushButton(ledger_name)
-                    ledger_button.setStyleSheet("QPushButton {"
-                             "    background-color: #ffffff;"
-                             "  border-radius: 4px;"
-                             "    color: #000000;"
-                             "   font: 63 11pt Segoe UI Semibold;"
-                             "   padding: 5px;"
-                              "outline: none;"
-                              "margin: 6px;"
-                               "text-align:center;"
-                             "}"
-                                          "QPushButton:selected {"
-                                      # "background: #1464A0;"
-                                      "color: #19232d;"
-                                                    "}"
-                             "QPushButton:hover {"
-                            "border-radius: 4px;"
-                             "color: #ffffff;"
-                             "   font: 63 11pt Segoe UI Semibold;"
-                              "outline: none;"
-
-                            " padding: 5px;"
-                             "    background-color: #9BA4B5;"
-                             "}")
                     ledger_button.clicked.connect(
                         lambda _, name=ledger_name, id=ledger_id: alterLedgerPage(main, name, id))
                     item.setSizeHint(ledger_button.sizeHint())
@@ -1122,7 +1036,7 @@ def saveAlterLedgerData(main):
         print("selected_role_index", selected_role)
         # Get the list of group roles
         group_roles = getGroupRoles(main)
-        # print("group roles:", group_roles)
+        print("group roles:", group_roles)
         #
         # if selected_role_index >= 0 and selected_role_index < len(group_roles):
         #     selected_group_role_id = group_roles[selected_role_index][0]
@@ -1356,30 +1270,6 @@ def alterBranchList(main):
 
                     item = QListWidgetItem()
                     branch_button = QPushButton(branch_name)
-
-                    branch_button.setStyleSheet("QPushButton {"
-                                                 "    background-color: #ffffff;"
-                                                 "  border-radius: 4px;"
-                                                 "    color: #000000;"
-                                                 "   font: 63 11pt Segoe UI Semibold;"
-                                                 "   padding: 5px;"
-                                                 "outline: none;"
-                                                 "margin: 6px;"
-                                                 "text-align:center;"
-                                                 "}"
-                                                 "QPushButton:selected {"
-                                                 # "background: #1464A0;"
-                                                 "color: #19232d;"
-                                                 "}"
-                                                 "QPushButton:hover {"
-                                                 "border-radius: 4px;"
-                                                 "color: #ffffff;"
-                                                 "   font: 63 11pt Segoe UI Semibold;"
-                                                 "outline: none;"
-
-                                                 " padding: 5px;"
-                                                 "    background-color: #9BA4B5;"
-                                                 "}")
                     branch_button.clicked.connect(lambda _, name=branch_name, id=branch_id: branchPageList(main, name, id))
                     # company_button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
                     item.setSizeHint(branch_button.sizeHint())  # Set the size of the item to match the button's size
@@ -1415,42 +1305,12 @@ def branchPageList(main, branch_name,branch_id):
             cursor.execute(command, (branch_id,))
             # print(user)
             branch_data = cursor.fetchall()
-            # print("branch data:", branch_data)
+            print("branch data:", branch_data)
             main.listWidget.clear()
             for branch in branch_data:
                 branch_name = branch[2]
                 print(branch_name)
                 branch_id = branch[12]
-                print("Branch Id:",branch_id)
-
-                # branch_combo = QComboBox()  # Create a QComboBox for each branch
-                # item = QListWidgetItem()
-
-                # Create a QPushButton for the branch item and set it as a delegate
-                # delegate_button = QPushButton(branch_name)
-                # delegate_button.setStyleSheet("color: Black;")
-                # branch_combo.addItem("")
-                # branch_combo.setItemDelegate(ButtonDelegate(delegate_button))  # Set custom delegate
-                #
-                # item.setSizeHint(branch_combo.sizeHint())  # Set the size of the item to match the combo box's size
-                # main.alterledgerlist.listWidget.addItem(item)
-                # main.alterledgerlist.listWidget.setItemWidget(item, branch_combo)
-                # #
-
-
-                # item = QListWidgetItem()
-                # branch_combo = QComboBox()
-                # branch_combo.addItem(branch_name)
-                # # You can add more items to the combo box if needed
-                #
-                # item.setSizeHint(branch_combo.sizeHint())  # Set the size of the item to match the combo box's size
-                # main.alterbranchlist.listWidget.addItem(item)
-                # main.alterbranchlist.listWidget.setItemWidget(item, branch_combo)
-                #
-                #
-                #
-                # # Attach additional data (company ID) to the item
-                # item.setData(Qt.UserRole, branch_id)
 
         except sqlite3.Error as e:
             print("Error executing query:", e)
@@ -1460,6 +1320,18 @@ def branchPageList(main, branch_name,branch_id):
         print(traceback.print_exc())
 
 
+def createComboBoxDelegate(parent):
+    combo_box = QComboBox(parent)
+    combo_box.addItems(['cell11', 'cell12', 'cell13', 'cell14', 'cell15'])
+
+    delegate = QStyledItemDelegate()
+
+    def setComboBoxEditor(model, index):
+        return combo_box
+
+    delegate.createEditor = setComboBoxEditor
+
+    return delegate
 
 # ------------------------------------ For Voucher ---------------------------------------
 
@@ -1484,12 +1356,10 @@ def showVoucherPage(main):
         # Combine group roles and company groups into a single list
         role_names = [role[1] for role in voucher_type]
         account_name = [name[2] for name in account]
-
         # group_names = [group[1] for group in company_groups]
         # all_items = role_names + group_names
 
         main.account = account
-
 
         # Clear existing items from the drop-down button
         main.createvoucher.cbVoucherType.clear()
@@ -1560,7 +1430,7 @@ def getAccountMaster(main):
         cursor.execute(command, (company_id,))
         # print(user)
         ledger_data = cursor.fetchall()
-        print("ledger data:", ledger_data[0])
+        # print("ledger data:", ledger_data)
         cursor.close()
         return ledger_data
 
@@ -1578,7 +1448,6 @@ def saveVoucherData(main):
             company_id = main.companyID
             voucher_type = main.createvoucher.cbVoucherType.currentText()
             debit_account = main.createvoucher.cbDebitedAccount.currentText()
-
             narration = main.createvoucher.leNarration.text()
             # Create a QDate object for the current date
             selected_date = main.createvoucher.deDate.date()
@@ -1592,6 +1461,22 @@ def saveVoucherData(main):
 
             # Generate a unique identifier for the data table
             data_table_id = str(uuid.uuid4())  # Use uuid to generate a unique ID
+            debit_amount = main.createvoucher.lbDebit.text()
+            print("sum of debit amount", debit_amount)
+            credit_amount = main.createvoucher.lbCredit.text()
+            print("sum of credit amount:", credit_amount)
+            # print("debit sum:",main.debitAmount)
+            # print("Credit sum:", main.creditAmount)
+
+            selected_account_index = None
+            for account in main.account:
+                if account[2] == debit_account:
+                    selected_account_index = account[0]
+                    break
+
+            if selected_account_index is None:
+                print("Selected branch not found in the branchs list.")
+                return
             # print("debit sum:",main.debitAmount)
             # print("Credit sum:", main.creditAmount)
             selected_account_index = None
@@ -1616,8 +1501,10 @@ def saveVoucherData(main):
                 # Insert a new voucher record and store the data table ID
                 cursor = main.db_connection.cursor()
                 cursor.execute(
-                    "INSERT INTO voucher_table (CompanyID,AccountMasterID, VoucherType, DebitAccount,Date,Day, Narration, DebitAmount, CreditAmount , DataTableID) "
-                    "VALUES (?, ?,?, ?, ?, ?, ?,?,?,?)", (company_id,selected_account_index ,voucher_type, debit_account, selected_date,day, narration,debit_amount,credit_amount, data_table_id))
+                    "INSERT INTO voucher_table (CompanyID,AccountMasterID, VoucherType, DebitAccount,Date, Narration, DebitAmount, CreditAmount , DataTableID) "
+                    "VALUES (?, ?, ?, ?, ?, ?,?,?,?)", (
+                    company_id, selected_account_index, voucher_type, debit_account, date, narration, debit_amount,
+                    credit_amount, data_table_id))
                 main.db_connection.commit()
 
                 # # Update the table with the values, ensuring there are 4 elements in each row
@@ -1671,11 +1558,6 @@ def saveVoucherData(main):
 
                     main.createvoucher.clearFields()
 
-                # Now, create the associated data table
-                # cursor.execute(
-                #     f"CREATE TABLE IF NOT EXISTS {data_table_id} (ID INTEGER PRIMARY KEY, DrCr TEXT, AccountName TEXT, Amount TEXT, Currency TEXT)")
-                # main.db_connection.commit()
-                # cursor.close()
             except sqlite3.Error as e:
                 print("Error fetchig branch:", e)
 
@@ -1826,6 +1708,24 @@ def addRaw(main):
     try:
         company_id = main.companyID
 
+        # print(account_name)
+        # main.tableview.cbAccountName.clear()
+        account_name = main.tableshow.cbAccountName.currentText()
+        dr_cr = main.tableshow.cbDrCr.currentText()
+        amount =float(main.tableshow.leAmount.text())
+        currency = main.tableshow.cbCurrency.currentText()
+
+#----------------------- disable other currency option after selected -----------------------------
+
+        if currency=="INR":
+            main.tableshow.cbCurrency.setCurrentIndex(0)  # Set it to INR
+            main.tableshow.cbCurrency.setEnabled(False)  # Disable the combobox
+        elif currency=="USD":
+            main.tableshow.cbCurrency.setCurrentIndex(1)  # Set it to USD
+            main.tableshow.cbCurrency.setEnabled(False)
+        else:
+            main.tableshow.cbCurrency.setEnabled(True)
+
         main.account_name = main.tableshow.cbAccountName.currentText()
         main.dr_cr = main.tableshow.cbDrCr.currentText()
         # Add the selected account name to the appropriate list
@@ -1850,18 +1750,12 @@ def addRaw(main):
 
         # Determine the column to update based on "Cr/Dr" selection
         # Determine the column to update based on "Cr/Dr" selection
-        if main.dr_cr == "Cr":
+        if dr_cr == "Cr":
+            indexlist=[0,1,2,4]
+            # column_index = 2  # Credit Amount Column
+        elif dr_cr == "Dr":
             indexlist = [0, 1, 3, 4]
-            # main.createvoucher.cr_last_serialno +=1
-            # print("last serial no of cr", main.createvoucher.cr_last_serialno)
-
-
-        elif main.dr_cr == "Dr":
-            indexlist = [0, 1, 2, 4]
-            # main.createvoucher.dr_last_serialno += 1
-            # print("last serial no of dr", main.createvoucher.dr_last_serialno)
-
-
+            # column_index = 3  # Debit Amount Column
         else:
             return  # Invalid selection
 
@@ -1883,6 +1777,13 @@ def addRaw(main):
         ind1 = main.createvoucher.model.index(0, 1)
         main.createvoucher.model.dataChanged.emit(ind, ind1)
 
+        print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
+        debitSum = main.createvoucher.table[:main.createvoucher.last_serialno,3].sum()
+        main.debitAmount =  main.createvoucher.leDebit.setText(str(debitSum))
+        print("debit Sum Amount")
+
+        creditSum = main.createvoucher.table[:main.createvoucher.last_serialno,2].sum()
+        main.creditAmount = main.createvoucher.leCredit.setText(str(creditSum))
 
         # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
         updateSumsOnSelectionChange(main)
@@ -1893,7 +1794,6 @@ def addRaw(main):
         main.tableshow.leAmount.clear()
         # main.tableshow.cbCurrency.setCurrentIndex(0)
         main.tableshow.hide()
-
 
     except:
         print(traceback.print_exc())
@@ -1922,26 +1822,22 @@ def fetchDayBookData(main):
     try:
         cursor = main.db_connection.cursor()
         command = "SELECT Date,DebitAccount, VoucherType, DebitAmount , CreditAmount FROM Voucher_table Where CompanyID = ?"
-        cursor.execute(command,(main.companyID,))
+        cursor.execute(command, (main.companyID,))
         data = cursor.fetchall()
-
-        print("data:", data)
-
+        # print("data:", data)
         for row in data:
             main.daybook.table[main.daybook.last_serialno] = list(row)
             print(main.daybook.table[main.daybook
                   .last_serialno])
-            # Increment the last_serialno
             main.daybook.last_serialno += 1
             main.daybook.model.last_serialno += 1
             main.daybook.model.insertRows()
             main.daybook.model.rowCount()
 
-
-        # # Emit dataChanged signal for the modified row
-        ind = main.daybook.model.index(0, 0)
-        ind1 = main.daybook.model.index(0, 1)
-        main.daybook.model.dataChanged.emit(ind, ind1)
+            # Emit dataChanged signal for the modified row
+            ind = main.daybook.model.index(0, 0)
+            ind1 = main.daybook.model.index(0, 1)
+            main.daybook.model.dataChanged.emit(ind, ind1)
 
     except:
         print(traceback.print_exc())
@@ -1952,6 +1848,7 @@ def showDayBook(main):
         fetchDayBookData(main)
     except:
         print(traceback.print_exc())
+
 
 
 def filterDataByDate(main):
@@ -1966,12 +1863,319 @@ def filterDataByDate(main):
 
         # Set the filter string to match the selected date
         main.daybook.smodel.setFilterFixedString(main.selectdate)
-
+        print("day book data", main.daybook.smodel.setFilterFixedString(main.selectdate))
         # Notify the view to update
         # main.daybook.smodel.invalidateFilter()
 
-    except Exception as e:
+    except:
         print(traceback.print_exc())
 
 
+
+# ------------------------------------ For Trial Balance ---------------------------------------
+
+
+def fetchTrialBalanceData(main):
+    try:
+        cursor = main.db_connection.cursor()
+        command = """
+                    SELECT
+                        AccountMaster_table.Ac_name,
+                        SUM(Voucher_table.DebitAmount) AS TotalDebit,
+                        SUM(Voucher_table.CreditAmount) AS TotalCredit
+                    FROM
+                        AccountMaster_table
+                    JOIN
+                        Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                    WHERE
+                        AccountMaster_table.CompanyID = ? 
+                        
+                    GROUP BY
+                        AccountMaster_table.AcMasterID,
+                        AccountMaster_table.Ac_name
+                    """
+        cursor.execute(command, (main.companyID,))
+
+        data = cursor.fetchall()
+
+        for row in data:
+            main.trialbalance.table[main.trialbalance.last_serialno,[0,1,2]] = list(row)
+            print(main.trialbalance.table[main.trialbalance
+                  .last_serialno])
+            main.trialbalance.last_serialno += 1
+            main.trialbalance.model.last_serialno += 1
+            main.trialbalance.model.insertRows()
+            main.trialbalance.model.rowCount()
+
+            ind = main.trialbalance.model.index(0, 0)
+            ind1 = main.trialbalance.model.index(0, 1)
+            main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+
+        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+        main.trialbalance.lbdebitINR.setText(str(total_debit))
+        main.trialbalance.lbcreditINR.setText(str(total_credit))
+
+        # main.trialbalance.lbdebitINR.setText(f"{total_debit} INR")
+        # main.trialbalance.lbcreditINR.setText(f"{total_credit} INR")
+
+
+    except:
+        print(traceback.print_exc())
+
+
+def showTrialBalance(main):
+    try:
+
+        main.trialbalance.show()
+        fetchTrialBalanceData(main)
+
+    except:
+        print(traceback.print_exc())
+
+
+def filterByMonth(main):
+    try:
+        selcted_item = main.trialbalance.cbMonth.currentText()
+        print(selcted_item)
+        # start_month_number = datetime.datetime.strptime(selcted_item, '%B').month
+        # print(start_month_number)
+        main.trialbalance.smodel.setFilterFixedString(selcted_item)
+
+    except:
+        print(traceback.print_exc())
+
+
+
+
+
+# def filterDataByMonth(main):
+#     try:
+#         fromDate = main.trialbalance.deFrom.date()
+# #         toDate = main.trialbalance.deTo.date()
+# #
+# #         # Convert the selectedDate to a string in the required format
+#         fromTextDate = fromDate.toString("dd-MM-yyyy")
+#         # print("852",fromTextDate)
+#         main.fromDate = fromTextDate
+# #         toTextDate = toDate.toString("dd-MM-yyyy")
+# #         # print("963", toTextDate)
+# #         main.toDate = toTextDate
+# #
+# #         # Set the filter string to match the selected date
+#         main.trialbalance.smodel.setFilterFixedString(main.fromDate)
+#         print("trial balance23", main.trialbalance.smodel.setFilterFixedString(main.fromDate))
+# #
+# #         main.trialbalance.smodel.setFilterFixedString(main.toDate)
+# #         print("trial balance09", main.trialbalance.smodel.setFilterFixedString(main.toDate))
+# #
+#     except:
+#         print(traceback.print_exc())
+
+
+def fetchTrialBalanceGroup(main):
+    try:
+        cursor = main.db_connection.cursor()
+
+        # cursor.execute("SELECT AccountMaster_table.Under_groupname,Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table JOIN Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID;")
+        command = """
+                    SELECT 
+                        AccountMaster_table.Under_groupname,
+                        SUM(Voucher_table.DebitAmount) AS TotalDebit, 
+                        SUM(Voucher_table.CreditAmount) AS TotalCredit
+                    FROM 
+                        AccountMaster_table
+                    JOIN 
+                        Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                    WHERE
+                        AccountMaster_table.CompanyID = ?
+                    GROUP BY 
+                        AccountMaster_table.Under_groupname
+                """
+        cursor.execute(command, (main.companyID,))
+        data = cursor.fetchall()
+
+        for row in data:
+            main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
+            print(main.trialbalance.table[main.trialbalance
+                  .last_serialno])
+            main.trialbalance.last_serialno += 1
+            main.trialbalance.model.last_serialno += 1
+            main.trialbalance.model.insertRows()
+            main.trialbalance.model.rowCount()
+
+            ind = main.trialbalance.model.index(0, 0)
+            ind1 = main.trialbalance.model.index(0, 1)
+            main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+
+        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+        main.trialbalance.lbdebitINR.setText(str(total_debit))
+        main.trialbalance.lbcreditINR.setText(str(total_credit))
+
+    except:
+        print(traceback.print_exc())
+
+
+def fetchTrialBalanceBranch(main):
+    try:
+        cursor = main.db_connection.cursor()
+        # cursor.execute("SELECT AccountMaster_table.under_branchname, Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table AS AccountMaster_table JOIN Voucher_table AS Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID; ")
+        command = """
+                    SELECT 
+                        AccountMaster_table.under_branchname,
+                        SUM(Voucher_table.DebitAmount) AS TotalDebit, 
+                        SUM(Voucher_table.CreditAmount) AS TotalCredit 
+                    FROM 
+                        AccountMaster_table
+                    JOIN 
+                        Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                    WHERE
+                        AccountMaster_table.CompanyID = ?
+                    GROUP BY 
+                        AccountMaster_table.under_branchname
+                 """
+        cursor.execute(command, (main.companyID,))
+        data = cursor.fetchall()
+
+        # main.trialbalance.model.beginResetModel()  # Reset the model
+        for row in data:
+            main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
+            print(main.trialbalance.table[main.trialbalance
+                  .last_serialno])
+            main.trialbalance.last_serialno += 1
+            main.trialbalance.model.last_serialno += 1
+            main.trialbalance.model.insertRows()
+            main.trialbalance.model.rowCount()
+
+            ind = main.trialbalance.model.index(0, 0)
+            ind1 = main.trialbalance.model.index(0, 1)
+            main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+
+        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+        main.trialbalance.lbdebitINR.setText(str(total_debit))
+        main.trialbalance.lbcreditINR.setText(str(total_credit))
+
+    except:
+        print(traceback.print_exc())
+
+
+def trialBalanceComboBox(main):
+    try:
+        main.trialbalance.model.clear()
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+
+
+        selcted_item = main.trialbalance.cbtrialbalance.currentText()
+        print(selcted_item)
+        if selcted_item ==("Ledger-Wise"):
+            fetchTrialBalanceData(main)
+        elif selcted_item ==("Group-Wise"):
+            fetchTrialBalanceGroup(main)
+        else:
+            fetchTrialBalanceBranch(main)
+
+    except:
+        print(traceback.print_exc())
+
+
+def trialBalanceDoubleClicked(main):
+    try:
+
+        idy = main.trialbalance.cbtrialbalance.currentText()
+
+        if idy=="Ledger-Wise":
+            cursor = main.db_connection.cursor()
+            cursor.execute("SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount FROM Voucher_table")
+            data = cursor.fetchall()
+            idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+            filtered_data = [row for row in data if row[1] == idx]
+        elif idy=="Group-Wise":
+            cursor = main.db_connection.cursor()
+            command = """SELECT
+                             Voucher_table.Date,
+                             Voucher_table.DebitAccount,
+                             Voucher_table.VoucherType,
+                             Voucher_table.DebitAmount,
+                             Voucher_table.CreditAmount,
+                             AccountMaster_table.Under_groupName
+                          FROM
+                             AccountMaster_table
+                          JOIN
+                             Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                          WHERE
+                             AccountMaster_table.CompanyID = ?"""
+
+            cursor.execute(command, (main.companyID,))
+            data = cursor.fetchall()
+            idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+            filtered_data = [row for row in data if row[5] == idx]
+        else:
+            cursor = main.db_connection.cursor()
+            command = """SELECT
+                             Voucher_table.Date,
+                             Voucher_table.DebitAccount,
+                             Voucher_table.VoucherType,
+                             Voucher_table.DebitAmount,
+                             Voucher_table.CreditAmount,
+                             AccountMaster_table.under_branchname
+                          FROM
+                             AccountMaster_table
+                          JOIN
+                             Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                          WHERE
+                             AccountMaster_table.CompanyID = ?"""
+
+            cursor.execute(command, (main.companyID,))
+            data = cursor.fetchall()
+            idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+            filtered_data = [row for row in data if row[5] == idx]
+
+
+        print('idx', idx)
+        # print("filtered_data",filtered_data)
+
+         # Create a QDialog to display the data in a table view
+        dialog = QDialog(main)
+        dialog.setWindowTitle("Data Details")
+        dialog.setGeometry(580, 300, 450, 350)
+
+        # Create a QTableView and set the data model
+        table_view = QTableView()
+        model = QStandardItemModel()
+        model.setColumnCount(5)
+        model.setHorizontalHeaderLabels(["Date","Perticulars", "Voucher Type", "Debit Amount INR", "Credit Amount INR","banchName"])
+
+
+        for row in filtered_data:
+            # model.appendRow([QStandardItem(str(item)) for item in row])
+            items = [QStandardItem(str(item)) for item in row]
+            for item in items:
+                item.setFlags(item.flags() ^ Qt.ItemIsEditable)  # Make cells non-editable
+            model.appendRow(items)
+
+        table_view.setModel(model)
+        table_view.horizontalHeader().setStretchLastSection(True)
+        table_view.setSelectionBehavior(QTableView.SelectRows)
+
+        # Hide the 6th column (index 5)
+        table_view.setColumnHidden(5, True)
+
+        layout = QVBoxLayout()
+        layout.addWidget(table_view)
+        dialog.setLayout(layout)
+
+        # Show the dialog
+        dialog.exec_()
+
+    except Exception as e:
+        print(traceback.print_exc())
 

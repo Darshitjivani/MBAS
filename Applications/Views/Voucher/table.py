@@ -1,4 +1,8 @@
+import json
 import platform
+import sys
+import traceback
+
 from PyQt5 import uic
 from PyQt5.QtCore import Qt, QSortFilterProxyModel
 from PyQt5.QtWidgets import *
@@ -62,3 +66,4 @@ class Terminal(QMainWindow):
             # Stop dragging when the left mouse button is released
             self.dragging = False
             self.offset = None
+

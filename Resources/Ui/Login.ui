@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>718</width>
-    <height>505</height>
+    <width>843</width>
+    <height>525</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,42 +17,43 @@
    <widget class="QWidget" name="widget" native="true">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>30</y>
+      <x>240</x>
+      <y>70</y>
       <width>321</width>
-      <height>451</height>
+      <height>371</height>
      </rect>
     </property>
     <property name="styleSheet">
      <string notr="true">QWidget {
-background-color: #eaf0fa;
-font: 75 10pt &quot;Sitka Small&quot;;
- border-radius: 10px;
+background-color: #ffffff;
+font: 10pt &quot;MS Reference Sans Serif&quot;;
+ border-radius: 4px;
 color:#ffffff;
 
 }
 
 QPushButton{
-background-color:#fe6b68;
+background-color:#293241;
 color:#ffffff;
-font: 75 14pt &quot;Sitka Small&quot;;
-
+font: 12pt &quot;MS Reference Sans Serif&quot;;
 
 }
 QPushButton:hover{
-background-color:#ffffff;
+background-color:#f0f0f0;
 color:#000000;
 
 }
 
 QLabel{
+font: 8pt &quot;MS Reference Sans Serif&quot;;
 color:#000000;
 }
 
 QLineEdit {
-    border: 1px solid #000000;
-    border-radius: 06px;
-    background-color:#ffffff;
+font: 11pt &quot;MS Reference Sans Serif&quot;;
+    border: 1px solid #c2c8d0;
+    border-radius: 04px;
+    background-color:#f0f0f0;
 	color:#000000;
 
 }
@@ -66,21 +67,22 @@ QLineEdit {
     <widget class="QLabel" name="label">
      <property name="geometry">
       <rect>
-       <x>120</x>
-       <y>100</y>
-       <width>71</width>
-       <height>31</height>
+       <x>50</x>
+       <y>90</y>
+       <width>221</width>
+       <height>21</height>
       </rect>
      </property>
      <property name="styleSheet">
       <string notr="true">background-color:transparent;
-	font: 75 18pt &quot;Sitka Small&quot;;
+font: 8pt &quot;MS Reference Sans Serif&quot;;
+
 
 
 </string>
      </property>
      <property name="text">
-      <string>Login</string>
+      <string>Enter your password to continue with </string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -89,9 +91,9 @@ QLineEdit {
     <widget class="QPushButton" name="pbLogin">
      <property name="geometry">
       <rect>
-       <x>100</x>
-       <y>330</y>
-       <width>101</width>
+       <x>40</x>
+       <y>300</y>
+       <width>241</width>
        <height>41</height>
       </rect>
      </property>
@@ -102,16 +104,16 @@ QLineEdit {
       <string notr="true"/>
      </property>
      <property name="text">
-      <string>Login</string>
+      <string>Sign in to your account</string>
      </property>
     </widget>
     <widget class="QLineEdit" name="leUserName">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>190</y>
-       <width>221</width>
-       <height>31</height>
+       <x>40</x>
+       <y>170</y>
+       <width>241</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="palette">
@@ -129,9 +131,9 @@ QLineEdit {
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -156,18 +158,18 @@ QLineEdit {
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -194,9 +196,9 @@ QLineEdit {
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -221,18 +223,18 @@ QLineEdit {
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -259,9 +261,9 @@ QLineEdit {
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -286,18 +288,18 @@ QLineEdit {
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -326,10 +328,10 @@ QLineEdit {
     <widget class="QLineEdit" name="lePassword">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>260</y>
-       <width>221</width>
-       <height>31</height>
+       <x>40</x>
+       <y>220</y>
+       <width>241</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="palette">
@@ -347,9 +349,9 @@ QLineEdit {
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -374,18 +376,18 @@ QLineEdit {
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -412,9 +414,9 @@ QLineEdit {
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -439,18 +441,18 @@ QLineEdit {
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -477,9 +479,9 @@ QLineEdit {
         <colorrole role="Button">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -504,18 +506,18 @@ QLineEdit {
         <colorrole role="Base">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
         <colorrole role="Window">
          <brush brushstyle="SolidPattern">
           <color alpha="255">
-           <red>255</red>
-           <green>255</green>
-           <blue>255</blue>
+           <red>240</red>
+           <green>240</green>
+           <blue>240</blue>
           </color>
          </brush>
         </colorrole>
@@ -538,46 +540,26 @@ QLineEdit {
       <string>Password</string>
      </property>
     </widget>
-    <widget class="QLabel" name="username">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>160</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color:transparent;</string>
-     </property>
-     <property name="text">
-      <string>Username</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="password">
-     <property name="geometry">
-      <rect>
-       <x>50</x>
-       <y>230</y>
-       <width>71</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color:transparent;</string>
-     </property>
-     <property name="text">
-      <string>Password</string>
-     </property>
-    </widget>
     <widget class="QLabel" name="label_2">
      <property name="geometry">
       <rect>
-       <x>50</x>
-       <y>10</y>
-       <width>221</width>
-       <height>41</height>
+       <x>60</x>
+       <y>20</y>
+       <width>180</width>
+       <height>50</height>
       </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>180</width>
+       <height>50</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>180</width>
+       <height>50</height>
+      </size>
      </property>
      <property name="font">
       <font>
@@ -593,28 +575,34 @@ QLineEdit {
 background-color:transparent;</string>
      </property>
      <property name="text">
-      <string>Welcome Back!</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap>MBAS2.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QPushButton" name="pbhide">
      <property name="geometry">
       <rect>
-       <x>240</x>
-       <y>260</y>
+       <x>250</x>
+       <y>220</y>
        <width>30</width>
-       <height>30</height>
+       <height>40</height>
       </rect>
      </property>
      <property name="minimumSize">
       <size>
        <width>30</width>
-       <height>30</height>
+       <height>40</height>
       </size>
      </property>
      <property name="maximumSize">
       <size>
        <width>30</width>
-       <height>30</height>
+       <height>40</height>
       </size>
      </property>
      <property name="styleSheet">
@@ -626,6 +614,62 @@ background-color:transparent;</string>
      <property name="icon">
       <iconset resource="../../../backup ui for mbas/icons/icons.qrc">
        <normaloff>:/newPrefix/icons/eye-off.svg</normaloff>:/newPrefix/icons/eye-off.svg</iconset>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="pbhide_2">
+     <property name="geometry">
+      <rect>
+       <x>250</x>
+       <y>170</y>
+       <width>30</width>
+       <height>40</height>
+      </rect>
+     </property>
+     <property name="minimumSize">
+      <size>
+       <width>30</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="maximumSize">
+      <size>
+       <width>30</width>
+       <height>40</height>
+      </size>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color: none</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+     <property name="icon">
+      <iconset resource="../../../backup ui for mbas/icons/icons.qrc">
+       <normaloff>:/newPrefix/icons/edit-2.svg</normaloff>:/newPrefix/icons/edit-2.svg</iconset>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_3">
+     <property name="geometry">
+      <rect>
+       <x>140</x>
+       <y>110</y>
+       <width>41</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">background-color:transparent;
+font: 8pt &quot;MS Reference Sans Serif&quot;;
+
+
+
+</string>
+     </property>
+     <property name="text">
+      <string>MBAS</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
      </property>
     </widget>
    </widget>
