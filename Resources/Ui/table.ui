@@ -50,6 +50,9 @@
       <property name="text">
        <string>Cancel</string>
       </property>
+      <property name="shortcut">
+       <string>Esc</string>
+      </property>
      </widget>
     </item>
     <item row="2" column="4">
@@ -98,12 +101,12 @@
      </widget>
     </item>
     <item row="4" column="3">
-     <widget class="QPushButton" name="pdAddRaw">
+     <widget class="QPushButton" name="pbAddRaw">
       <property name="text">
        <string>Add Data</string>
       </property>
       <property name="shortcut">
-       <string/>
+       <string>Enter</string>
       </property>
      </widget>
     </item>

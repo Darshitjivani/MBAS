@@ -75,7 +75,7 @@ class CreateVoucherWindow(QMainWindow):
                 f.write(binData)
             f.close()
 
-            # loc = os.getcwd().split('Application')[0]
+            loc = os.getcwd().split('Application')[0]
             settingsFilePath = os.path.join(loc1[0], 'Resources', 'Settings.json')
 
             f1 = open(settingsFilePath)
@@ -89,7 +89,7 @@ class CreateVoucherWindow(QMainWindow):
 
             f2 = open(settingsFilePath, 'w+')
             f2.write(pathDetails_new)
-            # pathDetails= json.load(f1)
+            pathDetails= json.load(f1)
             f2.close()
 
         except:
@@ -208,8 +208,8 @@ class CreateVoucherWindow(QMainWindow):
         self.model.removeRows(0, self.model.rowCount())
         # self.tableshow.cbCurrency.setCurrentIndex(0)
         self.leNarration.clear()
-        self.leCredit.clear()
-        self.leDebit.clear()
+        self.lbCredit.clear()
+        self.lbDebit.clear()
 
 
 
