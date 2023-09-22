@@ -11,7 +11,6 @@ import traceback
 import numpy as np
 # from model import ModelTS
 import sqlite3
-from Resources.icons import icons_rc
 import sys
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QMouseEvent, QKeySequence
@@ -21,6 +20,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel
 from Applications.Views.Login.login import LoginWindow
 from Applications.Utils.execute_support import *
 
+from Resources.icons import icons_rc
 
 
 class UIMain(QMainWindow):

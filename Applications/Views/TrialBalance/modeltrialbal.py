@@ -16,6 +16,10 @@ class ModelTB(QtCore.QAbstractTableModel):
         else:
             self.last_serialno = 0
 
+    def clearData(self):
+        # Implement the logic to clear data here
+        pass
+
     def clear(self):
         self.beginRemoveRows(QModelIndex(), 0, self.rowCount() - 1)
         self.data = []  # Assuming data is the list you use to store model data
@@ -199,7 +203,7 @@ class ModelTB(QtCore.QAbstractTableModel):
                                '''
         try:
 
-            self.beginRemoveRows(QModelIndex(), position, position + rows)
+            self.beginRemoveRows(QModelIndex(), position,rows)
             self.endRemoveRows()
 
             return True

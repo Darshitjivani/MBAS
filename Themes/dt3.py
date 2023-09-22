@@ -83,11 +83,12 @@ QWidget:disabled {
 }
 
 QWidget::item:selected {
-  background-color: #1464A0;
+  background-color: #9DB2BF;
+  color: #2d2d2d;
 }
 
-QWidget::item:hover {
-  background-color: #148CD2;
+QWidget::item:hover { 
+  background-color: #9DB2BF;
   color: #2d2d2d;
 }
 
@@ -297,7 +298,8 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qradiobutton
 --------------------------------------------------------------------------- */
 QRadioButton {
   background-color: transparent;
-  color: #F0F0F0;
+  font: 9pt  "Segoe UI Semibold";
+  color: #000000;
   spacing: 4px;
   padding: 0px;
   border: none;
@@ -317,7 +319,7 @@ QRadioButton:disabled {
 
 QRadioButton QWidget {
   background-color: #282828;
-  color: #F0F0F0;
+  color: #000000;
   spacing: 0px;
   padding: 0px;
   outline: none;
@@ -337,8 +339,8 @@ QRadioButton::indicator:unchecked {
 }
 
 QRadioButton::indicator:unchecked:hover, QRadioButton::indicator:unchecked:focus, QRadioButton::indicator:unchecked:pressed {
-  border: none;
-  outline: none;
+  border: 3px;
+  outline: 30px solid #2d2d2d;
   image: url(":/qss_icons/rc/radio_unchecked_focus.png");
 }
 
@@ -347,8 +349,8 @@ QRadioButton::indicator:unchecked:disabled {
 }
 
 QRadioButton::indicator:checked {
-  border: none;
-  outline: none;
+  border: 3px;
+  outline: 3px;
   image: url(":/qss_icons/rc/radio_checked.png");
 }
 
@@ -890,9 +892,9 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qabstractscrollarea
 
 --------------------------------------------------------------------------- */
 QTextBrowser {
-  background-color: #282828;
+  background-color: #ffffff;
   border: 1px solid #2d2d2d;
-  color: #F0F0F0;
+  color: #000000;
   border-radius: 4px;
 }
 
@@ -905,6 +907,7 @@ QTextBrowser:disabled {
 
 QTextBrowser:hover, QTextBrowser:!hover, QTextBrowser:selected, QTextBrowser:pressed {
   border: 1px solid #2d2d2d;
+  color: #000000;
 }
 
 /* QGraphicsView ----------------------------------------------------------
@@ -1353,7 +1356,7 @@ QLineEdit {
 }
 
 QLineEdit:disabled {
-  background-color: #282828;
+  background-color: #ffffff;
   color: #000000;
 }
 
@@ -1778,7 +1781,7 @@ QTreeView,
 QListView,
 QTableView,
 /*QColumnView {
-  background-color: #FFFFFF;
+  background-color: transparent;
 font: 63 11pt "Segoe UI Semibold";
   color: #000000;
   gridline-color: #2d2d2d;
@@ -1790,7 +1793,7 @@ QListView:disabled,
 /*QTableView:disabled,*/
 QColumnView:disabled {
 font: 63 11pt "Segoe UI Semibold";
-  background-color: #FFFFFF;
+  background-color:#ffffff;
   color: #000000;
 }
 
@@ -1799,7 +1802,7 @@ QListView:selected,
 /*QTableView:selected,*/
 QColumnView:selected {
 font: 63 11pt "Segoe UI Semibold";
-  background-color: #FFFFFF;
+  background-color: transparent;
   color: #000000;
 }
 
@@ -1854,7 +1857,7 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qheaderview
 
 --------------------------------------------------------------------------- */
 QHeaderView {
-  background-color: #BDCDD6;
+  background-color: #DDE6ED;
   border: 1px transparent #2d2d2d;
 font: 63 11pt "Segoe UI Semibold";
 color:#000000;
@@ -1867,13 +1870,13 @@ QHeaderView:disabled {
 font: 63 11pt "Segoe UI Semibold";
 color:#000000;
 
-  background-color: #BDCDD6;
+  background-color: #DDE6ED;
   border: 1px transparent #2d2d2d;
   padding: 2px;
 }
 
 QHeaderView::section {
-  background-color: #BDCDD6;
+  background-color: #DDE6ED;
 color:#000000;
   padding: 2px;
   border-radius: 0px;
@@ -1882,12 +1885,12 @@ color:#000000;
 
 QHeaderView::section:checked {
   color:#000000;
-  background-color: #BDCDD6;
+  background-color: #DDE6ED;
 }
 
 QHeaderView::section:checked:disabled {
   color:#000000;
-  background-color: #BDCDD6 ;
+  background-color: #DDE6ED ;
 }
 
 QHeaderView::section::horizontal {
@@ -2078,21 +2081,22 @@ font: 63 9pt "Segoe UI Semibold";
 }
 
 QDateEdit:on, QDateTimeEdit:on {
- color:#000000;
+ color:#ffffff;
    outline: none;
 font: 63 9pt "Segoe UI Semibold";
   selection-background-color: lightblue;
 }
 
 QDateEdit::drop-down, QDateTimeEdit::drop-down {
+  
   subcontrol-origin: padding;
   subcontrol-position: top right;
   width: 12px;
-  border-left: 0px solid #2d2d2d;
+  border-left: 0px solid #ffffff;
 }
 
 QDateEdit::down-arrow, QDateTimeEdit::down-arrow {
- color:#000000;
+ color:#ffffff;
    outline: none;
 font: 63 9pt "Segoe UI Semibold";
   image: url(":/qss_icons/rc/arrow_down_disabled.png");
@@ -2105,7 +2109,7 @@ QDateEdit::down-arrow:on, QDateEdit::down-arrow:hover, QDateEdit::down-arrow:foc
 }
 
 QDateEdit QAbstractItemView, QDateTimeEdit QAbstractItemView {
- color:#000000;
+ color:#ffffff;
    outline: none;
 font: 63 9pt "Segoe UI Semibold";
   background-color: lightblue;

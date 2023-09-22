@@ -242,6 +242,9 @@ background-color: #9a9a9a
            <height>0</height>
           </size>
          </property>
+         <property name="displayFormat">
+          <string>dd-MM-yyyy</string>
+         </property>
         </widget>
        </item>
        <item row="12" column="2">
@@ -540,6 +543,12 @@ background-color: #9a9a9a
            <height>0</height>
           </size>
          </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::DaySection</enum>
+         </property>
+         <property name="displayFormat">
+          <string>dd-MM-yyyy</string>
+         </property>
         </widget>
        </item>
        <item row="1" column="5">
@@ -699,7 +708,7 @@ background-color: #9a9a9a
   </widget>
  </widget>
  <resources>
-  <include location="../../../icons/icons.qrc"/>
+  <include location="../icons/icons.qrc"/>
  </resources>
  <connections/>
 </ui>

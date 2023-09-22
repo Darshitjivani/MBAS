@@ -8,12 +8,12 @@ from PyQt5 import uic
 
 from Applications.Views.TrialBalance.modeltrialbal import ModelTB
 from Themes.dt3 import dt3
-from PyQt5.QtCore import Qt, QSortFilterProxyModel, QDate
+from PyQt5.QtCore import Qt, QSortFilterProxyModel, QDate, QDateTime
 from PyQt5.QtWidgets import QMainWindow, QMenu, QFileDialog, QApplication, QTableView
 
 
 class TrialBalanceWindow(QMainWindow):
-    def __init__(self):
+    def __init__(self, lbDate=None):
         super(TrialBalanceWindow, self).__init__()
 
         # Load your UI and set window flags
@@ -26,14 +26,12 @@ class TrialBalanceWindow(QMainWindow):
         self.last_serialno = 0
         # self.initUI()
         self.tables_details_TWM()
-        # self.defaultColumnProfile()
-
-
+        self.defaultColumnProfile()
 
     def tables_details_TWM(self):
         try:
 
-            self.heads = ['Perticular', 'Debit Amount INR', 'Credit Amount INR', 'Debit Amount USD', 'Credit Amount USD']
+            self.heads = ['Perticular', 'Debit Amount', 'Credit Amount','Currency']
             self.visibleColumns = len(self.heads)
             print('len(self.heads)',len(self.heads))
             self.table = np.zeros((2000, len(self.heads)), dtype=object)
@@ -175,7 +173,7 @@ class TrialBalanceWindow(QMainWindow):
         f.close()
 
         self.tableView.horizontalHeader().restoreState(binData)
-    #
+
     def headerRightClickMenu(self, position):
         try:
             # print('dfdsfdsf')
@@ -210,4 +208,4 @@ class TrialBalanceWindow(QMainWindow):
 
         except:
             print(sys.exc_info()[1])
-
+    #
