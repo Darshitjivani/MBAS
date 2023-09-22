@@ -578,7 +578,7 @@ background-color:transparent;</string>
       <string/>
      </property>
      <property name="pixmap">
-      <pixmap>MBAS2.png</pixmap>
+      <pixmap>../MBAS2.png</pixmap>
      </property>
      <property name="scaledContents">
       <bool>true</bool>

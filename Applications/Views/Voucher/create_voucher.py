@@ -208,8 +208,8 @@ class CreateVoucherWindow(QMainWindow):
         self.model.removeRows(0, self.model.rowCount())
         # self.tableshow.cbCurrency.setCurrentIndex(0)
         self.leNarration.clear()
-        self.leCredit.clear()
-        self.leDebit.clear()
+        self.lbCredit.clear()
+        self.lbDebit.clear()
 
 
 

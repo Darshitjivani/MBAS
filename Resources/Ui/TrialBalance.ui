@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1022</width>
+    <width>1055</width>
     <height>493</height>
    </rect>
   </property>
@@ -97,10 +97,6 @@ background-color: #9a9a9a
          </property>
          <property name="text">
           <string/>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>:/newPrefix/icons/corner-down-left.svg</normaloff>:/newPrefix/icons/corner-down-left.svg</iconset>
          </property>
         </widget>
        </item>
@@ -201,7 +197,14 @@ background-color: #9a9a9a
         </widget>
        </item>
        <item row="1" column="0" colspan="5">
-        <widget class="QTableView" name="tableView"/>
+        <widget class="QTableView" name="tableView">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
        <item row="2" column="1">
         <widget class="QLabel" name="lbdebitINR">
@@ -355,105 +358,7 @@ background-color: #9a9a9a
           <property name="spacing">
            <number>0</number>
           </property>
-          <item row="0" column="2">
-           <widget class="Line" name="line">
-            <property name="minimumSize">
-             <size>
-              <width>379</width>
-              <height>0</height>
-             </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">background-color:transparent</string>
-            </property>
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QComboBox" name="cbMonth">
-            <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-              <horstretch>0</horstretch>
-              <verstretch>0</verstretch>
-             </sizepolicy>
-            </property>
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>25</height>
-             </size>
-            </property>
-            <item>
-             <property name="text">
-              <string>January</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Febuary</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>March</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>April</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>May</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>June</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>July</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>August</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>September</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>October</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>November</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>December</string>
-             </property>
-            </item>
-           </widget>
-          </item>
-          <item row="2" column="0">
+          <item row="4" column="0">
            <widget class="QComboBox" name="cbtrialbalance">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -484,6 +389,51 @@ background-color: #9a9a9a
             </item>
            </widget>
           </item>
+          <item row="3" column="2">
+           <widget class="Line" name="line_11">
+            <property name="minimumSize">
+             <size>
+              <width>526</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color:transparent</string>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="Line" name="line">
+            <property name="minimumSize">
+             <size>
+              <width>490</width>
+              <height>0</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color:transparent</string>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="5" rowspan="3">
+           <widget class="Line" name="line_12">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>95</height>
+             </size>
+            </property>
+            <property name="orientation">
+             <enum>Qt::Vertical</enum>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="0">
            <widget class="QLabel" name="lbPerticulars">
             <property name="minimumSize">
@@ -509,10 +459,32 @@ background-color: #9a9a9a
             </property>
            </widget>
           </item>
+          <item row="4" column="1">
+           <widget class="QPushButton" name="pbFilter">
+            <property name="minimumSize">
+             <size>
+              <width>100</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>100</width>
+              <height>25</height>
+             </size>
+            </property>
+            <property name="text">
+             <string>Filter </string>
+            </property>
+            <property name="shortcut">
+             <string>F2</string>
+            </property>
+           </widget>
+          </item>
           <item row="0" column="3">
            <widget class="QFrame" name="frame_2">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -668,7 +640,7 @@ background-color: #9a9a9a
                 </size>
                </property>
                <property name="text">
-                <string>Date</string>
+                <string/>
                </property>
                <property name="alignment">
                 <set>Qt::AlignCenter</set>
@@ -740,25 +712,6 @@ background-color: #9a9a9a
               </widget>
              </item>
             </layout>
-           </widget>
-          </item>
-          <item row="2" column="2">
-           <widget class="QPushButton" name="pushButton">
-            <property name="minimumSize">
-             <size>
-              <width>100</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>100</width>
-              <height>25</height>
-             </size>
-            </property>
-            <property name="text">
-             <string>Filter </string>
-            </property>
            </widget>
           </item>
          </layout>

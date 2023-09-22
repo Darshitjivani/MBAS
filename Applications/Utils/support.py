@@ -13,6 +13,8 @@ from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 from PyQt5.QtWidgets import *
 from PyQt5.uic.properties import QtCore
+
+from Applications.Views.BalanceSheet.balancesheet import BalanceSheetWindow
 from Applications.Views.DayBook.day_book import DayBookWindow
 from Applications.Views.Branch.alter_branch_list import AlterBranchListWindow
 from Applications.Views.Branch.create_branch import BranchCreateWindow
@@ -27,8 +29,14 @@ from Applications.Views.Ledger.alter_ledger_show import AlterLedgerWindow
 from Applications.Views.Ledger.ledger_create import CreateLedgerWindow
 from Applications.Views.MasterList.alter_master_list import AlterMasterListWindow
 from Applications.Views.MasterList.master_list import MasterListWindow
+from Applications.Views.TrialBalance.date_filter import DateFilterWindow
 from Applications.Views.TrialBalance.trial_balance import TrialBalanceWindow
 from Applications.Views.Voucher.create_voucher import CreateVoucherWindow
+from Applications.Views.Voucher.currconv_entry import CurrConvEntryWindow
+from Applications.Views.Voucher.payment_entry import PaymentEntryWindow
+from Applications.Views.Voucher.purchase_entry import PurchaseEntryWindow
+from Applications.Views.Voucher.reciept_entry import RecieptEntryWindow
+from Applications.Views.Voucher.sales_entry import SalesEntryWindow
 from Applications.Views.Voucher.table import Terminal
 
 #---------------------------------------------------- All Objects ---------------------------------------------#
@@ -40,16 +48,24 @@ def allObjects(main):
     main.createledger = CreateLedgerWindow()  # Create Ledger Window
     main.altermasterlist = AlterMasterListWindow()  # Master List window For Alteration
     main.alterledgerlist = AlterLedgerListWindow() # Ledger List Window For Alteration
-    main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
-    main.createvoucher  = CreateVoucherWindow()  # Create Voucher Window
     main.alterbranchlist = AlterBranchListWindow()  #Ledger list Branch wise for Alteration
+    main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
     main.tableshow = Terminal()
     main.altergrouplist = AlterGroupListWindow()  # Group List Window For Alteration
     main.alterledger = AlterLedgerWindow()
     main.daybook = DayBookWindow()
     main.trialbalance = TrialBalanceWindow()
-    # main.daybook = DayBookWindow()
+    main.datefilter = DateFilterWindow()
+    main.balancesheet = BalanceSheetWindow()
 
+
+    #-------------------------------------- Voucher Object --------------------------------
+    main.createvoucher = CreateVoucherWindow()  # Create Voucher Window
+    main.paymententry = PaymentEntryWindow()
+    main.salesentry = SalesEntryWindow()
+    main.purchaseentry = PurchaseEntryWindow()
+    main.recieptentry = RecieptEntryWindow()
+    main.currconventry = CurrConvEntryWindow()
 
 
     ##################################### Gateway ###################################################
@@ -58,7 +74,7 @@ def allObjects(main):
     main.gateway.fAlter.layout().addWidget(main.altermasterlist)
     main.gateway.fVouchers.layout().addWidget(main.createvoucher)
     main.gateway.fDayBook.layout().addWidget(main.daybook)
-    # main.gateway.fBalanceSheet.layout().addWidget(main.masterlist)
+    main.gateway.fBalanceSheet.layout().addWidget(main.balancesheet)
     main.gateway.fTrialBalance.layout().addWidget(main.trialbalance)
 
     ##################################### MasterList ###################################################
@@ -96,7 +112,9 @@ def allSlots(main):
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
     main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
-    # -------------------------------- Gateway Window -------------------------------#
+    main.gateway.pbTrailBalance.clicked.connect(lambda: showTrialBalance(main))
+
+
     # main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
     # main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
@@ -107,13 +125,17 @@ def allSlots(main):
     main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
 
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
-
+    main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
     main.gateway.pbClose.clicked.connect(main.gateway.close)
+
+    main.balancesheet.pbBack.clicked.connect(main.balancesheet.hide)
+
     # -------------------------------- Master List Window -------------------------------#
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
     main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
     # main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
+
 
     main.masterlist.pbBack.clicked.connect(main.masterlist.hide)
 
@@ -122,15 +144,18 @@ def allSlots(main):
     main.masterlist.pdCreateLedger.clicked.connect(main.masterlist.showCreateLadger)
 
     # --------------------------------- Create Group Window --------------------------#
+
     main.creategroup.pbSubmit.clicked.connect(lambda: saveGroupData(main))
     main.creategroup.pbClose.clicked.connect(main.creategroup.close)
 
     # --------------------------------- Create Ledger Window -----------------------------#
+
     main.createledger.pbSubmit.clicked.connect(lambda: saveledger(main))
     main.createledger.pbDelete.clicked.connect(lambda: deleteLedger(main))
     main.createledger.pbClose.clicked.connect(main.createledger.close)
 
     # ------------------------------ Alter Master List Window ---------------------------#
+
     main.altermasterlist.pbAlterGroup.clicked.connect(lambda: alterGroupListpage(main))
     main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerListpage(main))
     main.altermasterlist.pbAlterBranch.clicked.connect(lambda: alterBranchList(main))
@@ -144,6 +169,7 @@ def allSlots(main):
     main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
 
     #---------------------------- Create Branch Window ----------------------------------#
+
     main.createbranch.pbSubmit.clicked.connect(lambda: saveBranchData(main))
     main.alterledger.pbSubmit.clicked.connect(lambda: saveAlterLedgerData(main))
     # main.alterledger.pbSubmit.clicked.connect(main.alterledgerlist.hide)
@@ -156,24 +182,44 @@ def allSlots(main):
     main.alterbranchlist.pbClose.clicked.connect(main.alterbranchlist.close)
 
     # ------------------------------------- Create Voucher Window -------------------------------#
+
     main.createvoucher.pbSubmit.clicked.connect(lambda: saveVoucherData(main))
-    main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
-    # main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
+    main.createvoucher.pbPayment.clicked.connect(lambda: showPaymentEntry(main))
+    main.createvoucher.pbSales.clicked.connect(lambda: showSalesEntry(main))
+    main.createvoucher.pbPurchase.clicked.connect(lambda: showPurchaseEntry(main))
+    main.createvoucher.pbReciept.clicked.connect(lambda: showRecieptEntry(main))
+    main.createvoucher.pbCurConvsn.clicked.connect(lambda: showCurrConvEntry(main))
     main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
+    # main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
+    # main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
 
     #----------------------------------- Table Window ---------------------------------------------#
-    main.tableshow.pdAddRaw.clicked.connect(lambda: addRaw(main))
+    # main.tableshow.pdAddRaw.clicked.connect(lambda: addRaw(main))
 
     #----------------------------------- Day Book Window ------------------------------------------#
     main.daybook.deDateEdit.dateChanged.connect(lambda: filterDataByDate(main))
     main.daybook.pbBack.clicked.connect(main.daybook.hide)
 
+
     # ------------------------------------- Trial Balance ------------------------------#
     main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
-    main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
     main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
-    main.trialbalance.cbMonth.activated.connect(lambda: filterByMonth(main))
-    # main.trialbalance.deFrom.dateChanged.connect(lambda: filterDataByMonth(main))
+    main.datefilter.deFrom.dateChanged.connect(lambda: filterbyDate(main))
+    main.datefilter.deTo.dateChanged.connect(lambda: filterbyDate(main))
+    main.datefilter.pbGetData.clicked.connect(main.datefilter.close)
+
+    main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
+    # main.trialbalance.tableView.doubleClicked.connect(lambda:filteredTrialBalanceDoubleClicked(main))
+
+    main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
+    main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
+    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
+    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
+    main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
+
+
+    main.trialbalance.pbFilter.clicked.connect(lambda: filterbyDate(main))
+    main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
 
 
 
@@ -452,22 +498,6 @@ def listOfCompany(main):
 
 def gateway(main, company_name, company_id):
     ''' This Function will show the Gatway Window.'''
-    # try:
-    #     # Clear the existing content of widget_2
-    #     for i in reversed(range(main.widget_2.layout().count())):
-    #         main.widget_2.layout().itemAt(i).widget().deleteLater()
-    #
-    #     # Create the content of the gateway window as widgets
-    #     label = QLabel("Gateway Window Content for Company ID: " + str(company_id))
-    #     back_button = QPushButton("Back to Company List")
-    #     back_button.clicked.connect(lambda: listOfCompany(main))  # Go back to the company list
-    #
-    #     # Add the widgets to the layout
-    #     main.widget_2.layout().addWidget(label)
-    #     main.widget_2.layout().addWidget(back_button)
-    #
-    # except:
-    #     print(traceback.print_exc())
     try:
         main.hide()
         # comapny_id = main.comapnyID
@@ -478,15 +508,6 @@ def gateway(main, company_name, company_id):
         print(main.companyID)
 
         main.gateway.updateTitleLabel(company_name)
-
-
-
-        # def goToMainWindow():
-        #     main.gateway.hide()  # Hide the gateway window
-        #     main.show()  # Show the main window
-
-
-
     except:
         print(traceback.print_exc())
 
@@ -506,16 +527,6 @@ def masterList(main):
         main.masterlist.show()
         comapny_id = main.companyID
         company_name = main.companyName
-        # main.masterlist.lbCompanyName.setText(f"Welcome to {company_name}")
-
-        # def goToMainWindow():
-        #     main.masterlist.hide()  # Hide the masterlist window
-        #     main.show()  # Show the main window
-        #
-        # main.masterlist.pbChangeCompany.clicked.connect(goToMainWindow)
-        # main.masterlist.pbChangeCompany.clicked.connect(main_window)
-
-        # main.gateway.updateTitleLabel(comapny_id[1])
 
     except:
         print(traceback.print_exc())
@@ -545,11 +556,7 @@ def showAlterMasterPage(main):
         # Populate the drop-down button with group role names
         main.createledger.cbUnderGroup.addItems(all_items)
 
-        # def goToMainWindow():
-        #     main.altermasterlist.hide()  # Hide the masterlist window
-        #     main.show()  # Show the main window
 
-        # main.altermasterlist.pbChangeCompany.clicked.connect(goToMainWindow)
     except:
         print(traceback.print_exc())
     # alterLedgerListpage(main)
@@ -572,7 +579,6 @@ def getGroupRoles(main):
         return []
 
 
-
 def getGroupsCreatedByCompany(main):
 
     '''This function will execute the query to get group which is created by that perticular company.'''
@@ -588,7 +594,6 @@ def getGroupsCreatedByCompany(main):
     except sqlite3.Error as e:
         print("Error fetching groups:", e)
         return []
-
 
 
 def creategrouppage(main):
@@ -623,7 +628,6 @@ def creategrouppage(main):
 
     except:
         print(traceback.print_exc())
-
 
 
 def saveGroupData(main):
@@ -1140,7 +1144,6 @@ def deleteLedger(main):
     main.alterledger.close()
 
 
-
 def updateLedgerList(main):
     try:
         # Clear the existing items in the list widget
@@ -1162,6 +1165,7 @@ def updateLedgerList(main):
 
     except sqlite3.Error as e:
         print("Error updating ledger list:", e)
+
 
 # ------------------------------------ For Branch ---------------------------------------
 
@@ -1287,6 +1291,7 @@ def alterBranchList(main):
     except:
         print(traceback.print_exc())
 
+
 def branchPageList(main, branch_name,branch_id):
     try:
         # main.alterbranchledgerlist.show()
@@ -1333,11 +1338,13 @@ def createComboBoxDelegate(parent):
 
     return delegate
 
+
 # ------------------------------------ For Voucher ---------------------------------------
 
 def updateDayName(main, date):
     day_name = date.toString("dddd")
     main.createvoucher.leDay.setText(day_name)
+
 
 def showVoucherPage(main):
     try:
@@ -1362,8 +1369,8 @@ def showVoucherPage(main):
         main.account = account
 
         # Clear existing items from the drop-down button
-        main.createvoucher.cbVoucherType.clear()
-        main.createvoucher.cbDebitedAccount.clear()
+        # main.createvoucher.cbVoucherType.clear()
+        # main.createvoucher.cbDebitedAccount.clear()
 
 
         current_date = QDate.currentDate()
@@ -1374,16 +1381,15 @@ def showVoucherPage(main):
         current_day = current_date.dayOfWeek()
 
         # Map the integer day of the week to its name
-        # Map the integer day of the week to its name
         day_name = current_date.toString("dddd")
 
         # Set the day name as text in your QLineEdit widget
-        main.createvoucher.leDay.setText(day_name)
+        # main.createvoucher.leDay.setText(day_name)
         # Connect the slot to the dateChanged signal
-        main.createvoucher.deDate.dateChanged.connect(lambda date: updateDayName(main, date))
+        # main.createvoucher.deDate.dateChanged.connect(lambda date: updateDayName(main, date))
         # Populate the drop-down button with group role names
-        main.createvoucher.cbVoucherType.addItems(role_names)
-        main.createvoucher.cbDebitedAccount.addItems(account_name)
+        # main.createvoucher.cbVoucherType.addItems(role_names)
+        # main.createvoucher.cbDebitedAccount.addItems(account_name)
 
         main.tableshow.cbAccountName.addItems(account_name)
 
@@ -1417,7 +1423,6 @@ def getVoucherType(main):
         return []
 
 
-
 def getAccountMaster(main):
     print("hello")
 
@@ -1438,6 +1443,7 @@ def getAccountMaster(main):
         print("Error fetchig branch:", e)
         return []
 
+
 ################################################ Voucher Data #################################################
 
 def saveVoucherData(main):
@@ -1451,12 +1457,13 @@ def saveVoucherData(main):
             narration = main.createvoucher.leNarration.text()
             # Create a QDate object for the current date
             selected_date = main.createvoucher.deDate.date()
+            selected_date_str = selected_date.toString("dd-MM-yyyy")
             # Update the "day" field in your GUI
             day = main.createvoucher.leDay.text()
 
-            debit_amount = main.createvoucher.leDebit.text()
+            debit_amount = main.createvoucher.lbDebit.text()
 
-            credit_amount = main.createvoucher.leCredit.text()
+            credit_amount = main.createvoucher.lbCredit.text()
 
 
             # Generate a unique identifier for the data table
@@ -1501,17 +1508,12 @@ def saveVoucherData(main):
                 # Insert a new voucher record and store the data table ID
                 cursor = main.db_connection.cursor()
                 cursor.execute(
-                    "INSERT INTO voucher_table (CompanyID,AccountMasterID, VoucherType, DebitAccount,Date, Narration, DebitAmount, CreditAmount , DataTableID) "
-                    "VALUES (?, ?, ?, ?, ?, ?,?,?,?)", (
-                    company_id, selected_account_index, voucher_type, debit_account, date, narration, debit_amount,
+                    "INSERT INTO voucher_table (CompanyID,AccountMasterID, VoucherType, DebitAccount,Date,Day, Narration, DebitAmount, CreditAmount , DataTableID) "
+                    "VALUES (?, ?, ?, ?,?, ?, ?,?,?,?)", (
+                    company_id, selected_account_index, voucher_type, debit_account, selected_date_str,day, narration, debit_amount,
                     credit_amount, data_table_id))
                 main.db_connection.commit()
 
-                # # Update the table with the values, ensuring there are 4 elements in each row
-                # row_data = [dr_cr, account_name, amount, currency]
-                # main.createvoucher.table[main.createvoucher.last_serialno] = row_data + [""] * (4 - len(row_data))
-
-                # Insert data from main.createvoucher.table into the data table
                 for row in main.createvoucher.table[:main.createvoucher.last_serialno]:
 
                     cursor.execute(
@@ -1546,6 +1548,7 @@ def saveVoucherData(main):
 
                     main.createvoucher.clearFields()
                     main.createvoucher.close()
+                    main.tableshow.clear()
                     # main.alterledgerlist.hide()
                     # main.masterlist.show()
 
@@ -1580,14 +1583,45 @@ def createVoucherpage(main):
         company_id = main.companyID
         # branch_id = main.branchID
 
-
-
-
     except:
         print(traceback.print_exc())
 
-######################################### Add Raw In TableView #####################################################
-###########################################   Vocher Window ####################################################
+def showPaymentEntry(main):
+    try:
+        main.paymententry.show()
+    except:
+        print(traceback.print_exc())
+
+
+def showSalesEntry(main):
+    try:
+        main.salesentry.show()
+    except:
+        print(traceback.print_exc())
+
+
+def showPurchaseEntry(main):
+    try:
+        main.purchaseentry.show()
+    except:
+        print(traceback.print_exc())
+
+
+def showRecieptEntry(main):
+    try:
+        main.recieptentry.show()
+    except:
+        print(traceback.print_exc())
+
+
+def showCurrConvEntry(main):
+    try:
+        main.currconventry.show()
+    except:
+        print(traceback.print_exc())
+
+#------------------------------------- Add Raw In TableView -------------------------------
+#--------------------------------------Vocher Window ------------------------------
 def showTableView(main):
     try:
         main.tableshow.show()
@@ -1621,10 +1655,10 @@ def updateSumsOnSelectionChange(main):
         # Convert the values in the column to integers before summing
         debitSum = np.sum(main.createvoucher.table[:, 2].astype(int))
         print("debit sum", debitSum)
-        main.createvoucher.leDebit.setText(str(debitSum))
+        main.createvoucher.lbDebit.setText(str(debitSum))
 
         creditSum = np.sum(main.createvoucher.table[:, 3].astype(int))
-        main.createvoucher.leCredit.setText(str(creditSum))
+        main.createvoucher.lbCredit.setText(str(creditSum))
 
         main.createvoucher.pbSubmit.setVisible(debitSum == creditSum)
 
@@ -1634,7 +1668,6 @@ def updateSumsOnSelectionChange(main):
 
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names = {"Dr": [], "Cr": []}
-
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDr(main):
     try:
@@ -1650,6 +1683,7 @@ def refreshComboBoxForDr(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 # Function to refresh the combobox with all account names for "Cr"
 def refreshComboBoxForCr(main):
@@ -1669,6 +1703,7 @@ def refreshComboBoxForCr(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 def addEntary(main):
     # Calculate the sum of amounts in the "Cr" and "Dr" columns
@@ -1701,7 +1736,6 @@ def addEntary(main):
 
     else:
         return  # Invalid selection
-
 
 
 def addRaw(main):
@@ -1751,10 +1785,10 @@ def addRaw(main):
         # Determine the column to update based on "Cr/Dr" selection
         # Determine the column to update based on "Cr/Dr" selection
         if dr_cr == "Cr":
-            indexlist=[0,1,2,4]
+            indexlist=[0,1,3,4]
             # column_index = 2  # Credit Amount Column
         elif dr_cr == "Dr":
-            indexlist = [0, 1, 3, 4]
+            indexlist = [0, 1, 2, 4]
             # column_index = 3  # Debit Amount Column
         else:
             return  # Invalid selection
@@ -1779,11 +1813,11 @@ def addRaw(main):
 
         print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
         debitSum = main.createvoucher.table[:main.createvoucher.last_serialno,3].sum()
-        main.debitAmount =  main.createvoucher.leDebit.setText(str(debitSum))
+        main.debitAmount =  main.createvoucher.lbDebit.setText(str(debitSum))
         print("debit Sum Amount")
 
         creditSum = main.createvoucher.table[:main.createvoucher.last_serialno,2].sum()
-        main.creditAmount = main.createvoucher.leCredit.setText(str(creditSum))
+        main.creditAmount = main.createvoucher.lbCredit.setText(str(creditSum))
 
         # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
         updateSumsOnSelectionChange(main)
@@ -1816,7 +1850,8 @@ def deleteRows(main):
         print(traceback.print_exc())
 
 
-################################################### Day Book ###########################################################
+#------------------------------------------- Day Book ------------------------------------------
+
 
 def fetchDayBookData(main):
     try:
@@ -1842,6 +1877,7 @@ def fetchDayBookData(main):
     except:
         print(traceback.print_exc())
 
+
 def showDayBook(main):
     try:
         main.daybook.show()
@@ -1850,13 +1886,12 @@ def showDayBook(main):
         print(traceback.print_exc())
 
 
-
 def filterDataByDate(main):
     try:
         selectedDate = main.daybook.deDateEdit.date()
         # Convert the selectedDate to a string in the required format
         selectedTextDate = selectedDate.toString("dd-MM-yyyy")
-        # print("selected date", selectedTextDate)
+        print("selected date", selectedTextDate)
         main.selectdate = selectedTextDate
 
         # proxy_model = main.daybook.smodel  # Get the QSortFilterProxyModel
@@ -1870,13 +1905,30 @@ def filterDataByDate(main):
     except:
         print(traceback.print_exc())
 
+#------------------------------------- Balance Sheet -------------------------------------------
+
+
 
 
 # ------------------------------------ For Trial Balance ---------------------------------------
 
-
-def fetchTrialBalanceData(main):
+def fetchTrialBalanceData(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
     try:
+        print(enddate)
+
+        main.trialbalance.table[0:main.trialbalance.last_serialno] =[0,0,0,0]
+
+        main.trialbalance.model.DelRows(0,main.trialbalance.last_serialno)
+        main.trialbalance.last_serialno=0
+        main.trialbalance.model.last_serialno=0
+        main.trialbalance.model.rowCount()
+        ind = main.trialbalance.model.index(0, 0)
+        ind1 = main.trialbalance.model.index(0, 1)
+        main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+
+
+
         cursor = main.db_connection.cursor()
         command = """
                     SELECT
@@ -1889,14 +1941,17 @@ def fetchTrialBalanceData(main):
                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
                     WHERE
                         AccountMaster_table.CompanyID = ? 
-                        
+                        AND  Voucher_table.Date BETWEEN  ? AND ?
                     GROUP BY
                         AccountMaster_table.AcMasterID,
                         AccountMaster_table.Ac_name
                     """
-        cursor.execute(command, (main.companyID,))
+        cursor.execute(command, (main.companyID,fromdate,enddate,))
 
         data = cursor.fetchall()
+
+        # LEFT JOIN Voucher_table AS Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+        # LEFT JOIN Data_table AS Data_table ON AccountMaster_table.AcMasterID = Data_table.AccountMasterID
 
         for row in data:
             main.trialbalance.table[main.trialbalance.last_serialno,[0,1,2]] = list(row)
@@ -1907,6 +1962,7 @@ def fetchTrialBalanceData(main):
             main.trialbalance.model.insertRows()
             main.trialbalance.model.rowCount()
 
+
             ind = main.trialbalance.model.index(0, 0)
             ind1 = main.trialbalance.model.index(0, 1)
             main.trialbalance.model.dataChanged.emit(ind, ind1)
@@ -1914,7 +1970,7 @@ def fetchTrialBalanceData(main):
         total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
         total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
 
-        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+        # lbCredit and lbDebit with the sum
         main.trialbalance.lbdebitINR.setText(str(total_debit))
         main.trialbalance.lbcreditINR.setText(str(total_credit))
 
@@ -1928,55 +1984,33 @@ def fetchTrialBalanceData(main):
 
 def showTrialBalance(main):
     try:
+        current_date = QDate.currentDate()
+        current_date_str = current_date.toString("dd-MM-yyyy")
+        main.trialbalance.lbDate.setText(current_date_str)
+
+        date = main.datefilter.deFrom.date()
+        fromdate = date.toString("dd-MM-yyyy")
+        print('dateeeee',fromdate)
 
         main.trialbalance.show()
         fetchTrialBalanceData(main)
-
     except:
         print(traceback.print_exc())
 
 
-def filterByMonth(main):
+def fetchTrialBalanceGroup(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
     try:
-        selcted_item = main.trialbalance.cbMonth.currentText()
-        print(selcted_item)
-        # start_month_number = datetime.datetime.strptime(selcted_item, '%B').month
-        # print(start_month_number)
-        main.trialbalance.smodel.setFilterFixedString(selcted_item)
 
-    except:
-        print(traceback.print_exc())
+        main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
 
+        main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+        main.trialbalance.model.rowCount()
+        ind = main.trialbalance.model.index(0, 0)
+        ind1 = main.trialbalance.model.index(0, 1)
+        main.trialbalance.model.dataChanged.emit(ind, ind1)
 
-
-
-
-# def filterDataByMonth(main):
-#     try:
-#         fromDate = main.trialbalance.deFrom.date()
-# #         toDate = main.trialbalance.deTo.date()
-# #
-# #         # Convert the selectedDate to a string in the required format
-#         fromTextDate = fromDate.toString("dd-MM-yyyy")
-#         # print("852",fromTextDate)
-#         main.fromDate = fromTextDate
-# #         toTextDate = toDate.toString("dd-MM-yyyy")
-# #         # print("963", toTextDate)
-# #         main.toDate = toTextDate
-# #
-# #         # Set the filter string to match the selected date
-#         main.trialbalance.smodel.setFilterFixedString(main.fromDate)
-#         print("trial balance23", main.trialbalance.smodel.setFilterFixedString(main.fromDate))
-# #
-# #         main.trialbalance.smodel.setFilterFixedString(main.toDate)
-# #         print("trial balance09", main.trialbalance.smodel.setFilterFixedString(main.toDate))
-# #
-#     except:
-#         print(traceback.print_exc())
-
-
-def fetchTrialBalanceGroup(main):
-    try:
         cursor = main.db_connection.cursor()
 
         # cursor.execute("SELECT AccountMaster_table.Under_groupname,Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table JOIN Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID;")
@@ -1991,10 +2025,11 @@ def fetchTrialBalanceGroup(main):
                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
                     WHERE
                         AccountMaster_table.CompanyID = ?
+                       AND Voucher_table.Date BETWEEN  ? AND ?
                     GROUP BY 
                         AccountMaster_table.Under_groupname
                 """
-        cursor.execute(command, (main.companyID,))
+        cursor.execute(command, (main.companyID,fromdate,enddate,))
         data = cursor.fetchall()
 
         for row in data:
@@ -2021,8 +2056,19 @@ def fetchTrialBalanceGroup(main):
         print(traceback.print_exc())
 
 
-def fetchTrialBalanceBranch(main):
+def fetchTrialBalanceBranch(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
     try:
+
+        main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
+
+        main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+        main.trialbalance.model.rowCount()
+        ind = main.trialbalance.model.index(0, 0)
+        ind1 = main.trialbalance.model.index(0, 1)
+        main.trialbalance.model.dataChanged.emit(ind, ind1)
+
         cursor = main.db_connection.cursor()
         # cursor.execute("SELECT AccountMaster_table.under_branchname, Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table AS AccountMaster_table JOIN Voucher_table AS Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID; ")
         command = """
@@ -2036,10 +2082,11 @@ def fetchTrialBalanceBranch(main):
                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
                     WHERE
                         AccountMaster_table.CompanyID = ?
+                        AND Voucher_table.Date BETWEEN  ? AND ?
                     GROUP BY 
                         AccountMaster_table.under_branchname
                  """
-        cursor.execute(command, (main.companyID,))
+        cursor.execute(command, (main.companyID,fromdate,enddate,))
         data = cursor.fetchall()
 
         # main.trialbalance.model.beginResetModel()  # Reset the model
@@ -2067,79 +2114,318 @@ def fetchTrialBalanceBranch(main):
         print(traceback.print_exc())
 
 
+is_filtered = False
 def trialBalanceComboBox(main):
     try:
+        global is_filtered
         main.trialbalance.model.clear()
         main.trialbalance.last_serialno = 0
         main.trialbalance.model.last_serialno = 0
 
-
         selcted_item = main.trialbalance.cbtrialbalance.currentText()
         print(selcted_item)
+        is_filtered = False
         if selcted_item ==("Ledger-Wise"):
             fetchTrialBalanceData(main)
         elif selcted_item ==("Group-Wise"):
             fetchTrialBalanceGroup(main)
         else:
             fetchTrialBalanceBranch(main)
+    except:
+        print(traceback.print_exc())
+
+
+def filterClicked(main):
+    try:
+        main.trialbalance.model.clear()
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+
+        selcted_item = main.trialbalance.cbtrialbalance.currentText()
+        if selcted_item ==("Ledger-Wise"):
+            main.datefilter.pbGetData.clicked.connect(lambda: fetchTrialBalanceData(main, main.selectdateFrom, main.selectdateTo))
+
+        elif selcted_item ==("Group-Wise"):
+            main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceGroup(main,main.selectdateFrom,main.selectdateTo))
+
+        else:
+            main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceBranch(main,main.selectdateFrom,main.selectdateTo))
+
+       # trialBalanceDoubleClicked(main)
 
     except:
         print(traceback.print_exc())
 
 
+# is_filtered=False
+# def trialBalanceDoubleClicked(main):
+#     try:
+#         global is_filtered
+#         idy = main.trialbalance.cbtrialbalance.currentText()
+#
+#         if not is_filtered:
+#             if idy == "Ledger-Wise":
+#                 cursor = main.db_connection.cursor()
+#                 command = """SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount
+#                                   FROM Voucher_table"""
+#
+#                 cursor.execute(command, )
+#                 data = cursor.fetchall()
+#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+#                 filtered_data = [row for row in data if row[1] == idx]
+#             elif idy == "Group-Wise":
+#                 cursor = main.db_connection.cursor()
+#                 command = """SELECT
+#                                  Voucher_table.Date,
+#                                  Voucher_table.DebitAccount,
+#                                  Voucher_table.VoucherType,
+#                                  Voucher_table.DebitAmount,
+#                                  Voucher_table.CreditAmount,
+#                                  AccountMaster_table.Under_groupName
+#                               FROM
+#                                  AccountMaster_table
+#                               JOIN
+#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+#                               WHERE
+#                                  AccountMaster_table.CompanyID = ?"""
+#
+#                 cursor.execute(command, (main.companyID,))
+#                 data = cursor.fetchall()
+#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+#                 filtered_data = [row for row in data if row[5] == idx]
+#             else:
+#                 is_filtered = True
+#                 cursor = main.db_connection.cursor()
+#                 command = """SELECT
+#                                  Voucher_table.Date,
+#                                  Voucher_table.DebitAccount,
+#                                  Voucher_table.VoucherType,
+#                                  Voucher_table.DebitAmount,
+#                                  Voucher_table.CreditAmount,
+#                                  AccountMaster_table.under_branchname
+#                               FROM
+#                                  AccountMaster_table
+#                               JOIN
+#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+#                               WHERE
+#                                  AccountMaster_table.CompanyID = ?"""
+#
+#                 cursor.execute(command, (main.companyID,))
+#                 data = cursor.fetchall()
+#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+#                 filtered_data = [row for row in data if row[5] == idx]
+#
+#         else:
+#             if idy == "Ledger-Wise":
+#                 cursor = main.db_connection.cursor()
+#                 command = """SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount
+#                                   FROM Voucher_table
+#                                   WHERE Voucher_table.Date BETWEEN  ? AND ?"""
+#
+#                 cursor.execute(command, (main.selectdateFrom, main.selectdateTo))
+#                 data = cursor.fetchall()
+#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+#                 filtered_data = [row for row in data if row[1] == idx]
+#             elif idy == "Group-Wise":
+#                 cursor = main.db_connection.cursor()
+#                 command = """SELECT
+#                                  Voucher_table.Date,
+#                                  Voucher_table.DebitAccount,
+#                                  Voucher_table.VoucherType,
+#                                  Voucher_table.DebitAmount,
+#                                  Voucher_table.CreditAmount,
+#                                  AccountMaster_table.Under_groupName
+#                               FROM
+#                                  AccountMaster_table
+#                               JOIN
+#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+#                               WHERE
+#                                  AccountMaster_table.CompanyID = ?
+#                                  AND Voucher_table.Date BETWEEN  ? AND ?"""
+#
+#                 cursor.execute(command, (main.companyID, main.selectdateFrom, main.selectdateTo,))
+#                 data = cursor.fetchall()
+#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+#                 filtered_data = [row for row in data if row[5] == idx]
+#             else:
+#                 cursor = main.db_connection.cursor()
+#                 command = """SELECT
+#                                  Voucher_table.Date,
+#                                  Voucher_table.DebitAccount,
+#                                  Voucher_table.VoucherType,
+#                                  Voucher_table.DebitAmount,
+#                                  Voucher_table.CreditAmount,
+#                                  AccountMaster_table.under_branchname
+#                               FROM
+#                                  AccountMaster_table
+#                               JOIN
+#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+#                               WHERE
+#                                  AccountMaster_table.CompanyID = ?
+#                                  AND Voucher_table.Date BETWEEN  ? AND ?"""
+#
+#                 cursor.execute(command, (main.companyID, main.selectdateFrom, main.selectdateTo,))
+#                 data = cursor.fetchall()
+#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+#                 filtered_data = [row for row in data if row[5] == idx]
+#
+#
+#         print('idx', idx)
+#         # print("filtered_data",filtered_data)
+#
+#          # Create a QDialog to display the data in a table view
+#         dialog = QDialog(main)
+#         dialog.setWindowTitle("Data Details")
+#         dialog.setGeometry(580, 300, 450, 350)
+#
+#         # Create a QTableView and set the data model
+#         table_view = QTableView()
+#         model = QStandardItemModel()
+#         model.setColumnCount(5)
+#         model.setHorizontalHeaderLabels(["Date","Perticulars", "Voucher Type", "Debit Amount INR", "Credit Amount INR","banchName"])
+#
+#
+#         for row in filtered_data:
+#             # model.appendRow([QStandardItem(str(item)) for item in row])
+#             items = [QStandardItem(str(item)) for item in row]
+#             for item in items:
+#                 item.setFlags(item.flags() ^ Qt.ItemIsEditable)  # Make cells non-editable
+#             model.appendRow(items)
+#
+#         table_view.setModel(model)
+#         table_view.horizontalHeader().setStretchLastSection(True)
+#         table_view.setSelectionBehavior(QTableView.SelectRows)
+#
+#         # Hide the 6th column (index 5)
+#         table_view.setColumnHidden(5, True)
+#
+#         layout = QVBoxLayout()
+#         layout.addWidget(table_view)
+#         dialog.setLayout(layout)
+#
+#         # Show the dialog
+#         dialog.exec_()
+#
+#     except Exception as e:
+#         print(traceback.print_exc())
+
+
+is_filtered = False
 def trialBalanceDoubleClicked(main):
     try:
-
+        global is_filtered
         idy = main.trialbalance.cbtrialbalance.currentText()
+        if is_filtered:
+            print("22222222222222222222222222222222222222222222222222222222222222")
+            if idy=="Ledger-Wise":
+                cursor = main.db_connection.cursor()
+                command = """SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount
+                                  FROM Voucher_table
+                                  WHERE Voucher_table.Date BETWEEN  ? AND ?"""
 
-        if idy=="Ledger-Wise":
-            cursor = main.db_connection.cursor()
-            cursor.execute("SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount FROM Voucher_table")
-            data = cursor.fetchall()
-            idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-            filtered_data = [row for row in data if row[1] == idx]
-        elif idy=="Group-Wise":
-            cursor = main.db_connection.cursor()
-            command = """SELECT
-                             Voucher_table.Date,
-                             Voucher_table.DebitAccount,
-                             Voucher_table.VoucherType,
-                             Voucher_table.DebitAmount,
-                             Voucher_table.CreditAmount,
-                             AccountMaster_table.Under_groupName
-                          FROM
-                             AccountMaster_table
-                          JOIN
-                             Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-                          WHERE
-                             AccountMaster_table.CompanyID = ?"""
+                cursor.execute(command, (main.selectdateFrom, main.selectdateTo))
+                data = cursor.fetchall()
+                idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+                filtered_data = [row for row in data if row[1] == idx]
+            elif idy=="Group-Wise":
+                cursor = main.db_connection.cursor()
+                command = """SELECT
+                                 Voucher_table.Date,
+                                 Voucher_table.DebitAccount,
+                                 Voucher_table.VoucherType,
+                                 Voucher_table.DebitAmount,
+                                 Voucher_table.CreditAmount,
+                                 AccountMaster_table.Under_groupName
+                              FROM
+                                 AccountMaster_table
+                              JOIN
+                                 Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                              WHERE
+                                 AccountMaster_table.CompanyID = ?
+                                 AND Voucher_table.Date BETWEEN  ? AND ?"""
 
-            cursor.execute(command, (main.companyID,))
-            data = cursor.fetchall()
-            idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-            filtered_data = [row for row in data if row[5] == idx]
+                cursor.execute(command, (main.companyID,main.selectdateFrom, main.selectdateTo,))
+                data = cursor.fetchall()
+                idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+                filtered_data = [row for row in data if row[5] == idx]
+            else:
+                cursor = main.db_connection.cursor()
+                command = """SELECT
+                                 Voucher_table.Date,
+                                 Voucher_table.DebitAccount,
+                                 Voucher_table.VoucherType,
+                                 Voucher_table.DebitAmount,
+                                 Voucher_table.CreditAmount,
+                                 AccountMaster_table.under_branchname
+                              FROM
+                                 AccountMaster_table
+                              JOIN
+                                 Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                              WHERE
+                                 AccountMaster_table.CompanyID = ?
+                                 AND Voucher_table.Date BETWEEN  ? AND ?"""
+
+                cursor.execute(command, (main.companyID,main.selectdateFrom, main.selectdateTo,))
+                data = cursor.fetchall()
+                idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+                filtered_data = [row for row in data if row[5] == idx]
+
+
+            is_filtered = False
+
         else:
-            cursor = main.db_connection.cursor()
-            command = """SELECT
-                             Voucher_table.Date,
-                             Voucher_table.DebitAccount,
-                             Voucher_table.VoucherType,
-                             Voucher_table.DebitAmount,
-                             Voucher_table.CreditAmount,
-                             AccountMaster_table.under_branchname
-                          FROM
-                             AccountMaster_table
-                          JOIN
-                             Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-                          WHERE
-                             AccountMaster_table.CompanyID = ?"""
+            print("333333333333333333333333333333333333333333333333333333333333")
 
-            cursor.execute(command, (main.companyID,))
-            data = cursor.fetchall()
-            idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-            filtered_data = [row for row in data if row[5] == idx]
+            if idy == "Ledger-Wise":
+                cursor = main.db_connection.cursor()
+                command = """SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount
+                                  FROM Voucher_table"""
 
+                cursor.execute(command, )
+                data = cursor.fetchall()
+                idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+                filtered_data = [row for row in data if row[1] == idx]
+            elif idy == "Group-Wise":
+                cursor = main.db_connection.cursor()
+                command = """SELECT
+                                 Voucher_table.Date,
+                                 Voucher_table.DebitAccount,
+                                 Voucher_table.VoucherType,
+                                 Voucher_table.DebitAmount,
+                                 Voucher_table.CreditAmount,
+                                 AccountMaster_table.Under_groupName
+                              FROM
+                                 AccountMaster_table
+                              JOIN
+                                 Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                              WHERE
+                                 AccountMaster_table.CompanyID = ?"""
 
+                cursor.execute(command, (main.companyID,))
+                data = cursor.fetchall()
+                idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+                filtered_data = [row for row in data if row[5] == idx]
+            else:
+                cursor = main.db_connection.cursor()
+                command = """SELECT
+                                 Voucher_table.Date,
+                                 Voucher_table.DebitAccount,
+                                 Voucher_table.VoucherType,
+                                 Voucher_table.DebitAmount,
+                                 Voucher_table.CreditAmount,
+                                 AccountMaster_table.under_branchname
+                              FROM
+                                 AccountMaster_table
+                              JOIN
+                                 Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                              WHERE
+                                 AccountMaster_table.CompanyID = ?"""
+
+                cursor.execute(command, (main.companyID,))
+                data = cursor.fetchall()
+                idx = main.trialbalance.tableView.selectedIndexes()[0].data()
+                filtered_data = [row for row in data if row[5] == idx]
+            is_filtered= True
         print('idx', idx)
         # print("filtered_data",filtered_data)
 
@@ -2178,4 +2464,34 @@ def trialBalanceDoubleClicked(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
+
+# --------------------------------------- Filtered By From to To -------------------------------
+
+def filterbyDate(main):
+    try:
+
+        current_date = QDate.currentDate()
+        # current_date_str = current_date.toString("dd-MM-yyyy")
+        main.datefilter.deTo.setDate(current_date)
+
+        main.datefilter.show()
+
+        selectedDateFrom = main.datefilter.deFrom.date()
+        selectedTextDateFrom = selectedDateFrom.toString("dd-MM-yyyy")
+        main.selectdateFrom = selectedTextDateFrom
+        # print("9416515", main.selectdateFrom, selectedTextDateFrom)
+
+        selectedDateTo = main.datefilter.deTo.date()
+        selectedTextDateTo = selectedDateTo.toString("dd-MM-yyyy")
+        main.selectdateTo = selectedTextDateTo
+        # print("4515151", main.selectdateTo, selectedTextDateTo)
+
+
+
+    except Exception as e:
+        # print(traceback.print_exc())
+        print(e)
+
+
 
