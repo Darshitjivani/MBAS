@@ -2114,7 +2114,6 @@ def fetchTrialBalanceBranch(main,fromdate='01-04-2023',enddate=datetime.today().
         print(traceback.print_exc())
 
 
-is_filtered = False
 def trialBalanceComboBox(main):
     try:
         global is_filtered
@@ -2124,7 +2123,7 @@ def trialBalanceComboBox(main):
 
         selcted_item = main.trialbalance.cbtrialbalance.currentText()
         print(selcted_item)
-        is_filtered = False
+        is_filtered = True
         if selcted_item ==("Ledger-Wise"):
             fetchTrialBalanceData(main)
         elif selcted_item ==("Group-Wise"):
