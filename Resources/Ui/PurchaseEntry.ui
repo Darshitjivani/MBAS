@@ -21,157 +21,260 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="6">
-     <widget class="QComboBox" name="cbCurrency">
-      <item>
-       <property name="text">
-        <string>INR</string>
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QFrame" name="fheader">
+      <property name="minimumSize">
+       <size>
+        <width>0</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>16777215</width>
+        <height>25</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: rgb(212, 212, 212);
+font: 63 11pt &quot;Segoe UI Semibold&quot;;
+color:#000000</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_3">
+       <property name="leftMargin">
+        <number>0</number>
        </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>USD</string>
+       <property name="topMargin">
+        <number>0</number>
        </property>
-      </item>
-     </widget>
-    </item>
-    <item row="0" column="5">
-     <widget class="Line" name="line_5">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="5" column="5">
-     <widget class="Line" name="line_4">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="6" column="5">
-     <widget class="QPushButton" name="pdAddRaw">
-      <property name="text">
-       <string>Add Data</string>
-      </property>
-      <property name="shortcut">
-       <string>Enter</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="5">
-     <widget class="Line" name="line_3">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QRadioButton" name="rbCash">
-      <property name="text">
-       <string>Cash</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Narretion</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3" colspan="4">
-     <widget class="QTextBrowser" name="tbNarretion"/>
-    </item>
-    <item row="6" column="6">
-     <widget class="QPushButton" name="pbcancel">
-      <property name="text">
-       <string>Cancel</string>
-      </property>
-      <property name="shortcut">
-       <string>Esc</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="3" colspan="4">
-     <widget class="QComboBox" name="cbAccountName"/>
-    </item>
-    <item row="2" column="7">
-     <widget class="Line" name="line_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
-     <widget class="QRadioButton" name="rbCredit">
-      <property name="text">
-       <string>Credit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="3" colspan="3">
-     <widget class="QLineEdit" name="leAmount">
-      <property name="placeholderText">
-       <string/>
-      </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>0</number>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_6">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Purchase Entry</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+     <widget class="QWidget" name="widget" native="true">
+      <property name="styleSheet">
+       <string notr="true">QWidget{
+	background-color: rgb(230, 230, 250);
+}
+
+QPushButton:hover {
+  border-radius: 05px;
+  color:#000000;
+  background-color:#9BA4B5;
+  border: 0px solid ;
+}</string>
       </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Account</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Type</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>CreditPeriod</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3" colspan="2">
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
-    <item row="3" column="5">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Days</string>
-      </property>
+      <layout class="QGridLayout" name="gridLayout_2">
+       <property name="leftMargin">
+        <number>3</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>3</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="spacing">
+        <number>5</number>
+       </property>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QRadioButton" name="rbCash">
+         <property name="text">
+          <string>Cash</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QRadioButton" name="rbCredit">
+         <property name="text">
+          <string>Credit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="Line" name="line_5">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Account</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="2">
+        <widget class="QComboBox" name="cbAccountName"/>
+       </item>
+       <item row="2" column="2" colspan="3">
+        <widget class="QLineEdit" name="leAmount">
+         <property name="placeholderText">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QComboBox" name="cbCurrency">
+         <item>
+          <property name="text">
+           <string>INR</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>USD</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>CreditPeriod</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2" colspan="2">
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+       <item row="3" column="4">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Days</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Narretion</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" colspan="4">
+        <widget class="QTextBrowser" name="tbNarretion"/>
+       </item>
+       <item row="5" column="4">
+        <widget class="Line" name="line_4">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="4">
+        <widget class="QPushButton" name="pdAddRaw">
+         <property name="text">
+          <string>Add Data</string>
+         </property>
+         <property name="shortcut">
+          <string>Enter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="5">
+        <widget class="QPushButton" name="pbcancel">
+         <property name="text">
+          <string>Cancel</string>
+         </property>
+         <property name="shortcut">
+          <string>Esc</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="4">
+        <widget class="Line" name="line_3">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </widget>
     </item>
    </layout>
   </widget>
  </widget>
- <tabstops>
-  <tabstop>cbAccountName</tabstop>
-  <tabstop>leAmount</tabstop>
-  <tabstop>pdAddRaw</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>
