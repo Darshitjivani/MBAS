@@ -21,7 +21,55 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="6">
+    <item row="0" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="text">
+       <string>Type</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QRadioButton" name="rbCash">
+      <property name="text">
+       <string>Cash</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="2">
+     <widget class="QRadioButton" name="rbCredit">
+      <property name="text">
+       <string>Credit</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="3">
+     <widget class="Line" name="line_5">
+      <property name="styleSheet">
+       <string notr="true">background-color: transparent</string>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="0">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Account</string>
+      </property>
+     </widget>
+    </item>
+    <item row="1" column="1" rowspan="2" colspan="2">
+     <widget class="QComboBox" name="cbAccountName"/>
+    </item>
+    <item row="3" column="1" colspan="3">
+     <widget class="QLineEdit" name="leAmount">
+      <property name="placeholderText">
+       <string/>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="4">
      <widget class="QComboBox" name="cbCurrency">
       <item>
        <property name="text">
@@ -35,17 +83,41 @@
       </item>
      </widget>
     </item>
-    <item row="0" column="5">
-     <widget class="Line" name="line_5">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
+    <item row="3" column="5">
+     <widget class="Line" name="line_2">
       <property name="orientation">
-       <enum>Qt::Vertical</enum>
+       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </item>
-    <item row="5" column="5">
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="text">
+       <string>CreditPeriod</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1" colspan="2">
+     <widget class="QLineEdit" name="lineEdit"/>
+    </item>
+    <item row="4" column="3">
+     <widget class="QLabel" name="label_5">
+      <property name="text">
+       <string>Days</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Narretion</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="1" colspan="4">
+     <widget class="QTextBrowser" name="tbNarretion"/>
+    </item>
+    <item row="6" column="3">
      <widget class="Line" name="line_4">
       <property name="styleSheet">
        <string notr="true">background-color: transparent</string>
@@ -55,7 +127,7 @@
       </property>
      </widget>
     </item>
-    <item row="6" column="5">
+    <item row="7" column="3">
      <widget class="QPushButton" name="pdAddRaw">
       <property name="text">
        <string>Add Data</string>
@@ -65,34 +137,7 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="5">
-     <widget class="Line" name="line_3">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="QRadioButton" name="rbCash">
-      <property name="text">
-       <string>Cash</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Narretion</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3" colspan="4">
-     <widget class="QTextBrowser" name="tbNarretion"/>
-    </item>
-    <item row="6" column="6">
+    <item row="7" column="4">
      <widget class="QPushButton" name="pbcancel">
       <property name="text">
        <string>Cancel</string>
@@ -102,65 +147,13 @@
       </property>
      </widget>
     </item>
-    <item row="1" column="3" colspan="4">
-     <widget class="QComboBox" name="cbAccountName"/>
-    </item>
-    <item row="2" column="7">
-     <widget class="Line" name="line_2">
+    <item row="8" column="3">
+     <widget class="Line" name="line_3">
+      <property name="styleSheet">
+       <string notr="true">background-color: transparent</string>
+      </property>
       <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="4">
-     <widget class="QRadioButton" name="rbCredit">
-      <property name="text">
-       <string>Credit</string>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="3" colspan="3">
-     <widget class="QLineEdit" name="leAmount">
-      <property name="placeholderText">
-       <string/>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="0">
-     <widget class="Line" name="line">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Account</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Type</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>CreditPeriod</string>
-      </property>
-     </widget>
-    </item>
-    <item row="3" column="3" colspan="2">
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
-    <item row="3" column="5">
-     <widget class="QLabel" name="label_5">
-      <property name="text">
-       <string>Days</string>
+       <enum>Qt::Vertical</enum>
       </property>
      </widget>
     </item>

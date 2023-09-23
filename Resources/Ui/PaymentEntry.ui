@@ -21,17 +21,13 @@
     <string notr="true"/>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="2" column="3">
-     <widget class="QLineEdit" name="leAmount">
-      <property name="placeholderText">
-       <string/>
+    <item row="0" column="2">
+     <widget class="Line" name="line_5">
+      <property name="styleSheet">
+       <string notr="true">background-color: transparent</string>
       </property>
-     </widget>
-    </item>
-    <item row="1" column="2">
-     <widget class="QLabel" name="label">
-      <property name="text">
-       <string>Account</string>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
       </property>
      </widget>
     </item>
@@ -42,57 +38,24 @@
       </property>
      </widget>
     </item>
-    <item row="2" column="5">
-     <widget class="Line" name="line_2">
-      <property name="orientation">
-       <enum>Qt::Horizontal</enum>
+    <item row="1" column="1">
+     <widget class="QLabel" name="label">
+      <property name="text">
+       <string>Account</string>
       </property>
      </widget>
     </item>
-    <item row="1" column="3" colspan="2">
+    <item row="1" column="2">
      <widget class="QComboBox" name="cbAccountName"/>
     </item>
-    <item row="6" column="3">
-     <widget class="Line" name="line_3">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
+    <item row="2" column="2">
+     <widget class="QLineEdit" name="leAmount">
+      <property name="placeholderText">
+       <string/>
       </property>
      </widget>
     </item>
-    <item row="5" column="3">
-     <widget class="QPushButton" name="pdAddRaw">
-      <property name="text">
-       <string>Add Data</string>
-      </property>
-      <property name="shortcut">
-       <string>Enter</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="3">
-     <widget class="Line" name="line_4">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="3">
-     <widget class="Line" name="line_5">
-      <property name="styleSheet">
-       <string notr="true">background-color: transparent</string>
-      </property>
-      <property name="orientation">
-       <enum>Qt::Vertical</enum>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="4">
+    <item row="2" column="3">
      <widget class="QComboBox" name="cbCurrency">
       <item>
        <property name="text">
@@ -106,7 +69,44 @@
       </item>
      </widget>
     </item>
-    <item row="5" column="4">
+    <item row="2" column="4">
+     <widget class="Line" name="line_2">
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>Narretion</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="2" colspan="2">
+     <widget class="QTextBrowser" name="tbNarretion"/>
+    </item>
+    <item row="4" column="2">
+     <widget class="Line" name="line_4">
+      <property name="styleSheet">
+       <string notr="true">background-color: transparent</string>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="2">
+     <widget class="QPushButton" name="pdAddRaw">
+      <property name="text">
+       <string>Add Data</string>
+      </property>
+      <property name="shortcut">
+       <string>Enter</string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="3">
      <widget class="QPushButton" name="pbcancel">
       <property name="text">
        <string>Cancel</string>
@@ -116,13 +116,13 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="3" colspan="2">
-     <widget class="QTextBrowser" name="tbNarretion"/>
-    </item>
-    <item row="3" column="2">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Narretion</string>
+    <item row="6" column="2">
+     <widget class="Line" name="line_3">
+      <property name="styleSheet">
+       <string notr="true">background-color: transparent</string>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
       </property>
      </widget>
     </item>

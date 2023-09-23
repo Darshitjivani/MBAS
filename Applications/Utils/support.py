@@ -190,14 +190,28 @@ def allSlots(main):
     main.createvoucher.pbCurConvsn.clicked.connect(lambda: showCurrConvEntry(main))
     main.createvoucher.pbContra.clicked.connect(lambda: showContraEntry(main))
 
+    main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
+
+
+    main.createvoucher.pbPayment.clicked.connect(lambda: setVoucherType(main))
+    main.createvoucher.pbSales.clicked.connect(lambda: setVoucherType(main))
+    main.createvoucher.pbPurchase.clicked.connect(lambda: setVoucherType(main))
+    main.createvoucher.pbReciept.clicked.connect(lambda: setVoucherType(main))
+    main.createvoucher.pbCurConvsn.clicked.connect(lambda: setVoucherType(main))
     main.createvoucher.pbContra.clicked.connect(lambda : setVoucherType(main))
 
         #-----------------------------        Contra Window ----------------------------#
     main.contraentry.pbcancel.clicked.connect(main.contraentry.hide)
-    main.contraentry.pdAddRaw.clicked.connect(lambda: addRaw(main))
+    main.contraentry.pdAddRaw.clicked.connect(lambda: addRawInContra(main))
     # main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
     # main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
-    main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
+
+        #--------------------------------------- Receipt Window ------------------------------#
+    main.recieptentry.pdAddRaw.clicked.connect(lambda: addRawInReciept(main))
+
+        #------------------------------------  Payment Window ------------------------------#
+    main.paymententry.pdAddRaw.clicked.connect(lambda: addRawInPayment(main))
+
 
     #----------------------------------- Table Window ---------------------------------------------#
     # main.tableshow.pdAddRaw.clicked.connect(lambda: addRaw(main))
@@ -1378,9 +1392,37 @@ def getVoucherNumber(main):
 def setVoucherType(main):
     # Get the text of the clicked button and set it as the voucher type
     sender_button = main.sender()
+    # print("voucher button", sender_button.text())
+
 
     if sender_button:
         main.createvoucher.lbVoucherType.setText(sender_button.text())
+
+def generate_new_voucher_number(main):
+    try:
+        cursor = main.db_connection.cursor()
+
+        # Query to retrieve the maximum voucher number
+        cursor.execute("SELECT MAX(VoucherNO) FROM Voucher_Master")
+        max_voucher_no = cursor.fetchone()[0]
+        print("voucher number in database", max_voucher_no)
+
+        # Check if max_voucher_no is None (i.e., no existing vouchers)
+        if max_voucher_no is None:
+            new_voucher_no = "Voucher_0001"
+        else:
+            # Extract the numeric part from the maximum voucher number
+            numeric_part = int(max_voucher_no.split("_")[1])
+            # Increment the numeric part by 1
+            numeric_part += 1
+            # Combine the prefix and incremented numeric part
+            new_voucher_no = f"Voucher_{numeric_part:04d}"
+            print("new voucher number", new_voucher_no)
+        return new_voucher_no
+
+    except Exception as e:
+        print("Error generating new voucher number:", str(e))
+        return None
 
 
 def showVoucherPage(main):
@@ -1390,7 +1432,8 @@ def showVoucherPage(main):
 
         main.createvoucher.show()
         setVoucherType(main)
-
+        new_voucher_number = generate_new_voucher_number(main)
+        main.createvoucher.leVoucherNo.setText(new_voucher_number)
 
         # company_name = main.companyName
         # # main.createvoucher.lbCompanyName.setText(f"Welcome to {company_name}")
@@ -1401,7 +1444,7 @@ def showVoucherPage(main):
         #
         # # Combine group roles and company groups into a single list
         # role_names = [role[1] for role in voucher_type]
-        account_name = [name[2] for name in account]
+        account_name = [name[1] for name in account]
         #
         #
         main.account = account
@@ -1425,6 +1468,9 @@ def showVoucherPage(main):
         # main.createvoucher.cbDebitedAccount.addItems(account_name)
         #
         main.contraentry.cbAccountName.addItems(account_name)
+        main.recieptentry.cbAccountName.addItems(account_name)
+        main.paymententry.cbAccountName.addItems(account_name)
+        # main.recieptentry.cbAccountName.addItems(account_name)
         #
         #
         # # In your CreateVoucherWindow constructor or initialization code
@@ -1471,7 +1517,7 @@ def getAccountMaster(main):
         cursor.execute(command, (company_id,))
         # print(user)
         ledger_data = cursor.fetchall()
-        # print("ledger data:", ledger_data)
+        print("ledger data:", ledger_data)
         cursor.close()
         return ledger_data
 
@@ -1487,8 +1533,10 @@ def saveVoucherData(main):
     try:
         try:
             company_id = main.companyID
-            voucher_type = main.createvoucher.cbVoucherType.currentText()
-            debit_account = main.createvoucher.cbDebitedAccount.currentText()
+            voucher_no = main.createvoucher.leVoucherNo.text()
+            voucher_type = main.createvoucher.lbVoucherType.text()
+            # debit_account = main.createvoucher.cbDebitedAccount.currentText()
+
             narration = main.createvoucher.leNarration.text()
             # Create a QDate object for the current date
             selected_date = main.createvoucher.deDate.date()
@@ -1497,11 +1545,8 @@ def saveVoucherData(main):
                 "dd-MM-yyyy")  # Convert QDate to string in the format "YYYY-MM-DD"
 
             # Update the "day" field in your GUI
-            day = main.createvoucher.leDay.text()
+            # day = main.createvoucher.leDay.text()
 
-            debit_amount = main.createvoucher.leDebit.text()
-
-            credit_amount = main.createvoucher.leCredit.text()
 
 
             # Generate a unique identifier for the data table
@@ -1513,62 +1558,67 @@ def saveVoucherData(main):
             # print("debit sum:",main.debitAmount)
             # print("Credit sum:", main.creditAmount)
 
-            selected_account_index = None
-            for account in main.account:
-                if account[2] == debit_account:
-                    selected_account_index = account[0]
-                    break
-
-            if selected_account_index is None:
-                print("Selected branch not found in the branchs list.")
-                return
+            # selected_account_index = None
+            # for account in main.account:
+            #     if account[2] == debit_account:
+            #         selected_account_index = account[0]
+            #         break
+            #
+            # if selected_account_index is None:
+            #     print("Selected branch not found in the branchs list.")
+            #     return
             # print("debit sum:",main.debitAmount)
             # print("Credit sum:", main.creditAmount)
-            selected_account_index = None
-            for account in main.account:
-                if account[2] == debit_account:
-                    selected_account_index = account[0]
-                    break
 
-            if selected_account_index is None:
-                return
-
+            # print("account name",  main.account)
             selected_accountt_index = None
             for account in main.account:
-                if account[2] == main.account_name:
+                if account[1] == main.account_name:
                     selected_accountt_index = account[0]
+                    print('break')
                     break
 
             if selected_accountt_index is None:
+                print('return')
                 return
+
+            QMessageBox.information(
+
+                main.createvoucher, 'Success', 'Voucher created successfully!'
+
+            )
+
 
             try:
                 # Insert a new voucher record and store the data table ID
+                print('dkjfkdjfk')
                 cursor = main.db_connection.cursor()
                 cursor.execute(
-                    "INSERT INTO voucher_table (CompanyID,AccountMasterID, VoucherType, DebitAccount,Date, Day, Narration, DebitAmount, CreditAmount , DataTableID) "
-                    "VALUES (?, ?, ?, ?,?, ?, ?,?,?,?)", (
-                    company_id, selected_account_index, voucher_type, debit_account, selected_date_str,day, narration, debit_amount,
-                    credit_amount, data_table_id))
+                    "INSERT INTO Voucher_Master (CompanyID,VoucherNO,VoucherType,Date, Narration, DebitAmount, CreditAmount) "
+                    "VALUES (?, ?, ?, ?,?, ?,?)", (
+                    company_id,voucher_no,voucher_type, selected_date_str, narration, debit_amount,
+                    credit_amount))
                 main.db_connection.commit()
+
+
+                # Get the last inserted row ID, assuming you are using auto-increment primary key
+                voucher_master_id = cursor.lastrowid
 
                 # # Update the table with the values, ensuring there are 4 elements in each row
                 # row_data = [dr_cr, account_name, amount, currency]
                 # main.createvoucher.table[main.createvoucher.last_serialno] = row_data + [""] * (4 - len(row_data))
 
+                print(main.createvoucher.table[0,1])
+
                 # Insert data from main.createvoucher.table into the data table
-                for row in main.createvoucher.table[:main.createvoucher.last_serialno]:
+                # for row in main.createvoucher.table[:main.createvoucher.last_serialno]:
+                #
+                cursor.execute(
+                    f"INSERT INTO Voucher_details (DebitSideAccount, CreditSideAccount,DebitAmount,CreditAmount, Currency, VoucherID) VALUES (?,?,?, ?,?,?)",
+                    (main.createvoucher.table[0,1],main.createvoucher.table[1,1],main.createvoucher.table[0,2],main.createvoucher.table[1,3],main.createvoucher.table[0,4],voucher_master_id))
+                main.db_connection.commit()
 
-                    cursor.execute(
-                        f"INSERT INTO Data_table (Type, Perticular,CreditAmount,DebitAmount, Currency, VoucherID, CompanyID, AccountMasterID) VALUES (?,?,?, ?,?,?, ?, ?)",
-                        (row[0],row[1],row[2],row[3],row[4],data_table_id,company_id,selected_accountt_index))
-                    main.db_connection.commit()
 
-                QMessageBox.information(
-
-                    main.createvoucher, 'Success', 'Voucher created successfully!'
-
-                )
                 reply = QMessageBox.question(
 
                     main,
@@ -1592,7 +1642,7 @@ def saveVoucherData(main):
                     main.createvoucher.clearFields()
 
                     main.createvoucher.close()
-                    main.tableshow.clear()
+                    # main.tableshow.clear()
                     # main.alterledgerlist.hide()
                     # main.masterlist.show()
 
@@ -1605,8 +1655,8 @@ def saveVoucherData(main):
 
                     main.createvoucher.clearFields()
 
-            except sqlite3.Error as e:
-                print("Error fetchig voucher:", e)
+            except :
+                print("Error fetchig voucher:", traceback.print_exc())
 
 
             # main.tableshow.cbAccountName.clear()
@@ -1629,40 +1679,310 @@ def createVoucherpage(main):
 
     except:
         print(traceback.print_exc())
-
+######################################################  Payment Entry - Voucher #########################################
 def showPaymentEntry(main):
     try:
         main.paymententry.show()
+        # Create a QDoubleValidator
+        validator = QDoubleValidator()
+        # Set the validator to allow only numbers and decimals
+        validator.setDecimals(2)
+        main.paymententry.leAmount.setValidator(validator)
     except:
         print(traceback.print_exc())
 
 
+def addRawInPayment(main):
+    try:
+        company_id = main.companyID
+
+        # print(account_name)
+        # main.tableview.cbAccountName.clear()
+
+        main.account_name = main.paymententry.cbAccountName.currentText()
+        # main.dr_cr = main.recieptentry.cbDrCr.currentText()
+
+        # Add the selected account name to the appropriate list
+        # selected_account_names[main.dr_cr].append(main.account_name)
+        main.amount = float(main.paymententry.leAmount.text())
+
+        main.currency = main.paymententry.cbCurrency.currentText()
+    #----------------------- disable other currency option after selected -----------------------------
+
+        if main.currency=="INR":
+            main.paymententry.cbCurrency.setCurrentIndex(0)  # Set it to INR
+            main.paymententry.cbCurrency.setEnabled(False)  # Disable the combobox
+            main.createvoucher.lbCurrency.setText(main.currency)
+        elif main.currency=="USD":
+            main.paymententry.cbCurrency.setCurrentIndex(1)  # Set it to USD
+            main.paymententry.cbCurrency.setEnabled(False)
+            main.createvoucher.lbCurrency.setText(main.currency)
+        else:
+            main.paymententry.cbCurrency.setEnabled(True)
+
+
+
+
+        # Determine the column to update based on "Cr/Dr" selection
+        # Determine the column to update based on "Cr/Dr" selection
+        # Count the current number of "Cr" and "Dr" rows
+        num_cr_rows = sum(1 for row in main.createvoucher.table if row[0] == "Cr")
+        num_dr_rows = sum(1 for row in main.createvoucher.table if row[0] == "Dr")
+
+        indexlist = [0, 1, 2, 3, 4]
+
+        # to add "Dr" raw
+        main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Dr",main.account_name ,
+                                                                                 main.amount,0, main.currency]
+        main.createvoucher.last_serialno += 1
+        main.createvoucher.model.last_serialno += 1
+        main.createvoucher.model.insertRows()
+        main.createvoucher.model.rowCount()
+
+        # to add "Cr" raw
+        main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Cr", "Cash",0,
+                                                                                 main.amount,  main.currency]
+
+        main.createvoucher.last_serialno += 1
+        print("last serial number in cr",main.createvoucher.last_serialno)
+        main.createvoucher.model.last_serialno += 1
+        main.createvoucher.model.insertRows()
+        main.createvoucher.model.rowCount() # print(main.createvoucher.model.rowCount())
+
+        # Emit dataChanged signal for the modified rows
+        ind = main.createvoucher.model.index(0, 0)
+        ind1 = main.createvoucher.model.index(0, 1)
+        main.createvoucher.model.dataChanged.emit(ind, ind1)
+
+        main.paymententry.leAmount.clear()
+        # main.tableshow.cbCurrency.setCurrentIndex(0)
+        main.paymententry.hide()
+
+    except:
+        print(traceback.print_exc())
+
+
+
+##################################################   Sales Entry - Voucher ##############################################
 def showSalesEntry(main):
     try:
         main.salesentry.show()
     except:
         print(traceback.print_exc())
 
-
+##############################################  Purchase Entry -Voucher ############################################
 def showPurchaseEntry(main):
     try:
         main.purchaseentry.show()
     except:
         print(traceback.print_exc())
 
-
+##########################################  Receipt Entry - Voucher ##############################################
 def showRecieptEntry(main):
     try:
         main.recieptentry.show()
+
+        # Create a QDoubleValidator
+        validator = QDoubleValidator()
+        # Set the validator to allow only numbers and decimals
+        validator.setDecimals(2)
+        main.recieptentry.leAmount.setValidator(validator)
+
     except:
         print(traceback.print_exc())
 
 
-def showCurrConvEntry(main):
+def addRawInReciept(main):
     try:
-        main.currconventry.show()
+        company_id = main.companyID
+
+        # print(account_name)
+        # main.tableview.cbAccountName.clear()
+
+        main.account_name = main.recieptentry.cbAccountName.currentText()
+        # main.dr_cr = main.recieptentry.cbDrCr.currentText()
+
+        # Add the selected account name to the appropriate list
+        # selected_account_names[main.dr_cr].append(main.account_name)
+        main.amount = float(main.recieptentry.leAmount.text())
+
+        main.currency = main.recieptentry.cbCurrency.currentText()
+    #----------------------- disable other currency option after selected -----------------------------
+
+        if main.currency=="INR":
+            main.recieptentry.cbCurrency.setCurrentIndex(0)  # Set it to INR
+            main.recieptentry.cbCurrency.setEnabled(False)  # Disable the combobox
+            main.createvoucher.lbCurrency.setText(main.currency)
+        elif main.currency=="USD":
+            main.recieptentry.cbCurrency.setCurrentIndex(1)  # Set it to USD
+            main.recieptentry.cbCurrency.setEnabled(False)
+            main.createvoucher.lbCurrency.setText(main.currency)
+        else:
+            main.recieptentry.cbCurrency.setEnabled(True)
+
+
+
+
+        # Determine the column to update based on "Cr/Dr" selection
+        # Determine the column to update based on "Cr/Dr" selection
+        # Count the current number of "Cr" and "Dr" rows
+        num_cr_rows = sum(1 for row in main.createvoucher.table if row[0] == "Cr")
+        num_dr_rows = sum(1 for row in main.createvoucher.table if row[0] == "Dr")
+
+        indexlist = [0, 1, 2, 3, 4]
+
+        # to add "Dr" raw
+        main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Dr","Cash" ,
+                                                                                 main.amount,0, main.currency]
+        main.createvoucher.last_serialno += 1
+        main.createvoucher.model.last_serialno += 1
+        main.createvoucher.model.insertRows()
+        main.createvoucher.model.rowCount()
+
+        # to add "Cr" raw
+        main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Cr", main.account_name,0,
+                                                                                 main.amount,  main.currency]
+
+        main.createvoucher.last_serialno += 1
+        print("last serial number in cr",main.createvoucher.last_serialno)
+        main.createvoucher.model.last_serialno += 1
+        main.createvoucher.model.insertRows()
+        main.createvoucher.model.rowCount() # print(main.createvoucher.model.rowCount())
+
+        # Emit dataChanged signal for the modified rows
+        ind = main.createvoucher.model.index(0, 0)
+        ind1 = main.createvoucher.model.index(0, 1)
+        main.createvoucher.model.dataChanged.emit(ind, ind1)
+
+        # Check if adding a new row is allowed based on the current counts
+        # if (main.dr_cr == "Cr" and num_dr_rows >= 2) or (main.dr_cr == "Dr" and num_cr_rows >= 2):
+        #     return  #
+
+        # new_row = [main.dr_cr, main.account_name, main.amount, main.currency]
+        # if main.dr_cr == "Cr":
+        #     indexlist=[0,1,2,3,4]
+        #     # Find the index of the last "Cr" row
+        #     last_cr_index = next((i for i, row in enumerate(main.createvoucher.table) if row[0] == "Cr"), -1)
+        #     last_cr_inndex = next((i for i, row in enumerate(main.createvoucher.table) if row[0] == "Cr"and row[1] == main.account_name), -1)
+        #
+        #     if last_cr_index >= 0:
+        #         if last_cr_inndex >= 0:
+        #         # Insert the new "Dr" row after the last "Cr" row
+        #             main.createvoucher.table[last_cr_index, 3] += main.amount
+        #             updateSumsOnSelectionChange(main)
+        #             ind = main.createvoucher.model.index(0, 0)
+        #             ind1 = main.createvoucher.model.index(0, 1)
+        #             main.createvoucher.model.dataChanged.emit(ind, ind1)
+        #             main.recieptentry.leAmount.clear()
+        #             main.recieptentry.hide()
+        #         else:
+        #             insert_index = last_cr_index + 1
+        #
+        #     else:
+        #         # There are no "Cr" rows, insert at the end
+        #         insert_index = main.createvoucher.last_serialno
+        #
+        #     # addEntary(main)
+        #     # Shift all rows below the insert_index one index below
+        #     main.createvoucher.table[insert_index + 1:] = main.createvoucher.table[insert_index:-1]
+        #
+        #     # Update the table with the values at the insert_index
+        #     main.createvoucher.table[insert_index, indexlist] = [main.dr_cr, main.account_name, 0,main.amount,
+        #                                                          main.currency]
+        #
+        #     # main.createvoucher.table[1:] = main.createvoucher.table[:-1]
+        #     # Update the table with the values
+        #     # main.createvoucher.table[main.createvoucher.last_serialno,indexlist] = [main.dr_cr, main.account_name, main.amount,main.currency]
+        #     #
+        #     #
+        #
+        #     # # # Increment the last_serialno
+        #     main.createvoucher.last_serialno += 1
+        #     print("last serial number in cr",main.createvoucher.last_serialno)
+        #     main.createvoucher.model.last_serialno += 1
+        #     main.createvoucher.model.insertRows()
+        #     main.createvoucher.model.rowCount() # print(main.createvoucher.model.rowCount())
+        #
+        #
+        #
+        #
+        # elif main.dr_cr == "Dr":
+        #     indexlist = [0, 1, 2, 3, 4]
+        #     print("last serial number in dr",main.createvoucher.last_serialno)
+        #     # Find the index of the last "Cr" row
+        #     main.createvoucher.last_serialno = 0
+        #     last_dr_index = next(
+        #         (i for i, row in enumerate(main.createvoucher.table) if row[0] == "Dr"),
+        #         -1)
+        #
+        #     last_dr_inndex = next(
+        #         (i for i, row in enumerate(main.createvoucher.table) if row[0] == "Dr" and row[1] == main.account_name),
+        #         -1)
+        #
+        #     if last_dr_index >= 0:
+        #         if last_dr_inndex >= 0:
+        #         # Insert the new "Dr" row after the last "Cr" row
+        #             main.createvoucher.table[last_dr_index, 2] += main.amount
+        #             updateSumsOnSelectionChange(main)
+        #             ind = main.createvoucher.model.index(0, 0)
+        #             ind1 = main.createvoucher.model.index(0, 1)
+        #             main.createvoucher.model.dataChanged.emit(ind, ind1)
+        #             main.recieptentry.leAmount.clear()
+        #             main.recieptentry.hide()
+        #         else:
+        #             insert_index = last_dr_index + 1
+        #
+        #     else:
+        #         # There are no "Cr" rows, insert at the end
+        #         insert_index = main.createvoucher.last_serialno
+        #
+        #     # addEntary(main)
+        #     # Shift all rows below the insert_index one index below
+        #     main.createvoucher.table[insert_index + 1:] = main.createvoucher.table[insert_index:-1]
+        #
+        #     # Update the table with the values at the insert_index
+        #     main.createvoucher.table[insert_index, indexlist] = [main.dr_cr, main.account_name, main.amount,0,
+        #                                                          main.currency]
+        #
+        #     # main.createvoucher.table[1:] = main.createvoucher.table[:-1]
+        #     # Update the table with the values
+        #     # main.createvoucher.table[main.createvoucher.last_serialno,indexlist] = [main.dr_cr, main.account_name, main.amount,main.currency]
+        #     #
+        #     #
+        #
+        #     # # # Increment the last_serialno
+        #     main.createvoucher.last_serialno += 1
+        #     print("last serial number in Dr", main.createvoucher.last_serialno)
+        #     main.createvoucher.model.last_serialno += 1
+        #     main.createvoucher.model.insertRows()
+        #     main.createvoucher.model.rowCount()  # print(main.createvoucher.model.rowCount())
+        #
+        # # Emit dataChanged signal for the modified row
+        # ind = main.createvoucher.model.index(0, 0)
+        # ind1 = main.createvoucher.model.index(0, 1)
+        # main.createvoucher.model.dataChanged.emit(ind, ind1)
+        #
+        # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
+        # debitSum = main.createvoucher.table[:main.createvoucher.last_serialno,3].sum()
+        # main.debitAmount =  main.createvoucher.leDebit.setText(str(debitSum))
+        # print("debit Sum Amount")
+        #
+        # creditSum = main.createvoucher.table[:main.createvoucher.last_serialno,2].sum()
+        # main.creditAmount = main.createvoucher.leCredit.setText(str(creditSum))
+
+        # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
+        # updateSumsOnSelectionChange(main)
+        # refreshComboBoxes(main, main.dr_cr)
+        ############### Clear the input widgets after adding data#################
+        # main.tableshow.cbAccountName.setCurrentIndex(0)
+        # main.recieptentry.cbDrCr.setCurrentIndex(0)
+        main.recieptentry.leAmount.clear()
+        # main.tableshow.cbCurrency.setCurrentIndex(0)
+        main.recieptentry.hide()
+
     except:
         print(traceback.print_exc())
+
 
 
 ##################################################### Contra Entry ################################################
@@ -1683,7 +2003,13 @@ def showContraEntry(main):
     except:
         print(traceback.print_exc())
 
+########################################### Currency Conversion - Voucher #######################################
 
+def showCurrConvEntry(main):
+    try:
+        main.currconventry.show()
+    except:
+        print(traceback.print_exc())
 
 
 ######################################### Add Raw In TableView #####################################################
@@ -1726,7 +2052,7 @@ def updateSumsOnSelectionChange(main):
         # Convert the values in the column to integers before summing
         debitSum = np.sum(main.createvoucher.table[:, 2].astype(int))
         print("debit sum", debitSum)
-        main.createvoucher.leDebit.setText(str(debitSum))
+        main.createvoucher.lbDebit.setText(str(debitSum))
 
         # print(main.createvoucher.table[:, 2])
         main.debitSum = np.sum(main.createvoucher.table[ : , 2].astype(int))
@@ -1819,7 +2145,7 @@ def addEntary(main):
         print(traceback.print_exc())
 
 
-def addRaw(main):
+def addRawInContra(main):
     try:
         company_id = main.companyID
 
@@ -1965,11 +2291,11 @@ def addRaw(main):
 
         print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
         debitSum = main.createvoucher.table[:main.createvoucher.last_serialno,3].sum()
-        main.debitAmount =  main.createvoucher.leDebit.setText(str(debitSum))
+        main.debitAmount =  main.createvoucher.lbDebit.setText(str(debitSum))
         print("debit Sum Amount")
 
         creditSum = main.createvoucher.table[:main.createvoucher.last_serialno,2].sum()
-        main.creditAmount = main.createvoucher.leCredit.setText(str(creditSum))
+        main.creditAmount = main.createvoucher.lbCredit.setText(str(creditSum))
 
         # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
         updateSumsOnSelectionChange(main)
