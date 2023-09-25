@@ -65,6 +65,8 @@ def allObjects(main):
     #-------------------------------------- Voucher Object --------------------------------
     main.createvoucher = CreateVoucherWindow()  # Create Voucher Window
     main.paymententry = PaymentEntryWindow()
+    main.recieptentry = RecieptEntryWindow()
+
     main.salesentry = SalesEntryWindow()
     main.purchaseentry = PurchaseEntryWindow()
     main.recieptentry = RecieptEntryWindow()
@@ -115,7 +117,11 @@ def allSlots(main):
     #-------------------------------- Gateway Window -------------------------------#
     main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
+
+    # main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
+
+    main.gateway.pbVouchers.clicked.connect(main.gateway.showVouchersFrame)
     main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
     main.gateway.pbTrailBalance.clicked.connect(lambda: showTrialBalance(main))
 
@@ -124,12 +130,9 @@ def allSlots(main):
     # main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
     main.gateway.pbAlterMaster.clicked.connect(main.gateway.showAlterFrame)
-    main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
-    main.gateway.pbVouchers.clicked.connect(main.gateway.showVouchersFrame)
     main.gateway.pbBalanceSheet.clicked.connect(main.gateway.showBalanceSheetFrame)
     main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
 
-    main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
     main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
     main.gateway.pbClose.clicked.connect(main.gateway.close)
 
@@ -208,6 +211,7 @@ def allSlots(main):
 
         #--------------------------------------- Receipt Window ------------------------------#
     main.recieptentry.pdAddRaw.clicked.connect(lambda: addRawInReciept(main))
+    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
 
         #------------------------------------  Payment Window ------------------------------#
     main.paymententry.pdAddRaw.clicked.connect(lambda: addRawInPayment(main))
@@ -221,7 +225,7 @@ def allSlots(main):
     main.daybook.pbBack.clicked.connect(main.daybook.hide)
 
     # ------------------------------------- Trial Balance ------------------------------#
-    main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
+    main.trialbalance.pbBack_2.clicked.connect(main.trialbalance.hide)
     main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
     main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
     main.datefilter.deFrom.dateChanged.connect(lambda: filterbyDate(main))
@@ -234,7 +238,10 @@ def allSlots(main):
     main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
     main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
     main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
-    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
+
+    # main.recieptentry.pdAddRaw.clicked.connect(lambda: addRawInReciept(main))
+    # main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
+
     main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
 
 
@@ -1468,7 +1475,8 @@ def showVoucherPage(main):
         # main.createvoucher.cbDebitedAccount.addItems(account_name)
         #
         main.contraentry.cbAccountName.addItems(account_name)
-        main.recieptentry.cbAccountName.addItems(account_name)
+        # main.recieptentry.cbAccountName.addItems(account_name)
+
         main.paymententry.cbAccountName.addItems(account_name)
         # main.recieptentry.cbAccountName.addItems(account_name)
         #
@@ -1682,6 +1690,13 @@ def createVoucherpage(main):
 ######################################################  Payment Entry - Voucher #########################################
 def showPaymentEntry(main):
     try:
+
+        account_name = [name[1] for name in main.account]
+
+        main.paymententry.cbAccountName.clear()
+
+        main.paymententry.cbAccountName.addItems(account_name)
+
         main.paymententry.show()
         # Create a QDoubleValidator
         validator = QDoubleValidator()
@@ -1754,6 +1769,9 @@ def addRawInPayment(main):
         ind1 = main.createvoucher.model.index(0, 1)
         main.createvoucher.model.dataChanged.emit(ind, ind1)
 
+        updateSumsOnSelectionChange(main)
+
+        main.paymententry.leAccount.clear()
         main.paymententry.leAmount.clear()
         # main.tableshow.cbCurrency.setCurrentIndex(0)
         main.paymententry.hide()
@@ -1780,6 +1798,14 @@ def showPurchaseEntry(main):
 ##########################################  Receipt Entry - Voucher ##############################################
 def showRecieptEntry(main):
     try:
+
+        account_name = [name[1] for name in main.account]
+
+        main.recieptentry.cbAccountName.clear()
+
+        main.recieptentry.cbAccountName.addItems(account_name)
+
+
         main.recieptentry.show()
 
         # Create a QDoubleValidator
@@ -1854,134 +1880,18 @@ def addRawInReciept(main):
         ind1 = main.createvoucher.model.index(0, 1)
         main.createvoucher.model.dataChanged.emit(ind, ind1)
 
-        # Check if adding a new row is allowed based on the current counts
-        # if (main.dr_cr == "Cr" and num_dr_rows >= 2) or (main.dr_cr == "Dr" and num_cr_rows >= 2):
-        #     return  #
+        updateSumsOnSelectionChange(main)
 
-        # new_row = [main.dr_cr, main.account_name, main.amount, main.currency]
-        # if main.dr_cr == "Cr":
-        #     indexlist=[0,1,2,3,4]
-        #     # Find the index of the last "Cr" row
-        #     last_cr_index = next((i for i, row in enumerate(main.createvoucher.table) if row[0] == "Cr"), -1)
-        #     last_cr_inndex = next((i for i, row in enumerate(main.createvoucher.table) if row[0] == "Cr"and row[1] == main.account_name), -1)
-        #
-        #     if last_cr_index >= 0:
-        #         if last_cr_inndex >= 0:
-        #         # Insert the new "Dr" row after the last "Cr" row
-        #             main.createvoucher.table[last_cr_index, 3] += main.amount
-        #             updateSumsOnSelectionChange(main)
-        #             ind = main.createvoucher.model.index(0, 0)
-        #             ind1 = main.createvoucher.model.index(0, 1)
-        #             main.createvoucher.model.dataChanged.emit(ind, ind1)
-        #             main.recieptentry.leAmount.clear()
-        #             main.recieptentry.hide()
-        #         else:
-        #             insert_index = last_cr_index + 1
-        #
-        #     else:
-        #         # There are no "Cr" rows, insert at the end
-        #         insert_index = main.createvoucher.last_serialno
-        #
-        #     # addEntary(main)
-        #     # Shift all rows below the insert_index one index below
-        #     main.createvoucher.table[insert_index + 1:] = main.createvoucher.table[insert_index:-1]
-        #
-        #     # Update the table with the values at the insert_index
-        #     main.createvoucher.table[insert_index, indexlist] = [main.dr_cr, main.account_name, 0,main.amount,
-        #                                                          main.currency]
-        #
-        #     # main.createvoucher.table[1:] = main.createvoucher.table[:-1]
-        #     # Update the table with the values
-        #     # main.createvoucher.table[main.createvoucher.last_serialno,indexlist] = [main.dr_cr, main.account_name, main.amount,main.currency]
-        #     #
-        #     #
-        #
-        #     # # # Increment the last_serialno
-        #     main.createvoucher.last_serialno += 1
-        #     print("last serial number in cr",main.createvoucher.last_serialno)
-        #     main.createvoucher.model.last_serialno += 1
-        #     main.createvoucher.model.insertRows()
-        #     main.createvoucher.model.rowCount() # print(main.createvoucher.model.rowCount())
-        #
-        #
-        #
-        #
-        # elif main.dr_cr == "Dr":
-        #     indexlist = [0, 1, 2, 3, 4]
-        #     print("last serial number in dr",main.createvoucher.last_serialno)
-        #     # Find the index of the last "Cr" row
-        #     main.createvoucher.last_serialno = 0
-        #     last_dr_index = next(
-        #         (i for i, row in enumerate(main.createvoucher.table) if row[0] == "Dr"),
-        #         -1)
-        #
-        #     last_dr_inndex = next(
-        #         (i for i, row in enumerate(main.createvoucher.table) if row[0] == "Dr" and row[1] == main.account_name),
-        #         -1)
-        #
-        #     if last_dr_index >= 0:
-        #         if last_dr_inndex >= 0:
-        #         # Insert the new "Dr" row after the last "Cr" row
-        #             main.createvoucher.table[last_dr_index, 2] += main.amount
-        #             updateSumsOnSelectionChange(main)
-        #             ind = main.createvoucher.model.index(0, 0)
-        #             ind1 = main.createvoucher.model.index(0, 1)
-        #             main.createvoucher.model.dataChanged.emit(ind, ind1)
-        #             main.recieptentry.leAmount.clear()
-        #             main.recieptentry.hide()
-        #         else:
-        #             insert_index = last_dr_index + 1
-        #
-        #     else:
-        #         # There are no "Cr" rows, insert at the end
-        #         insert_index = main.createvoucher.last_serialno
-        #
-        #     # addEntary(main)
-        #     # Shift all rows below the insert_index one index below
-        #     main.createvoucher.table[insert_index + 1:] = main.createvoucher.table[insert_index:-1]
-        #
-        #     # Update the table with the values at the insert_index
-        #     main.createvoucher.table[insert_index, indexlist] = [main.dr_cr, main.account_name, main.amount,0,
-        #                                                          main.currency]
-        #
-        #     # main.createvoucher.table[1:] = main.createvoucher.table[:-1]
-        #     # Update the table with the values
-        #     # main.createvoucher.table[main.createvoucher.last_serialno,indexlist] = [main.dr_cr, main.account_name, main.amount,main.currency]
-        #     #
-        #     #
-        #
-        #     # # # Increment the last_serialno
-        #     main.createvoucher.last_serialno += 1
-        #     print("last serial number in Dr", main.createvoucher.last_serialno)
-        #     main.createvoucher.model.last_serialno += 1
-        #     main.createvoucher.model.insertRows()
-        #     main.createvoucher.model.rowCount()  # print(main.createvoucher.model.rowCount())
-        #
-        # # Emit dataChanged signal for the modified row
-        # ind = main.createvoucher.model.index(0, 0)
-        # ind1 = main.createvoucher.model.index(0, 1)
-        # main.createvoucher.model.dataChanged.emit(ind, ind1)
-        #
-        # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
-        # debitSum = main.createvoucher.table[:main.createvoucher.last_serialno,3].sum()
-        # main.debitAmount =  main.createvoucher.leDebit.setText(str(debitSum))
-        # print("debit Sum Amount")
-        #
-        # creditSum = main.createvoucher.table[:main.createvoucher.last_serialno,2].sum()
-        # main.creditAmount = main.createvoucher.leCredit.setText(str(creditSum))
 
-        # print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
-        # updateSumsOnSelectionChange(main)
-        # refreshComboBoxes(main, main.dr_cr)
-        ############### Clear the input widgets after adding data#################
-        # main.tableshow.cbAccountName.setCurrentIndex(0)
-        # main.recieptentry.cbDrCr.setCurrentIndex(0)
         main.recieptentry.leAmount.clear()
         # main.tableshow.cbCurrency.setCurrentIndex(0)
         main.recieptentry.hide()
 
     except:
         print(traceback.print_exc())
+
+
+
 
 
 
@@ -2050,16 +1960,16 @@ def updateSumsOnSelectionChange(main):
 
         # Calculate and update the sums here
         # Convert the values in the column to integers before summing
-        debitSum = np.sum(main.createvoucher.table[:, 2].astype(int))
-        print("debit sum", debitSum)
-        main.createvoucher.lbDebit.setText(str(debitSum))
-
-        # print(main.createvoucher.table[:, 2])
-        main.debitSum = np.sum(main.createvoucher.table[ : , 2].astype(int))
+        main.debitSum = np.sum(main.createvoucher.table[:, 2].astype(float))
         print("debit sum", main.debitSum)
         main.createvoucher.lbDebit.setText(str(main.debitSum))
 
-        main.creditSum = np.sum(main.createvoucher.table[ : , 3].astype(int))
+        # print(main.createvoucher.table[:, 2])
+        # main.debitSum = np.sum(main.createvoucher.table[ : , 2].astype(int))
+        # print("debit sum", main.debitSum)
+        # main.createvoucher.lbDebit.setText(str(main.debitSum))
+
+        main.creditSum = np.sum(main.createvoucher.table[ : , 3].astype(float))
         main.createvoucher.lbCredit.setText(str(main.creditSum))
 
         main.createvoucher.pbSubmit.setVisible(main.debitSum == main.creditSum)
@@ -2347,11 +2257,20 @@ def fetchDayBookData(main):
         # Check if data has already been fetched, if yes, return without fetching again
 
         cursor = main.db_connection.cursor()
-        command = "SELECT Date,DebitAccount, VoucherType, DebitAmount , CreditAmount FROM Voucher_table Where CompanyID = ?"
+        command = """
+        SELECT 
+                a.Date,
+                a.VoucherNO,a.VoucherType,b.DebitSideAccount as 'Debit Acc',
+                b.CreditSideAccount as 'Credit Acc',a.DebitAmount as 'Amount',b.Currency,a.Narration
+                FROM Voucher_Master a left join Voucher_details b on a.VoucherID = b.VoucherID
+                Where CompanyID = ?
+        """
         cursor.execute(command, (main.companyID,))
         data = cursor.fetchall()
 
-
+        main.daybook.model.DelRows(0,main.daybook.model.last_serialno)
+        main.daybook.last_serialno = 0
+        main.daybook.model.last_serialno = 0
         # print("data:", data)
         if data:
             # Populate the model only if there is data available
@@ -2372,8 +2291,9 @@ def fetchDayBookData(main):
 
 def showDayBook(main):
     try:
-        main.daybook.show()
+        # main.daybook.show()
         fetchDayBookData(main)
+        main.gateway.showDayBookFrame()
     except:
         print(traceback.print_exc())
 

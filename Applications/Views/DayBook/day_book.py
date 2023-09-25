@@ -38,7 +38,7 @@ class DayBookWindow(QMainWindow):
     def tables_details_DBK(self):
         try:
 
-            self.heads = ['Date', 'particular', 'Voucher Type', 'Debit Amount', 'Credit Amount']
+            self.heads = ['Date', 'VoucherNO', 'VoucherType', 'Debit Acc', 'Credit Acc','Amount','Currency','Narration']
             self.visibleColumns = len(self.heads)
             self.table = np.zeros((2000, len(self.heads)), dtype=object)
             self.model = ModelDBK(self.table, self.heads)
