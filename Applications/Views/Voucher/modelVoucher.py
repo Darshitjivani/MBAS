@@ -23,6 +23,7 @@ from PyQt5.QtWidgets import QMessageBox
 
 class ModelTS(QtCore.QAbstractTableModel):
 
+
     def __init__(self, data,heads,isReset=False):
         super(ModelTS, self).__init__()
         self._data = data
@@ -31,8 +32,10 @@ class ModelTS(QtCore.QAbstractTableModel):
         self.updated_row={}
         if(isReset):
             self.last_serialno = data.shape[0]
+            # self.dr_last_serialno = 0
         else:
             self.last_serialno = 0
+            # self.dr_last_serialno = 0
 
 
     def data(self, index, role):
@@ -78,50 +81,88 @@ class ModelTS(QtCore.QAbstractTableModel):
 
             print(traceback.print_exc())
 
-
-
     def setData(self, index, value, role=None):
-        '''
-            setData method for a Qt model, which is triggered when data is edited.
-            It checks if the edited value is different from the original and updates a dictionary called updated_row
-            with the changes if the column index is 0, 1 corresponding to
-            specific keys in the dictionary for a given 'Did'.
-
-
-           :param index:
-           :param value:
-           :param role:
-           :return:
-                       '''
         try:
-
             if role == Qt.EditRole:
-
                 if value == '':
                     return False
-                    # return False
-                else:
-                    if value == '':
-                        return False
-                    else:
-                        Tid = self._data[index.row()][0]
-                        Uid = self._data[index.row()][1]
-                        if Tid != '':
-                            if Tid not in self.updated_row:
-                                self.updated_row[Tid] = {}
-                                self.updated_row[Tid]['1'] = Uid
-                                self.updated_row[Tid]['1'] = str(value)
-                            else:
-                                self.updated_row[Tid]['1'] = str(value)
 
-                    self._data[index.row()][index.column()] = str(value)
-                    print("data table:",self._data)
+                row = index.row()
+                col = index.column()
+                dr_cr = self._data[row][0]
 
-                    return True
+                # Check if the edited cell is in a "Dr" or "Cr" column
+                if dr_cr == 'Dr' and col == 2:
+                    # Find the corresponding "Cr" row
+                    cr_row = next((i for i, row in enumerate(self._data) if row[0] == 'Cr'), None)
+
+                    if cr_row is not None:
+                        # Update the corresponding "Cr" row's amount
+                        self._data[cr_row][3] = str(value)
+
+                elif dr_cr == 'Cr' and col == 3:
+                    # Find the corresponding "Dr" row
+                    dr_row = next((i for i, row in enumerate(self._data) if row[0] == 'Dr'), None)
+
+                    if dr_row is not None:
+                        # Update the corresponding "Dr" row's amount
+                        self._data[dr_row][2] = str(value)
+
+                self._data[row][col] = str(value)
+                self.updated_row[self._data[row][0]] = {str(col + 1): str(value)}  # Update the dictionary
+                self.dataChanged.emit(index, index)
+
+                # Update sums after editing
+                # updateSumsOnSelectionChange(main)
+
+                return True
+
         except Exception as e:
             print(traceback.print_exc())
-            # Client_logger.error(f"{e}", exc_info=True)
 
+        return False
+
+    # def setData(self, index, value, role=None):
+    #     '''
+    #         setData method for a Qt model, which is triggered when data is edited.
+    #         It checks if the edited value is different from the original and updates a dictionary called updated_row
+    #         with the changes if the column index is 0, 1 corresponding to
+    #         specific keys in the dictionary for a given 'Did'.
+    #
+    #
+    #        :param index:
+    #        :param value:
+    #        :param role:
+    #        :return:
+    #                    '''
+    #     try:
+    #
+    #         if role == Qt.EditRole:
+    #
+    #             if value == '':
+    #                 return False
+    #                 # return False
+    #             else:
+    #                 if value == '':
+    #                     return False
+    #                 else:
+    #                     Tid = self._data[index.row()][0]
+    #                     Uid = self._data[index.row()][1]
+    #                     if Tid != '':
+    #                         if Tid not in self.updated_row:
+    #                             self.updated_row[Tid] = {}
+    #                             self.updated_row[Tid]['1'] = Uid
+    #                             self.updated_row[Tid]['1'] = str(value)
+    #                         else:
+    #                             self.updated_row[Tid]['1'] = str(value)
+    #
+    #                 self._data[index.row()][index.column()] = str(value)
+    #                 print("data table:",self._data)
+    #
+    #                 return True
+    #     except Exception as e:
+    #         print(traceback.print_exc())
+    #         # Client_logger.error(f"{e}", exc_info=True)
 
 
     def flags(self, index):

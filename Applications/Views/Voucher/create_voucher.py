@@ -75,7 +75,7 @@ class CreateVoucherWindow(QMainWindow):
                 f.write(binData)
             f.close()
 
-            # loc = os.getcwd().split('Application')[0]
+            loc = os.getcwd().split('Application')[0]
             settingsFilePath = os.path.join(loc1[0], 'Resources', 'Settings.json')
 
             f1 = open(settingsFilePath)
@@ -89,7 +89,7 @@ class CreateVoucherWindow(QMainWindow):
 
             f2 = open(settingsFilePath, 'w+')
             f2.write(pathDetails_new)
-            # pathDetails= json.load(f1)
+            pathDetails= json.load(f1)
             f2.close()
 
         except:
@@ -203,9 +203,20 @@ class CreateVoucherWindow(QMainWindow):
             print(sys.exc_info()[1])
     def clearFields(self):
         # Add code here to clear the input fields in your window
-        self.cbVoucherType.setCurrentIndex(0)
-        self.cbDebitedAccount.setCurrentIndex(0)
+        # self.cbVoucherType.setCurrentIndex(0)
+        # self.cbDebitedAccount.setCurrentIndex(0)
+        # self.model.removeRows(0, self.model.rowCount())
+        self.table[ : self.last_serialno] = [0, 0, 0, 0, 0]
         self.model.removeRows(0, self.model.rowCount())
+        
+
+        self.model.DelRows(0, self.last_serialno)
+        self.last_serialno = 0
+        self.model.last_serialno = 0
+        self.model.rowCount()
+        ind = self.model.index(0, 0)
+        ind1 = self.model.index(0, 1)
+        self.model.dataChanged.emit(ind, ind1)
         # self.tableshow.cbCurrency.setCurrentIndex(0)
         self.leNarration.clear()
         self.lbCredit.clear()
