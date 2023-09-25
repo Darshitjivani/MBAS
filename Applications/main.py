@@ -25,6 +25,7 @@ from Resources.icons import icons_rc
 
 class UIMain(QMainWindow):
     def __init__(self):
+        global is_filtered
         super(UIMain, self).__init__()
         loc1 = os.getcwd().split('Application')
         ui_main = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
@@ -35,11 +36,9 @@ class UIMain(QMainWindow):
         self.offset = None
         # self.createShortcuts()
 
-
         # self.createObjects()
+        initVariables(self)
         initialObjects(self)
-        # allObjects(self)
-        # allSlots(self)
         intialSlots(self)
 
 

@@ -428,7 +428,7 @@ QPushButton:hover {
           </size>
          </property>
          <property name="toolTip">
-          <string notr="true">Change Company</string>
+          <string notr="true">Change Company(Alt+C)</string>
          </property>
          <property name="toolTipDuration">
           <number>-1</number>
@@ -591,6 +591,9 @@ QPushButton:hover {
            <height>20</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>T</string>
+         </property>
         </widget>
        </item>
        <item row="4" column="0">
@@ -649,6 +652,9 @@ QPushButton:hover {
            <height>20</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>A</string>
+         </property>
         </widget>
        </item>
        <item row="8" column="0">
@@ -674,6 +680,9 @@ QPushButton:hover {
            <width>20</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="shortcut">
+          <string>B</string>
          </property>
         </widget>
        </item>
@@ -711,6 +720,9 @@ QPushButton:hover {
            <height>20</height>
           </size>
          </property>
+         <property name="shortcut">
+          <string>V</string>
+         </property>
         </widget>
        </item>
        <item row="6" column="0">
@@ -736,6 +748,9 @@ QPushButton:hover {
            <width>20</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="shortcut">
+          <string>D</string>
          </property>
         </widget>
        </item>
@@ -774,6 +789,9 @@ QPushButton:hover {
            <width>20</width>
            <height>20</height>
           </size>
+         </property>
+         <property name="shortcut">
+          <string>C</string>
          </property>
         </widget>
        </item>

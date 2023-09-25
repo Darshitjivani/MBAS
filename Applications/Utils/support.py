@@ -39,6 +39,8 @@ from Applications.Views.Voucher.reciept_entry import RecieptEntryWindow
 from Applications.Views.Voucher.sales_entry import SalesEntryWindow
 from Applications.Views.Voucher.table import Terminal
 
+
+
 #---------------------------------------------------- All Objects ---------------------------------------------#
 def allObjects(main):
     main.gateway = GatewaysWindow()  # Gateway Window
@@ -92,6 +94,7 @@ def allObjects(main):
 
 #--------------------------------------------------------- All Slots -----------------------------------------#
 
+
 def allSlots(main):
     #-----------------------  Login Window ----------------------------------------------#
 
@@ -103,28 +106,30 @@ def allSlots(main):
     main.pbCreateCompany.clicked.connect(main.companycreate.show)
 
     # Connect the "Add" button to the clear function
-    main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
+    # main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
 
 
 
     #-------------------------------- Gateway Window -------------------------------#
+    main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
     main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
+
+    main.gateway.pbAlterMaster.clicked.connect(main.gateway.showAlterFrame)
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
+
+    main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
+
+    main.gateway.pbVouchers.clicked.connect(main.gateway.showVouchersFrame)
     main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
+
+    main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
     main.gateway.pbTrailBalance.clicked.connect(lambda: showTrialBalance(main))
 
 
     # main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
     # main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
-    main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
-    main.gateway.pbAlterMaster.clicked.connect(main.gateway.showAlterFrame)
-    main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
-    main.gateway.pbVouchers.clicked.connect(main.gateway.showVouchersFrame)
     main.gateway.pbBalanceSheet.clicked.connect(main.gateway.showBalanceSheetFrame)
-    main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
-
-    main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
     main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
     main.gateway.pbClose.clicked.connect(main.gateway.close)
 
@@ -163,7 +168,6 @@ def allSlots(main):
 
     main.altermasterlist.pbAlterGroup.clicked.connect(main.altermasterlist.showAlterGroup)
     main.altermasterlist.pbAlterLedger.clicked.connect(main.altermasterlist.showAlterLedger)
-    #####################################################################################
     main.altermasterlist.pbAlterBranch.clicked.connect(main.altermasterlist.showAlterBranch)
     main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
     main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
@@ -202,14 +206,15 @@ def allSlots(main):
 
 
     # ------------------------------------- Trial Balance ------------------------------#
-    main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
+    main.trialbalance.pbBack_2.clicked.connect(main.trialbalance.hide)
     main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
     main.datefilter.deFrom.dateChanged.connect(lambda: filterbyDate(main))
     main.datefilter.deTo.dateChanged.connect(lambda: filterbyDate(main))
     main.datefilter.pbGetData.clicked.connect(main.datefilter.close)
+    main.datefilter.pbCancel.clicked.connect(main.datefilter.close)
+    # main.datefilter.pbCancel.clicked.connect(lambda:showTrialBalance(main))
 
     main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
-    # main.trialbalance.tableView.doubleClicked.connect(lambda:filteredTrialBalanceDoubleClicked(main))
 
     main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
     main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
@@ -222,8 +227,8 @@ def allSlots(main):
     main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
 
 
-
 # ------------------------------------ For Login Function ---------------------------------------
+
 
 def loginFunction(main):
 
@@ -290,7 +295,6 @@ def createCompanyPage(main):
     except:
         print(traceback.print_exc())
     listOfCompany(main)
-
 
 
 def createCompany(main):
@@ -387,6 +391,7 @@ def createCompany(main):
                 # main.gateway(main, company_name)
                 # main.gateway.show()
                 main.gateway.updateTitleLabel(company_name)
+                clearCompanyCreateFields(main)
 
             else:
                 # User chose not to continue, clear the company creation UI
@@ -401,7 +406,6 @@ def createCompany(main):
     except:
         print(traceback.print_exc())
     listOfCompany(main)
-
 
 
 def clearCompanyCreateFields(main):
@@ -419,7 +423,6 @@ def clearCompanyCreateFields(main):
     main.companycreate.leFormalName.clear()
     main.companycreate.deFYDate.clear()
     main.companycreate.deBookYear.clear()
-
 
 
 def listOfCompany(main):
@@ -1905,12 +1908,9 @@ def filterDataByDate(main):
     except:
         print(traceback.print_exc())
 
-#------------------------------------- Balance Sheet -------------------------------------------
-
-
-
 
 # ------------------------------------ For Trial Balance ---------------------------------------
+
 
 def fetchTrialBalanceData(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
     try:
@@ -2116,20 +2116,22 @@ def fetchTrialBalanceBranch(main,fromdate='01-04-2023',enddate=datetime.today().
 
 def trialBalanceComboBox(main):
     try:
-        global is_filtered
+
         main.trialbalance.model.clear()
         main.trialbalance.last_serialno = 0
         main.trialbalance.model.last_serialno = 0
 
         selcted_item = main.trialbalance.cbtrialbalance.currentText()
         print(selcted_item)
-        is_filtered = True
+        main.is_filtered = False
+        print("44444444444444444444444444444444444444444444444444444444444444444444444")
         if selcted_item ==("Ledger-Wise"):
             fetchTrialBalanceData(main)
         elif selcted_item ==("Group-Wise"):
             fetchTrialBalanceGroup(main)
         else:
             fetchTrialBalanceBranch(main)
+
     except:
         print(traceback.print_exc())
 
@@ -2141,6 +2143,8 @@ def filterClicked(main):
         main.trialbalance.model.last_serialno = 0
 
         selcted_item = main.trialbalance.cbtrialbalance.currentText()
+        main.is_filtered = True
+        print("66666655555555555555555555555555555555555555555555555555555555")
         if selcted_item ==("Ledger-Wise"):
             main.datefilter.pbGetData.clicked.connect(lambda: fetchTrialBalanceData(main, main.selectdateFrom, main.selectdateTo))
 
@@ -2150,172 +2154,19 @@ def filterClicked(main):
         else:
             main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceBranch(main,main.selectdateFrom,main.selectdateTo))
 
-       # trialBalanceDoubleClicked(main)
 
     except:
         print(traceback.print_exc())
 
 
-# is_filtered=False
-# def trialBalanceDoubleClicked(main):
-#     try:
-#         global is_filtered
-#         idy = main.trialbalance.cbtrialbalance.currentText()
-#
-#         if not is_filtered:
-#             if idy == "Ledger-Wise":
-#                 cursor = main.db_connection.cursor()
-#                 command = """SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount
-#                                   FROM Voucher_table"""
-#
-#                 cursor.execute(command, )
-#                 data = cursor.fetchall()
-#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-#                 filtered_data = [row for row in data if row[1] == idx]
-#             elif idy == "Group-Wise":
-#                 cursor = main.db_connection.cursor()
-#                 command = """SELECT
-#                                  Voucher_table.Date,
-#                                  Voucher_table.DebitAccount,
-#                                  Voucher_table.VoucherType,
-#                                  Voucher_table.DebitAmount,
-#                                  Voucher_table.CreditAmount,
-#                                  AccountMaster_table.Under_groupName
-#                               FROM
-#                                  AccountMaster_table
-#                               JOIN
-#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-#                               WHERE
-#                                  AccountMaster_table.CompanyID = ?"""
-#
-#                 cursor.execute(command, (main.companyID,))
-#                 data = cursor.fetchall()
-#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-#                 filtered_data = [row for row in data if row[5] == idx]
-#             else:
-#                 is_filtered = True
-#                 cursor = main.db_connection.cursor()
-#                 command = """SELECT
-#                                  Voucher_table.Date,
-#                                  Voucher_table.DebitAccount,
-#                                  Voucher_table.VoucherType,
-#                                  Voucher_table.DebitAmount,
-#                                  Voucher_table.CreditAmount,
-#                                  AccountMaster_table.under_branchname
-#                               FROM
-#                                  AccountMaster_table
-#                               JOIN
-#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-#                               WHERE
-#                                  AccountMaster_table.CompanyID = ?"""
-#
-#                 cursor.execute(command, (main.companyID,))
-#                 data = cursor.fetchall()
-#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-#                 filtered_data = [row for row in data if row[5] == idx]
-#
-#         else:
-#             if idy == "Ledger-Wise":
-#                 cursor = main.db_connection.cursor()
-#                 command = """SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount
-#                                   FROM Voucher_table
-#                                   WHERE Voucher_table.Date BETWEEN  ? AND ?"""
-#
-#                 cursor.execute(command, (main.selectdateFrom, main.selectdateTo))
-#                 data = cursor.fetchall()
-#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-#                 filtered_data = [row for row in data if row[1] == idx]
-#             elif idy == "Group-Wise":
-#                 cursor = main.db_connection.cursor()
-#                 command = """SELECT
-#                                  Voucher_table.Date,
-#                                  Voucher_table.DebitAccount,
-#                                  Voucher_table.VoucherType,
-#                                  Voucher_table.DebitAmount,
-#                                  Voucher_table.CreditAmount,
-#                                  AccountMaster_table.Under_groupName
-#                               FROM
-#                                  AccountMaster_table
-#                               JOIN
-#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-#                               WHERE
-#                                  AccountMaster_table.CompanyID = ?
-#                                  AND Voucher_table.Date BETWEEN  ? AND ?"""
-#
-#                 cursor.execute(command, (main.companyID, main.selectdateFrom, main.selectdateTo,))
-#                 data = cursor.fetchall()
-#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-#                 filtered_data = [row for row in data if row[5] == idx]
-#             else:
-#                 cursor = main.db_connection.cursor()
-#                 command = """SELECT
-#                                  Voucher_table.Date,
-#                                  Voucher_table.DebitAccount,
-#                                  Voucher_table.VoucherType,
-#                                  Voucher_table.DebitAmount,
-#                                  Voucher_table.CreditAmount,
-#                                  AccountMaster_table.under_branchname
-#                               FROM
-#                                  AccountMaster_table
-#                               JOIN
-#                                  Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-#                               WHERE
-#                                  AccountMaster_table.CompanyID = ?
-#                                  AND Voucher_table.Date BETWEEN  ? AND ?"""
-#
-#                 cursor.execute(command, (main.companyID, main.selectdateFrom, main.selectdateTo,))
-#                 data = cursor.fetchall()
-#                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
-#                 filtered_data = [row for row in data if row[5] == idx]
-#
-#
-#         print('idx', idx)
-#         # print("filtered_data",filtered_data)
-#
-#          # Create a QDialog to display the data in a table view
-#         dialog = QDialog(main)
-#         dialog.setWindowTitle("Data Details")
-#         dialog.setGeometry(580, 300, 450, 350)
-#
-#         # Create a QTableView and set the data model
-#         table_view = QTableView()
-#         model = QStandardItemModel()
-#         model.setColumnCount(5)
-#         model.setHorizontalHeaderLabels(["Date","Perticulars", "Voucher Type", "Debit Amount INR", "Credit Amount INR","banchName"])
-#
-#
-#         for row in filtered_data:
-#             # model.appendRow([QStandardItem(str(item)) for item in row])
-#             items = [QStandardItem(str(item)) for item in row]
-#             for item in items:
-#                 item.setFlags(item.flags() ^ Qt.ItemIsEditable)  # Make cells non-editable
-#             model.appendRow(items)
-#
-#         table_view.setModel(model)
-#         table_view.horizontalHeader().setStretchLastSection(True)
-#         table_view.setSelectionBehavior(QTableView.SelectRows)
-#
-#         # Hide the 6th column (index 5)
-#         table_view.setColumnHidden(5, True)
-#
-#         layout = QVBoxLayout()
-#         layout.addWidget(table_view)
-#         dialog.setLayout(layout)
-#
-#         # Show the dialog
-#         dialog.exec_()
-#
-#     except Exception as e:
-#         print(traceback.print_exc())
-
-
-is_filtered = False
 def trialBalanceDoubleClicked(main):
     try:
-        global is_filtered
         idy = main.trialbalance.cbtrialbalance.currentText()
-        if is_filtered:
+
+        if main.is_filtered :
+
             print("22222222222222222222222222222222222222222222222222222222222222")
+
             if idy=="Ledger-Wise":
                 cursor = main.db_connection.cursor()
                 command = """SELECT Date, DebitAccount, VoucherType,DebitAmount,CreditAmount
@@ -2368,9 +2219,7 @@ def trialBalanceDoubleClicked(main):
                 data = cursor.fetchall()
                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
                 filtered_data = [row for row in data if row[5] == idx]
-
-
-            is_filtered = False
+            main.is_filtered = True
 
         else:
             print("333333333333333333333333333333333333333333333333333333333333")
@@ -2424,7 +2273,9 @@ def trialBalanceDoubleClicked(main):
                 data = cursor.fetchall()
                 idx = main.trialbalance.tableView.selectedIndexes()[0].data()
                 filtered_data = [row for row in data if row[5] == idx]
-            is_filtered= True
+
+
+
         print('idx', idx)
         # print("filtered_data",filtered_data)
 
