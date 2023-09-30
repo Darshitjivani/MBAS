@@ -30,6 +30,10 @@ class CreateVoucherWindow(QMainWindow):
         # self.pbAdd.clicked.connect(self.window.show)
         # self.window.adddata.clicked.connect(self.AddRow)
 
+        # self.blur_effect = QGraphicsBlurEffect()
+        # self.blur_effect.setBlurRadius(5)  # You can adjust the blur radius as needed
+        # self.setGraphicsEffect(self.blur_effect)
+
 
 
     def tables_details_TWM(self):

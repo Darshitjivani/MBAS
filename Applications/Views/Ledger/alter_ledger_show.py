@@ -6,9 +6,9 @@ from PyQt5.QtCore import Qt
 from Themes.dt3 import dt3
 
 
-class AlterLedgerWindow(QMainWindow):
+class AlterLedgerUpdateWindow(QMainWindow):
     def __init__(self):
-        super(AlterLedgerWindow, self).__init__()
+        super(AlterLedgerUpdateWindow, self).__init__()
 
         # Load your UI and set window flags
         loc1 = os.getcwd().split('Application')

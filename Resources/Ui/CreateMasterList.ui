@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>457</width>
-    <height>437</height>
+    <width>473</width>
+    <height>478</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,7 +93,7 @@ background-color: #9a9a9a
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/corner-down-left.svg</normaloff>:/newPrefix/icons/corner-down-left.svg</iconset>
          </property>
         </widget>
@@ -265,18 +265,30 @@ color:#000000</string>
      <widget class="QWidget" name="widget" native="true">
       <property name="minimumSize">
        <size>
-        <width>0</width>
+        <width>144</width>
         <height>0</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>16777215</width>
+        <width>144</width>
         <height>16777215</height>
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">
+
+QWidget{
+	background-color: rgb(230, 230, 250);
+}
+
+QPushButton:hover {
+  border-radius: 05px;
+  padding: 5px;
+  color:#ffffff;
+  background-color:#9BA4B5;
+  border: 0px solid ;
+}</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <property name="leftMargin">
@@ -297,7 +309,26 @@ color:#000000</string>
        <property name="verticalSpacing">
         <number>5</number>
        </property>
-       <item row="1" column="0">
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pbCreateBranch">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Branch</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
         <widget class="QPushButton" name="pbCreateGroup">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -325,62 +356,7 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2" rowspan="4">
-        <widget class="Line" name="line_2">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color:transparent
-</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="Line" name="line">
-         <property name="styleSheet">
-          <string notr="true">background-color: transparent;</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="lbAccountMasters">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Accounting Masters</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
+       <item row="6" column="0">
         <widget class="Line" name="line_3">
          <property name="minimumSize">
           <size>
@@ -396,7 +372,7 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="0">
+       <item row="4" column="0">
         <widget class="QPushButton" name="pdCreateLedger">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Minimum" vsizetype="Minimum">
@@ -424,16 +400,58 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="pbCreateBranch">
+       <item row="3" column="2" rowspan="4">
+        <widget class="Line" name="line_2">
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>25</height>
+           <height>0</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:transparent
+</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="Line" name="line">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="lbAccountMasters">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
          <property name="text">
-          <string>Branch</string>
+          <string>Accounting Master</string>
          </property>
         </widget>
        </item>
