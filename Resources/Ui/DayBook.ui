@@ -99,7 +99,7 @@ background-color: #9a9a9a
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../icons/icons.qrc">
            <normaloff>:/newPrefix/icons/corner-down-left.svg</normaloff>:/newPrefix/icons/corner-down-left.svg</iconset>
          </property>
         </widget>
@@ -129,24 +129,6 @@ background-color: #9a9a9a
        <string notr="true"/>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>4</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>4</number>
-       </property>
-       <property name="horizontalSpacing">
-        <number>0</number>
-       </property>
-       <property name="verticalSpacing">
-        <number>4</number>
-       </property>
        <item row="0" column="0">
         <widget class="QLabel" name="label">
          <property name="text">
@@ -154,11 +136,15 @@ background-color: #9a9a9a
          </property>
         </widget>
        </item>
-       <item row="1" column="0" colspan="2">
-        <widget class="QTableView" name="tableView"/>
-       </item>
        <item row="0" column="1">
-        <widget class="QDateEdit" name="deDateEdit">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>From</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="2">
+        <widget class="QDateEdit" name="deFrom">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -175,6 +161,29 @@ background-color: #9a9a9a
           <string>dd-MM-yyyy</string>
          </property>
         </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label2">
+         <property name="text">
+          <string>To</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" rowspan="2">
+        <widget class="QDateEdit" name="deTo"/>
+       </item>
+       <item row="2" column="0" rowspan="2">
+        <widget class="QLineEdit" name="leAccount"/>
+       </item>
+       <item row="3" column="1" colspan="2">
+        <widget class="QPushButton" name="pbGetData">
+         <property name="text">
+          <string>GetData</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="3">
+        <widget class="QTableView" name="tableView"/>
        </item>
       </layout>
      </widget>

@@ -83,13 +83,13 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_4">
           <property name="leftMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -110,13 +110,13 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_6">
           <property name="leftMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -137,13 +137,13 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_7">
           <property name="leftMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -164,13 +164,13 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_8">
           <property name="leftMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -191,13 +191,13 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_9">
           <property name="leftMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -218,13 +218,40 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_10">
           <property name="leftMargin">
-           <number>3</number>
+           <number>0</number>
           </property>
           <property name="topMargin">
-           <number>5</number>
+           <number>0</number>
           </property>
           <property name="rightMargin">
-           <number>3</number>
+           <number>0</number>
+          </property>
+          <property name="bottomMargin">
+           <number>0</number>
+          </property>
+          <property name="spacing">
+           <number>0</number>
+          </property>
+         </layout>
+        </widget>
+       </item>
+       <item row="0" column="6">
+        <widget class="QFrame" name="fLedgerBalance">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_12">
+          <property name="leftMargin">
+           <number>0</number>
+          </property>
+          <property name="topMargin">
+           <number>0</number>
+          </property>
+          <property name="rightMargin">
+           <number>0</number>
           </property>
           <property name="bottomMargin">
            <number>0</number>
@@ -363,7 +390,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../icons/icons.qrc">
               <normaloff>:/newPrefix/icons/minimize.svg</normaloff>:/newPrefix/icons/minimize.svg</iconset>
             </property>
            </widget>
@@ -389,7 +416,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../icons/icons.qrc">
               <normaloff>:/newPrefix/icons/maximize-2.svg</normaloff>:/newPrefix/icons/maximize-2.svg</iconset>
             </property>
             <property name="iconSize">
@@ -442,7 +469,7 @@ background-color: rgb(186, 73, 51);
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="../icons/icons.qrc">
               <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
             </property>
             <property name="iconSize">
@@ -498,7 +525,7 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../icons/icons.qrc">
            <normaloff>:/newPrefix/icons/menu.svg</normaloff>:/newPrefix/icons/menu.svg</iconset>
          </property>
          <property name="iconSize">
@@ -524,7 +551,7 @@ QPushButton:hover {
           </size>
          </property>
          <property name="toolTip">
-          <string notr="true">Change Company(Alt+C)</string>
+          <string notr="true">Change Company</string>
          </property>
          <property name="toolTipDuration">
           <number>-1</number>
@@ -559,11 +586,8 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../icons/icons.qrc">
            <normaloff>:/newPrefix/icons/pie-chart.svg</normaloff>:/newPrefix/icons/pie-chart.svg</iconset>
-         </property>
-         <property name="shortcut">
-          <string>Alt+C</string>
          </property>
         </widget>
        </item>
@@ -660,7 +684,17 @@ QWidget{
        <property name="verticalSpacing">
         <number>10</number>
        </property>
-       <item row="9" column="0">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_10">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>TRANSACTIONS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
         <widget class="QPushButton" name="pbTrailBalance">
          <property name="minimumSize">
           <size>
@@ -683,41 +717,6 @@ QWidget{
            <width>20</width>
            <height>20</height>
           </size>
-         </property>
-         <property name="shortcut">
-          <string>T</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label_10">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>TRANSACTIONS</string>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="Line" name="line_3">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>260</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color:transparent;</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
@@ -745,12 +744,31 @@ QWidget{
            <height>20</height>
           </size>
          </property>
-         <property name="shortcut">
-          <string>A</string>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="Line" name="line_3">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>260</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
         </widget>
        </item>
-       <item row="8" column="0">
+       <item row="9" column="0">
         <widget class="QPushButton" name="pbBalanceSheet">
          <property name="minimumSize">
           <size>
@@ -773,19 +791,6 @@ QWidget{
            <width>20</width>
            <height>20</height>
           </size>
-         </property>
-         <property name="shortcut">
-          <string>B</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QLabel" name="label_11">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>MASTERS</string>
          </property>
         </widget>
        </item>
@@ -813,8 +818,25 @@ QWidget{
            <height>20</height>
           </size>
          </property>
-         <property name="shortcut">
-          <string>V</string>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_11">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>MASTERS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>REPORTS</string>
          </property>
         </widget>
        </item>
@@ -841,9 +863,6 @@ QWidget{
            <width>20</width>
            <height>20</height>
           </size>
-         </property>
-         <property name="shortcut">
-          <string>D</string>
          </property>
         </widget>
        </item>
@@ -883,18 +902,18 @@ QWidget{
            <height>20</height>
           </size>
          </property>
-         <property name="shortcut">
-          <string>C</string>
-         </property>
         </widget>
        </item>
        <item row="7" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="styleSheet">
-          <string notr="true"/>
+        <widget class="QPushButton" name="pbLedgerBalance">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>30</height>
+          </size>
          </property>
          <property name="text">
-          <string>REPORTS</string>
+          <string>Ledger</string>
          </property>
         </widget>
        </item>

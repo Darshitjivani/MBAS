@@ -141,61 +141,14 @@ color: rgb(0, 0, 0)</string>
        <property name="spacing">
         <number>0</number>
        </property>
-       <item row="1" column="0" colspan="6">
+       <item row="1" column="0" colspan="4">
         <widget class="QTableView" name="tableView"/>
        </item>
-       <item row="2" column="2">
-        <widget class="QLabel" name="lbDebitINR">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="5">
-        <widget class="QLabel" name="lbCreditUSD">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
+       <item row="0" column="0" colspan="4">
+        <widget class="QComboBox" name="cbAccount"/>
        </item>
        <item row="2" column="3">
-        <widget class="QLabel" name="lbCreditINR">
+        <widget class="QLabel" name="lbClosingBalanceCreditINR">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -211,7 +164,7 @@ color: rgb(0, 0, 0)</string>
          <property name="maximumSize">
           <size>
            <width>100</width>
-           <height>20</height>
+           <height>16777215</height>
           </size>
          </property>
          <property name="text">
@@ -219,19 +172,22 @@ color: rgb(0, 0, 0)</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
-        <widget class="Line" name="line">
+       <item row="3" column="3">
+        <widget class="QLabel" name="lbClosingBalanceCreditUSD">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>0</height>
+           <width>100</width>
+           <height>20</height>
           </size>
          </property>
-         <property name="styleSheet">
-          <string notr="true">background-color:transparent;</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
+         <property name="text">
+          <string/>
          </property>
         </widget>
        </item>
@@ -263,8 +219,24 @@ color: rgb(0, 0, 0)</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="4">
-        <widget class="QLabel" name="lbDebitUSD">
+       <item row="2" column="1">
+        <widget class="Line" name="line">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="2">
+        <widget class="QLabel" name="lbClosingBalanceDebitINR">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -280,7 +252,7 @@ color: rgb(0, 0, 0)</string>
          <property name="maximumSize">
           <size>
            <width>100</width>
-           <height>20</height>
+           <height>16777215</height>
           </size>
          </property>
          <property name="text">
@@ -288,51 +260,8 @@ color: rgb(0, 0, 0)</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="0" colspan="6">
-        <widget class="QComboBox" name="cbAccount"/>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="lbTotal">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>75</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>50</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Total</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="5">
-        <widget class="QLabel" name="lbClosingBalance">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>100</width>
-           <height>20</height>
-          </size>
-         </property>
+       <item row="3" column="2">
+        <widget class="QLabel" name="lbClosingBalanceDebitUSD">
          <property name="text">
           <string/>
          </property>
