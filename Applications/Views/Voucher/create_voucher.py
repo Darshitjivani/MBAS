@@ -221,6 +221,7 @@ class CreateVoucherWindow(QMainWindow):
         self.leNarration.clear()
         self.lbCredit.clear()
         self.lbDebit.clear()
+        self.lbCurrency.clear()
 
 
 

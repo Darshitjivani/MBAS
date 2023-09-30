@@ -80,6 +80,11 @@ class GatewaysWindow(QMainWindow):
         self.fDayBook.hide()
         self.fBalanceSheet.hide()
         self.fTrialBalance.hide()
+        self.fLedgerBalance.hide()
+
+    def showLedgerBalanceFrame(self):
+        self.hideAllFrames()
+        self.fLedgerBalance.show()
 
     def showCreateFrame(self):
         self.hideAllFrames()
