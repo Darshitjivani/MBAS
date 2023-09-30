@@ -1019,7 +1019,7 @@ QPushButton:selected {
 }
 
 QPushButton:hover {
-  border-radius: 05px;
+  border-radius: 5px;
   padding: 0px;
   color:#ffffff;
   background-color:#9BA4B5;

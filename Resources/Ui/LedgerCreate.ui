@@ -120,7 +120,7 @@ color:#000000</string>
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
          </property>
          <property name="iconSize">
@@ -170,23 +170,13 @@ color:#000000</string>
        <string notr="true"/>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="6" column="4">
-        <widget class="QLabel" name="label_9">
+       <item row="1" column="0">
+        <widget class="QLabel" name="label_4">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Pincode   :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="4">
-        <widget class="QLabel" name="label_6">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Address :</string>
+          <string>Under     :</string>
          </property>
         </widget>
        </item>
@@ -206,11 +196,15 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1" colspan="2">
-        <widget class="QComboBox" name="cbUnderGroup"/>
-       </item>
-       <item row="2" column="5" rowspan="2" colspan="3">
-        <widget class="QPlainTextEdit" name="ptAddress"/>
+       <item row="5" column="4">
+        <widget class="QLabel" name="label_8">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Country :</string>
+         </property>
+        </widget>
        </item>
        <item row="8" column="0" colspan="2">
         <widget class="QLabel" name="label_3">
@@ -228,37 +222,24 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="4">
-        <widget class="QLabel" name="label_5">
+       <item row="6" column="4">
+        <widget class="QLabel" name="label_9">
          <property name="styleSheet">
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Name     :</string>
+          <string>Pincode   :</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="4" colspan="2">
-        <widget class="QLabel" name="label_12">
-         <property name="styleSheet">
-          <string notr="true">
-text-decoration: underline;
-</string>
-         </property>
-         <property name="text">
-          <string>Mailing Details</string>
-         </property>
-        </widget>
+       <item row="2" column="5" rowspan="2" colspan="3">
+        <widget class="QPlainTextEdit" name="ptAddress"/>
        </item>
-       <item row="4" column="4">
-        <widget class="QLabel" name="label_7">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>State      :</string>
-         </property>
-        </widget>
+       <item row="6" column="5" colspan="3">
+        <widget class="QLineEdit" name="lePincode"/>
+       </item>
+       <item row="4" column="5" colspan="2">
+        <widget class="QComboBox" name="cbState"/>
        </item>
        <item row="7" column="6">
         <widget class="Line" name="line_3">
@@ -269,39 +250,6 @@ text-decoration: underline;
           <enum>Qt::Vertical</enum>
          </property>
         </widget>
-       </item>
-       <item row="5" column="5" colspan="3">
-        <widget class="QLineEdit" name="leCountry">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="5" colspan="3">
-        <widget class="QLineEdit" name="leMailingName"/>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="label_4">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Under     :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2" rowspan="5">
-        <widget class="Line" name="line_2">
-         <property name="styleSheet">
-          <string notr="true">background-color: transparent</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="5" colspan="3">
-        <widget class="QLineEdit" name="lePincode"/>
        </item>
        <item row="8" column="5">
         <widget class="QPushButton" name="pbDelete">
@@ -316,58 +264,6 @@ text-decoration: underline;
          </property>
          <property name="text">
           <string>Delete</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="4">
-        <widget class="QLabel" name="label_8">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Country :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>21</height>
-          </size>
-         </property>
-         <property name="text">
-          <string> Branch    :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1" colspan="2">
-        <widget class="QComboBox" name="cbUnderBranch">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>27</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1" colspan="2">
-        <widget class="QLineEdit" name="leAcName"/>
-       </item>
-       <item row="8" column="2">
-        <widget class="QLineEdit" name="leBalance">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>25</height>
-          </size>
          </property>
         </widget>
        </item>
@@ -400,8 +296,112 @@ text-decoration: underline;
          </property>
         </widget>
        </item>
-       <item row="4" column="5" colspan="2">
-        <widget class="QComboBox" name="cbState"/>
+       <item row="1" column="4">
+        <widget class="QLabel" name="label_5">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Name     :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>21</height>
+          </size>
+         </property>
+         <property name="text">
+          <string> Branch    :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1" colspan="2">
+        <widget class="QLineEdit" name="leAcName"/>
+       </item>
+       <item row="2" column="1" colspan="2">
+        <widget class="QComboBox" name="cbUnderBranch">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>27</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="4">
+        <widget class="QLabel" name="label_7">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>State      :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="8" column="2">
+        <widget class="QLineEdit" name="leBalance">
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>25</height>
+          </size>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1" colspan="2">
+        <widget class="QComboBox" name="cbUnderGroup"/>
+       </item>
+       <item row="5" column="5" colspan="3">
+        <widget class="QLineEdit" name="leCountry">
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QLabel" name="label_6">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>Address :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5" colspan="3">
+        <widget class="QLineEdit" name="leMailingName"/>
+       </item>
+       <item row="0" column="4" colspan="2">
+        <widget class="QLabel" name="label_12">
+         <property name="styleSheet">
+          <string notr="true">
+text-decoration: underline;
+</string>
+         </property>
+         <property name="text">
+          <string>Mailing Details</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="2" rowspan="5">
+        <widget class="Line" name="line_2">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

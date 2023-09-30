@@ -29,6 +29,12 @@ def initialObjects(main):
 
 
 
+def initVariables(main):
+    try:
+        main.is_filtered = False
+    except:
+        print(traceback.print_exc())
+
 def intialSlots(main):
     # ------------------------------- Main Window --------------#
 

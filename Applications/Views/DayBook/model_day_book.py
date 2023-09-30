@@ -19,8 +19,6 @@ from PyQt5.QtCore import Qt,QModelIndex
 from PyQt5.QtWidgets import QMessageBox
 
 
-
-
 class ModelDBK(QtCore.QAbstractTableModel):
 
     def __init__(self, data,heads,isReset=False):
@@ -36,15 +34,7 @@ class ModelDBK(QtCore.QAbstractTableModel):
 
 
     def data(self, index, role):
-        '''
-         This function defines a method called data within a class.
-          It is responsible for providing data and roles for items in a Qt model-view framework.
-         Depending on the role, it returns either the data value,
-          text representation, or alignment for a specific cell at the given index.
-         :param index:
-         :param role:
-         :return:
-                             '''
+
         try:
 
             value = self._data[index.row(), index.column()]
@@ -81,18 +71,7 @@ class ModelDBK(QtCore.QAbstractTableModel):
 
 
     def setData(self, index, value, role=None):
-        '''
-            setData method for a Qt model, which is triggered when data is edited.
-            It checks if the edited value is different from the original and updates a dictionary called updated_row
-            with the changes if the column index is 0, 1 corresponding to
-            specific keys in the dictionary for a given 'Did'.
 
-
-           :param index:
-           :param value:
-           :param role:
-           :return:
-                       '''
         try:
 
             if role == Qt.EditRole:
@@ -124,12 +103,7 @@ class ModelDBK(QtCore.QAbstractTableModel):
 
 
     def flags(self, index):
-        '''
-         The flags function  in this code defines the item flags for an item at a given index in a Qt model,
-         allowing it to be selectable, enabled, and editable, all specified using bitwise OR operations on Qt flags.
-         :param index:
-         :return :
-                             '''
+
         try:
 
             return Qt.ItemIsSelectable | Qt.ItemIsEnabled
@@ -138,12 +112,7 @@ class ModelDBK(QtCore.QAbstractTableModel):
             # Client_logger.error(f"{e}", exc_info=True)
 
     def rowCount(self, index=''):
-        '''
-          The rowCount method returns the value of self.last_serialno, which presumably
-          represents the number of rows in a data structure or container, and it accepts an optional index parameter,
-          :param index:
-          :return:
-                              '''
+
         try:
 
             return self.last_serialno
@@ -153,12 +122,7 @@ class ModelDBK(QtCore.QAbstractTableModel):
 
 
     def columnCount(self, index):
-        '''
-            The columnCount method returns the value of self.heads, which presumably
-           represents the number of rows in a data structure or container, and it accepts an optional index paramete
-           :param index:
-           :return:
-                               '''
+
         try:
 
             return len(self.heads)

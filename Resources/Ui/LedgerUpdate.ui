@@ -55,6 +55,7 @@
       </property>
       <property name="styleSheet">
        <string notr="true">
+background-color: rgb(212, 212, 212);
 font: 63 11pt &quot;Segoe UI Semibold&quot;;
 color:#000000</string>
       </property>
@@ -101,7 +102,7 @@ color:#000000</string>
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
          </property>
          <property name="iconSize">
@@ -124,7 +125,7 @@ color:#000000</string>
           <string notr="true"/>
          </property>
          <property name="text">
-          <string>Ledger Updatation</string>
+          <string>Ledger Updation</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignCenter</set>
@@ -167,7 +168,17 @@ color:#000000</string>
        <enum>Qt::LeftToRight</enum>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">QWidget{
+	background-color: rgb(230, 230, 250);
+}
+
+QPushButton:hover {
+  border-radius: 5px;
+  padding: 5px;
+  color:#ffffff;
+  background-color:#9BA4B5;
+  border: 0px solid ;
+}</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="0" column="0">
@@ -319,8 +330,7 @@ text-decoration: underline;
        <item row="6" column="4">
         <widget class="QLabel" name="label_9">
          <property name="styleSheet">
-          <string notr="true">font: 10pt &quot;Sitka Text&quot;;
-</string>
+          <string notr="true"/>
          </property>
          <property name="text">
           <string>Pincode   :</string>

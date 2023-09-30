@@ -25,6 +25,7 @@ from Resources.icons import icons_rc
 
 class UIMain(QMainWindow):
     def __init__(self):
+        global is_filtered
         super(UIMain, self).__init__()
         loc1 = os.getcwd().split('Application')
         ui_main = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
@@ -33,19 +34,13 @@ class UIMain(QMainWindow):
         self.pbMaximized.clicked.connect(self.showmaximized)
         self.dragging = False
         self.offset = None
-        # self.createShortcuts()
-
-
-        # self.createObjects()
+        initVariables(self)
         initialObjects(self)
-        # allObjects(self)
-        # allSlots(self)
         intialSlots(self)
 
 
         self.login.show()
         self.hideAllFrames()
-        # self.lbLanding.show()
 
         self.maxwin = True
 
@@ -71,7 +66,6 @@ class UIMain(QMainWindow):
     def showCreateCompany(self):
         self.hideAllFrames()
         self.fCreateCompany.show()
-        # self.lbLanding.hide()
 
 
 
@@ -89,29 +83,19 @@ class UIMain(QMainWindow):
 
     def mousePressEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
-            # Calculate the offset between the mouse click and the window position
             self.offset = event.globalPos() - self.pos()
             self.dragging = True
 
 
     def mouseMoveEvent(self, event: QMouseEvent):
         if self.dragging:
-            # Move the window with the mouse while dragging
             self.move(event.globalPos() - self.offset)
 
 
     def mouseReleaseEvent(self, event: QMouseEvent):
         if event.button() == Qt.LeftButton:
-            # Stop dragging when the left mouse button is released
             self.dragging = False
             self.offset = None
-
-    #----------------------------- Shortcut For Close ------------------------------------#
-
-    # def createShortcuts(self):
-    #     self.quitSc = QShortcut(QKeySequence('Esc'), self)
-    #     self.quitSc.activated.connect(self.close)
-
 
 
 if __name__ == '__main__':
@@ -119,6 +103,4 @@ if __name__ == '__main__':
     window = UIMain()
     window.setWindowTitle("MBAS")
     window.setGeometry(350, 100, 800, 600)
-    # window.show()
-    # window.hide()
     app.exec()
