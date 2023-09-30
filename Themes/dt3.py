@@ -67,7 +67,7 @@ See Qt documentation:
 
 --------------------------------------------------------------------------- */
         QWidget {
-  background-color : #f9f9f9;
+  background-color : #f5f6fa;
   border: 0px solid #2d2d2d;
   padding: 0px;
   color: #F0F0F0;
@@ -76,19 +76,19 @@ See Qt documentation:
 }
 
 QWidget:disabled {
-  background-color: #f9f9f9;
+  background-color: #f5f6fa;
   color: #787878;
   selection-background-color: #14506E;
   selection-color: #787878;
 }
 
 QWidget::item:selected {
-  background-color: #9DB2BF;
+  background-color: #f5f6fa;
   color: #2d2d2d;
 }
 
 QWidget::item:hover { 
-  background-color: #9DB2BF;
+  background-color: #f5f6fa;
   color: #2d2d2d;
 }
 
@@ -1001,9 +1001,9 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qpushbutton
 QPushButton{
 
 
-background-color:#ffffff;
+background-color:#293241;
   border-radius: 4px;
-  color: #000000;
+  color: #ffffff;
 font: 63 11pt "Segoe UI Semibold";
   padding: 0px;
 
@@ -1021,8 +1021,8 @@ QPushButton:selected {
 QPushButton:hover {
   border-radius: 5px;
   padding: 0px;
-  color:#ffffff;
-  background-color:#9BA4B5;
+  color:#000000;
+  background-color:#f0f0f0;
   border: 0px solid ;
 }
 

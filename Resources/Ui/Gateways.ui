@@ -636,16 +636,10 @@ color: rgb(0, 0, 0)</string>
 	text-align:left;}
 
 QWidget{
-	background-color: rgb(230, 230, 250);
+	background-color:#ffffff;
 }
 
-QPushButton:hover {
-  border-radius: 05px;
-  padding: 5px;
-  color:#ffffff;
-  background-color:#9BA4B5;
-  border: 0px solid ;
-}</string>
+</string>
       </property>
       <layout class="QGridLayout" name="gridLayout_5">
        <property name="leftMargin">

@@ -458,6 +458,25 @@ def listOfCompany(main):
 
                 item = QListWidgetItem()
                 company_button = QPushButton(company_name)
+                company_button.setStyleSheet( "QPushButton {" "width: 150px;"
+                                                "cursor: pointer;"
+                                                "height: 30px;"
+                                                "font: 63 11pt Segoe UI Semibold;"
+                                                "background-color: #293241;"
+                                                "color: #FFFFFF;"
+                                                "border: none;"
+                                                "text-align: center;"
+                                                "text-decoration: none;"
+                                                "display: inline-block;"
+                                                "font-size: 16px;"
+                                                "margin: 8px;"
+                                                "border-radius: 5px;""}"
+                                                "QPushButton:hover {"
+                                                "background-color: #f0f0f0;"
+                                                "color: #000000;""}");
+
+
+
                 # button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
                 company_button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
                 item.setSizeHint(company_button.sizeHint())  # Set the size of the item to match the button's size
