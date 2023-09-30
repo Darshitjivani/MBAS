@@ -1935,14 +1935,14 @@ def closingBalance(main):
                                     SET Debit=?,Credit=?,
                                     Date='31-03-2024', VoucherNo=''
                                     WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='INR' '''
-                    value = (0,debit_closing_balance,debit_account)
+                    value = (0,abs(debit_closing_balance),debit_account)
                     cursor.execute(update_query, value)
                 else:
                     update_query = '''UPDATE Ledger_table
                                     SET Debit=?,Credit=?,
                                     Date='31-03-2024', VoucherNo=''
                                     WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='INR'  '''
-                    value = (debit_closing_balance, 0, debit_account)
+                    value = (abs(debit_closing_balance), 0, debit_account)
                     cursor.execute(update_query, value)
 
 
@@ -1953,13 +1953,13 @@ def closingBalance(main):
                     cursor.execute("""
                                     INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
                                     VALUES (?, ?, ?, ?, ?,?,?)
-                                """, (debit_account,'31-03-2024','Closing Balance','',currency,0, debit_closing_balance))
+                                """, (debit_account,'31-03-2024','Closing Balance','',currency,0, abs(debit_closing_balance)))
                 else:
                     # Insert debit side entry
                     cursor.execute("""
                                                    INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
                                                    VALUES (?, ?, ?, ?, ?,?,?)
-                                               """, (debit_account,'31-03-2024', 'Closing Balance','', currency, debit_closing_balance , 0))
+                                               """, (debit_account,'31-03-2024', 'Closing Balance','', currency, abs(debit_closing_balance) , 0))
 
 
             if credit_ledger_id is not None:
@@ -1968,7 +1968,7 @@ def closingBalance(main):
                                      SET Debit=?,Credit=?,
                                      Date='31-03-2024', VoucherNo=''
                                      WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency= 'INR'  '''
-                    value = (0, credit_closing_balance, credit_account)
+                    value = (0, abs(credit_closing_balance), credit_account)
                     cursor.execute(update_query, value)
 
                     print("debit side", value)
@@ -1977,7 +1977,7 @@ def closingBalance(main):
                                      SET Debit=?,Credit=? ,
                                      Date='31-03-2024', VoucherNo=''  
                                      WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='INR'  '''
-                    value = (credit_closing_balance,0, credit_account)
+                    value = (abs(credit_closing_balance),0, credit_account)
                     cursor.execute(update_query, value)
 
                     print("debit side", value)
@@ -1987,16 +1987,16 @@ def closingBalance(main):
                 if credit_closing_balance <0:
                     # Insert credit side entry
                     cursor.execute("""
-                                    INSERT INTO Ledger_table (LedgerName, Date,Perticulars, Currency, Debit, Credit)
+                                    INSERT INTO Ledger_table (LedgerName,Date,Perticulars,VoucherNo, Currency, Debit, Credit)
                                     VALUES (?, ?, ?, ?, ?,?,?)
-                                """, (credit_account, 'Closing Balance', currency, 0,credit_closing_balance))
+                                """, (credit_account, '31-03-2024','Closing Balance','', currency, 0,abs(credit_closing_balance)))
                 else:
                     # Insert credit side entry
                     cursor.execute("""
-                                    INSERT INTO Ledger_table (LedgerName, Perticulars, Currency, Debit, Credit)
-                                    VALUES (?, ?, ?, ?, ?)
+                                    INSERT INTO Ledger_table (LedgerName, Date,Perticulars, VoucherNo,Currency, Debit, Credit)
+                                    VALUES (?, ?, ?, ?, ?,?,?)
                                                 """,
-                                   (credit_account, 'Closing Balance', currency, credit_closing_balance, 0))
+                                   (credit_account, '31-03-2024','Closing Balance', '',currency, abs(credit_closing_balance), 0))
 
     ################################################################## USD #########################################
         else:
@@ -2033,7 +2033,7 @@ def closingBalance(main):
                                        Date='31-03-2024', VoucherNo=''
                                         
                                        WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='USD' '''
-                    value = (0, debit_closing_balance_usd, debit_account)
+                    value = (0, abs(debit_closing_balance_usd), debit_account)
                     cursor.execute(update_query, value)
                 else:
                     update_query = '''UPDATE Ledger_table
@@ -2041,7 +2041,7 @@ def closingBalance(main):
                                        Date='31-03-2024', VoucherNo=''
                                  
                                        WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='USD' '''
-                    value = (debit_closing_balance_usd, 0, debit_account)
+                    value = (abs(debit_closing_balance_usd), 0, debit_account)
                     cursor.execute(update_query, value)
 
                 print("debit side", value)
@@ -2051,7 +2051,7 @@ def closingBalance(main):
                     cursor.execute("""
                                        INSERT INTO Ledger_table (LedgerName, Date,Perticulars,VoucherNo,Currency, Debit, Credit)
                                        VALUES (?, ?, ?, ?, ?,?,?)
-                                   """, (debit_account,'31-03-2024', 'Closing Balance','', currency, 0, debit_closing_balance_usd))
+                                   """, (debit_account,'31-03-2024', 'Closing Balance','', currency, 0, abs(debit_closing_balance_usd)))
                 elif credit_closing_balance_usd is None:
                     pass
                 else:
@@ -2060,7 +2060,7 @@ def closingBalance(main):
                                   INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
                                   VALUES (?, ?, ?, ?, ?,?,?)
                                                   """,
-                                   (debit_account, '31-03-2024','Closing Balance', '',currency, debit_closing_balance_usd, 0))
+                                   (debit_account, '31-03-2024','Closing Balance', '',currency, abs(debit_closing_balance_usd), 0))
 
             if credit_ledger_id_usd is not None:
                 if credit_closing_balance_usd < 0:
@@ -2068,7 +2068,7 @@ def closingBalance(main):
                                         SET Debit=?,Credit=? ,
                                         Date='31-03-2024', VoucherNo=''
                                         WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='USD' '''
-                    value = (0, credit_closing_balance_usd, credit_account)
+                    value = (0, abs(credit_closing_balance_usd), credit_account)
                     cursor.execute(update_query, value)
 
                     print("debit side", value)
@@ -2078,7 +2078,7 @@ def closingBalance(main):
                                         Date='31-03-2024', VoucherNo='' 
                                         
                                         WHERE  LedgerName=? AND Perticulars='Closing Balance'  AND Currency='USD' '''
-                    value = (credit_closing_balance_usd, 0, credit_account)
+                    value = (abs(credit_closing_balance_usd), 0, credit_account)
                     cursor.execute(update_query, value)
 
                     print("debit side", value)
@@ -2090,7 +2090,7 @@ def closingBalance(main):
                     cursor.execute("""
                                        INSERT INTO Ledger_table (LedgerName,Date, Perticulars, VoucherNo,Currency, Debit, Credit)
                                        VALUES (?, ?, ?, ?, ?,?,?)
-                                   """, (credit_account, '31-03-2024','Closing Balance', '',currency, 0, credit_closing_balance_usd))
+                                   """, (credit_account, '31-03-2024','Closing Balance', '',currency, 0, abs(credit_closing_balance_usd)))
                 elif credit_closing_balance_usd is None:
                     pass
                 else:
@@ -2099,7 +2099,7 @@ def closingBalance(main):
                                        INSERT INTO Ledger_table (LedgerName, Date,Perticulars,VoucherNo, Currency, Debit, Credit)
                                        VALUES (?, ?, ?, ?, ?,?,?)
                                                    """,
-                                   (credit_account, '31-03-024','Closing Balance','', currency, credit_closing_balance_usd, 0))
+                                   (credit_account, '31-03-024','Closing Balance','', currency, abs(credit_closing_balance_usd), 0))
 
 
         main.db_connection.commit()
@@ -4560,27 +4560,44 @@ def loadLedgerData(main):
 
         # Fetch the query results
         ledger_data = cursor.fetchall()
+        # print("ledger data", ledger_data)
+
 
         # print("leadger data:", ledger_data)
-        main.ledgerblance.table[0:main.ledgerblance.last_serialno]=[0,0,0,0,0,0]
+        main.ledgerblance.table[0:main.ledgerblance.last_serialno]=[0,0,0,0,0,0,0]
         main.ledgerblance.model.DelRows(0, main.ledgerblance.model.last_serialno)
         main.ledgerblance.last_serialno = 0
         main.ledgerblance.model.last_serialno = 0
         # print("data:", data)
-
+        index_list = [0, 1, 2, 3, 4,5,6]
         # Populate the model only if there is data available
         for row in ledger_data:
-            main.ledgerblance.table[main.ledgerblance.last_serialno] = list(row)
-            main.ledgerblance.last_serialno += 1
-            main.ledgerblance.model.last_serialno += 1
-            main.ledgerblance.model.insertRows()
-            main.ledgerblance.model.rowCount()
+            if row[3]=='INR':
+                print("ledger data",[row[0],row[1],row[2],f"{row[4]}  {row[3]}",f"{row[5]}  {row[3]}",0,0])
+                main.ledgerblance.table[main.ledgerblance.last_serialno,index_list] = [row[0],row[1],row[2],row[4],row[5],0,0]
+                main.ledgerblance.last_serialno += 1
+                main.ledgerblance.model.last_serialno += 1
+                main.ledgerblance.model.insertRows()
+                main.ledgerblance.model.rowCount()
 
-            # Emit dataChanged signal for the modified row
-            ind = main.ledgerblance.model.index(0, 0)
-            ind1 = main.ledgerblance.model.index(0, 1)
-            main.ledgerblance.model.dataChanged.emit(ind, ind1)
+                # Emit dataChanged signal for the modified row
+                ind = main.ledgerblance.model.index(0, 0)
+                ind1 = main.ledgerblance.model.index(0, 1)
+                main.ledgerblance.model.dataChanged.emit(ind, ind1)
+            elif row[3]=='USD':
+                # print("ledger data", [row[0], row[1], row[2], f"{row[4]}  {row[3]}", f"{row[5]}  {row[3]}", 0, 0])
+                main.ledgerblance.table[main.ledgerblance.last_serialno, index_list] = [row[0], row[1], row[2],0,0,
+                                                                                        row[4],
+                                                                                        row[5]]
+                main.ledgerblance.last_serialno += 1
+                main.ledgerblance.model.last_serialno += 1
+                main.ledgerblance.model.insertRows()
+                main.ledgerblance.model.rowCount()
 
+                # Emit dataChanged signal for the modified row
+                ind = main.ledgerblance.model.index(0, 0)
+                ind1 = main.ledgerblance.model.index(0, 1)
+                main.ledgerblance.model.dataChanged.emit(ind, ind1)
 
         # totalSumInLedger(main)
     except Exception as e:
@@ -4639,9 +4656,9 @@ def totalClosingBalance(main):
         main.ledgerblance.lbClosingBalanceDebitINR.setText(f"{closing_debit_inr} {currency_inr}")
         main.ledgerblance.lbClosingBalanceCreditINR.setText(f"{closing_credit_inr} {currency_inr}")
 
+        if len(ledger_data) >= 2:
+            closing_debit_usd = ledger_data[1][0]
 
-        closing_debit_usd = ledger_data[1][0]
-        if closing_debit_usd is  not None:
             closing_credit_usd = ledger_data[1][1]
             currency_usd = ledger_data[1][2]
 

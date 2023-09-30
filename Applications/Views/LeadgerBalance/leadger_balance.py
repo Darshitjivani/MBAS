@@ -39,7 +39,7 @@ class LedgerBalanceWindow(QMainWindow):
     def tables_details_LBC(self):
         try:
 
-            self.heads = ['Date','Perticular', 'Voucher No',  'Currency','Debit','Credit']
+            self.heads = ['Date','Perticular', 'Voucher No','Debit INR','Credit INR','Debit USD','Credit USD']
             self.visibleColumns = len(self.heads)
             self.table = np.zeros((2000, len(self.heads)), dtype=object)
             self.model = ModelLBC(self.table, self.heads)
