@@ -1426,7 +1426,7 @@ def generate_new_voucher_number(main):
         # Query to retrieve the maximum voucher number
         cursor.execute("SELECT MAX(VoucherNO) FROM Voucher_Master")
         max_voucher_no = cursor.fetchone()[0]
-        print("voucher number in database", max_voucher_no)
+        # print("voucher number in database", max_voucher_no)
 
         # Check if max_voucher_no is None (i.e., no existing vouchers)
         if max_voucher_no is None:
@@ -1438,7 +1438,7 @@ def generate_new_voucher_number(main):
             numeric_part += 1
             # Combine the prefix and incremented numeric part
             new_voucher_no = f"Voucher_{numeric_part:04d}"
-            print("new voucher number", new_voucher_no)
+            # print("new voucher number", new_voucher_no)
         return new_voucher_no
 
     except Exception as e:
@@ -1475,10 +1475,14 @@ def generate_new_voucher_number(main):
 #         print("Error generating new voucher number:", str(e))
 #         return None
 
+
+
 def showVoucherPage(main):
     try:
         main.createvoucher.show()
+
         # setVoucherType(main)
+        main.createvoucher.clearFields()
         new_voucher_number = generate_new_voucher_number(main)
         main.createvoucher.leVoucherNo.setText(new_voucher_number)
         main.createvoucher.pbDelete.setVisible(False)
@@ -1489,9 +1493,12 @@ def showVoucherPage(main):
 
         current_date = QDate.currentDate()
         main.createvoucher.deDate.setDate(current_date)
-        main.contraentry.cbAccountName.addItems(account_name)
-        main.paymententry.cbAccountName.addItems(account_name)
-        main.createvoucher.tableView.selectionModel().selectionChanged.connect(lambda :updateSumsOnSelectionChange(main))
+        # main.contraentry.cbAccountName.addItems(account_name)
+        # main.paymententry.cbAccountName.addItems(account_name)
+
+
+        main.createvoucher.model.dataChanged.connect(lambda: updateSumsOnSelectionChange(main))
+        # main.createvoucher.tableView.selectionModel().selectionChanged.connect(lambda :updateSumsOnSelectionChange(main))
 
     except:
         print(traceback.print_exc())
@@ -1516,7 +1523,7 @@ def getVoucherType(main):
 
 
 def getAccountMaster(main):
-    print("hello")
+    # print("hello")
 
     try:
         company_id = main.companyID
@@ -1538,7 +1545,7 @@ def getAccountMaster(main):
 ################################################ Voucher Data #################################################
 
 def saveVoucherData(main):
-    print("hello voucher")
+    # print("hello voucher")
     # print(data)
     try:
         try:
@@ -1550,7 +1557,7 @@ def saveVoucherData(main):
             narration = main.createvoucher.leNarration.text()
             # Create a QDate object for the current date
             selected_date = main.createvoucher.deDate.date()
-            print("type of date ", type(selected_date))
+            # print("type of date ", type(selected_date))
             selected_date_str = selected_date.toString("dd-MM-yyyy")  # Convert QDate to string in the format "YYYY-MM-DD"
             main.selected_date_str = selected_date.toString(
                 "dd-MM-yyyy")  # Convert QDate to string in the format "YYYY-MM-DD"
@@ -1611,7 +1618,7 @@ def saveVoucherData(main):
 
             try:
                 # Insert a new voucher record and store the data table ID
-                print('dkjfkdjfk')
+                # print('dkjfkdjfk')
                 cursor = main.db_connection.cursor()
 
                 # query = '''SELECT VoucherID FROM Voucher_Master WHERE VoucherNO = ?'''
@@ -4499,7 +4506,7 @@ def showLedgerBalance(main):
 
         # Connect the currentIndexChanged signal to the slot function
         main.ledgerblance.cbAccount.activated.connect(lambda : loadLedgerData(main))
-        main.ledgerblance.cbAccount.activated.connect(lambda : totalSumInLedger(main))
+        main.ledgerblance.cbAccount.activated.connect(lambda : totalClosingBalance(main))
 
         # totalSumInLedger(main)
     except:
@@ -4575,7 +4582,7 @@ def loadLedgerData(main):
             main.ledgerblance.model.dataChanged.emit(ind, ind1)
 
 
-        totalSumInLedger(main)
+        # totalSumInLedger(main)
     except Exception as e:
         print("Error loading ledger data:", str(e))
 
@@ -4612,7 +4619,41 @@ def totalSumInLedger(main):
     except:
         print(traceback.print_exc())
 
+def totalClosingBalance(main):
+    try:
+        selected_account = main.ledgerblance.cbAccount.currentText()
 
+        # Execute the SQL query based on the selected account name
+        cursor = main.db_connection.cursor()
+        cursor.execute("""
+                    SELECT Debit, Credit , Currency
+                    FROM Ledger_table
+                    WHERE LedgerName = ? AND Perticulars = 'Closing Balance'
+                    ORDER BY Date ASC;
+                """, (selected_account,))
+        ledger_data = cursor.fetchall()
+        # print("ledger data", ledger_data)
+        closing_credit_inr = ledger_data[0][1]
+        closing_debit_inr = ledger_data[0][0]
+        currency_inr = ledger_data[0][2]
+        main.ledgerblance.lbClosingBalanceDebitINR.setText(f"{closing_debit_inr} {currency_inr}")
+        main.ledgerblance.lbClosingBalanceCreditINR.setText(f"{closing_credit_inr} {currency_inr}")
+
+
+        closing_debit_usd = ledger_data[1][0]
+        if closing_debit_usd is  not None:
+            closing_credit_usd = ledger_data[1][1]
+            currency_usd = ledger_data[1][2]
+
+            main.ledgerblance.lbClosingBalanceDebitUSD.setText(f"{closing_debit_usd} {currency_usd}")
+            main.ledgerblance.lbClosingBalanceCreditUSD.setText(f"{closing_credit_usd} {currency_usd}")
+        else:
+            pass
+
+        # print("closing balance", ledger_data)
+
+    except:
+        print(traceback.print_exc())
 # def closingBalanceInLedger(main):
 #     try:
 #
