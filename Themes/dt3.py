@@ -67,7 +67,7 @@ See Qt documentation:
 
 --------------------------------------------------------------------------- */
         QWidget {
-  background-color : #f9f9f9;
+  background-color : #f5f6fa;
   border: 0px solid #2d2d2d;
   padding: 0px;
   color: #F0F0F0;
@@ -76,19 +76,19 @@ See Qt documentation:
 }
 
 QWidget:disabled {
-  background-color: #f9f9f9;
+  background-color: #f5f6fa;
   color: #787878;
   selection-background-color: #14506E;
   selection-color: #787878;
 }
 
 QWidget::item:selected {
-  background-color: #9DB2BF;
+  background-color: #dde6ed;
   color: #2d2d2d;
 }
 
 QWidget::item:hover { 
-  background-color: #9DB2BF;
+  background-color: #f5f6fa;
   color: #2d2d2d;
 }
 
@@ -1000,8 +1000,9 @@ https://doc.qt.io/qt-5/stylesheet-examples.html#customizing-qpushbutton
 --------------------------------------------------------------------------- */
 QPushButton{
 
-
-background-color:#ffffff;
+width: 120px;
+height: 25px;
+background-color:#f0f0f0;
   border-radius: 4px;
   color: #000000;
 font: 63 11pt "Segoe UI Semibold";
@@ -1010,9 +1011,11 @@ font: 63 11pt "Segoe UI Semibold";
   outline: none;
   /* Issue #194 - Special case of QPushButton inside dialogs, for better UI */
 	text-align:center;
-
-
 }
+
+
+
+
 QPushButton:selected {
   background: #1464A0;
   color: #19232d;
@@ -1022,9 +1025,11 @@ QPushButton:hover {
   border-radius: 5px;
   padding: 0px;
   color:#ffffff;
-  background-color:#9BA4B5;
+  background-color:#6c757e;
   border: 0px solid ;
 }
+
+
 
 
 /* QToolButton ------------------------------------------------------------
@@ -2096,7 +2101,7 @@ QDateEdit::drop-down, QDateTimeEdit::drop-down {
 }
 
 QDateEdit::down-arrow, QDateTimeEdit::down-arrow {
- color:#ffffff;
+ color:#000000;
    outline: none;
 font: 63 9pt "Segoe UI Semibold";
   image: url(":/qss_icons/rc/arrow_down_disabled.png");
@@ -2109,7 +2114,7 @@ QDateEdit::down-arrow:on, QDateEdit::down-arrow:hover, QDateEdit::down-arrow:foc
 }
 
 QDateEdit QAbstractItemView, QDateTimeEdit QAbstractItemView {
- color:#ffffff;
+ color:#000000;
    outline: none;
 font: 63 9pt "Segoe UI Semibold";
   background-color: lightblue;

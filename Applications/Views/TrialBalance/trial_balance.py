@@ -31,7 +31,7 @@ class TrialBalanceWindow(QMainWindow):
     def tables_details_TWM(self):
         try:
 
-            self.heads = ['Perticular', 'Debit Amount', 'Credit Amount','Currency']
+            self.heads = ['Date','Perticular', 'Debit Amount', 'Credit Amount','Currency']
             self.visibleColumns = len(self.heads)
             print('len(self.heads)',len(self.heads))
             self.table = np.zeros((2000, len(self.heads)), dtype=object)

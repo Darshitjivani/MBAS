@@ -40,7 +40,7 @@ def intialSlots(main):
 
     # main.pbCreateCompany.clicked.connect(lambda: createCompanyPage(main))
     # main.pbListOfCompany.clicked.connect(lambda: listOfCompany(main))
-    main.pbCreateCompany.clicked.connect(main.showCreateCompany)
+    # main.pbCreateCompany.clicked.connect(main.showCreateCompany)
     main.pbClose.clicked.connect(main.close)
     main.login.pbLogin.clicked.connect(lambda: loginFunction(main))
     ##-------------------- Connect the dropdown signal to a function -------------------------#
