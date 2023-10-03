@@ -15,7 +15,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic.properties import QtCore
 
 from Applications.Views.BalanceSheet.balancesheet import BalanceSheetWindow
-from Applications.Views.DayBook.date_filter_daybook import DateFilterInDayBookWindow
+# from Applications.Views.DayBook.date_filter_daybook import DateFilterInDayBookWindow
 from Applications.Views.DayBook.day_book import DayBookWindow
 from Applications.Views.Branch.alter_branch_list import AlterBranchListWindow
 from Applications.Views.Branch.create_branch import BranchCreateWindow
@@ -52,15 +52,12 @@ def allObjects(main):
     main.altermasterlist = AlterMasterListWindow()  # Master List window For Alteration
     main.alterledgerlist = AlterLedgerListWindow() # Ledger List Window For Alteration
     main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
-    main.createvoucher  = CreateVoucherWindow()  # Create Voucher Window
     main.alterbranchlist = AlterBranchListWindow()  #Ledger list Branch wise for Alteration
     main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
-    main.tableshow = Terminal()
     main.altergrouplist = AlterGroupListWindow()  # Group List Window For Alteration
     main.alterledger = AlterLedgerUpdateWindow()
     main.daybook = DayBookWindow()
-    main.filterdatedaybook = DateFilterInDayBookWindow()
-
+    # main.filterdatedaybook = DateFilterInDayBookWindow()
     main.trialbalance = TrialBalanceWindow()
     main.datefilter = DateFilterWindow()
     main.balancesheet = BalanceSheetWindow()
@@ -68,6 +65,7 @@ def allObjects(main):
 
 
     #-------------------------------------- Voucher Object --------------------------------
+
     main.createvoucher = CreateVoucherWindow()  # Create Voucher Window
     main.paymententry = PaymentEntryWindow()
     main.salesentry = SalesEntryWindow()
@@ -97,8 +95,9 @@ def allObjects(main):
     main.altermasterlist.fAlterLedger.layout().addWidget(main.alterledgerlist)
     main.altermasterlist.fAlterGroup.layout().addWidget(main.altergrouplist)
     main.altermasterlist.fAlterBranch.layout().addWidget(main.alterbranchlist)
+
     ##################################### Company Create ###############################################
-    main.fCreateCompany.layout().addWidget(main.companycreate)
+    # main.fCreateCompany.layout().addWidget(main.companycreate)
 
 
 #--------------------------------------------------------- All Slots -----------------------------------------#
@@ -111,7 +110,8 @@ def allSlots(main):
     main.companycreate.pbSubmit.clicked.connect(lambda: createCompany(main))
     main.companycreate.pbSubmit.clicked.connect(main.companycreate.hide)
     main.companycreate.pbClose.clicked.connect(main.companycreate.hide)
-    main.pbCreateCompany.clicked.connect(main.companycreate.show)
+    # main.pbCreateCompany.clicked.connect(main.companycreate.show)
+    main.pbCreateCompany.clicked.connect(lambda: createCompanyPage(main))
 
     # Connect the "Add" button to the clear function
     main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
@@ -123,11 +123,8 @@ def allSlots(main):
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
     main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
-    main.gateway.pbTrailBalance.clicked.connect(lambda: showTrialBalance(main))
     main.gateway.pbLedgerBalance.clicked.connect(lambda: showLedgerBalance(main))
 
-    # main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
-    # main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
     main.gateway.pbAlterMaster.clicked.connect(main.gateway.showAlterFrame)
     main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
@@ -136,7 +133,6 @@ def allSlots(main):
     main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
     main.gateway.pbLedgerBalance.clicked.connect(main.gateway.showLedgerBalanceFrame)
 
-    # main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
     main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
     main.gateway.pbClose.clicked.connect(main.gateway.close)
 
@@ -146,7 +142,6 @@ def allSlots(main):
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
     main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
-    # main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
 
     main.masterlist.pbBack.clicked.connect(main.masterlist.hide)
 
@@ -198,8 +193,6 @@ def allSlots(main):
     main.createvoucher.pbContra.clicked.connect(lambda: showContraEntry(main))
 
     main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
-    # main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
-    # main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
 
     main.createvoucher.pbDelete.clicked.connect(lambda : deleteVoucher(main))
 
@@ -210,27 +203,29 @@ def allSlots(main):
     main.createvoucher.pbCurConvsn.clicked.connect(lambda: setVoucherType(main))
     main.createvoucher.pbContra.clicked.connect(lambda : setVoucherType(main))
 
+    main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
+    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
+    main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
+
         #-----------------------------        Contra Window ----------------------------#
     main.contraentry.pbcancel.clicked.connect(main.contraentry.hide)
     main.contraentry.pdAddRaw.clicked.connect(lambda: addRawInContra(main))
     # main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
     # main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
 
-        #--------------------------------------- Receipt Window ------------------------------#
+    #--------------------------------------- Receipt Window ------------------------------#
     main.recieptentry.pdAddRaw.clicked.connect(lambda: addRawInReciept(main))
     main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
 
-        #------------------------------------  Payment Window ------------------------------#
+    #------------------------------------  Payment Window ------------------------------#
     main.paymententry.pdAddRaw.clicked.connect(lambda: addRawInPayment(main))
+    main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
 
 
-    #----------------------------------- Table Window ---------------------------------------------#
-    # main.tableshow.pdAddRaw.clicked.connect(lambda: addRaw(main))
 
     #----------------------------------- Day Book Window ------------------------------------------#
     # main.daybook.deDateEdit.dateChanged.connect(lambda: filterDataByDate(main))
     main.daybook.leAccount.textChanged.connect(lambda: filterDataByAccountName(main))
-    # Connect the doubleClickedOnVoucherCell function to the double-click event
     main.daybook.tableView.doubleClicked.connect(lambda : dayBookDoubleClicked(main))
     # main.daybook.tableView.doubleClicked.connect(lambda : doubleClickedOnVoucherCell(main))
 
@@ -242,35 +237,31 @@ def allSlots(main):
 
     # main.daybook.pbFilter.clicked.connect(lambda: filterClicked(main))
     main.daybook.pbGetData.clicked.connect(lambda: filterDataByDateRange(main))
-
     main.daybook.pbBack.clicked.connect(main.daybook.hide)
-
     main.daybook.tableView.doubleClicked.connect(lambda: dayBookDoubleClicked(main))
 
 
 
     # ------------------------------------- Trial Balance ------------------------------#
+
     main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
-    main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
-    main.datefilter.deFrom.dateChanged.connect(lambda: filterbyDate(main))
-    main.datefilter.deTo.dateChanged.connect(lambda: filterbyDate(main))
+    # main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
+    # main.datefilter.deFrom.dateChanged.connect(lambda: filterbyDate(main))
+    # main.datefilter.deTo.dateChanged.connect(lambda: filterbyDate(main))
     main.datefilter.pbGetData.clicked.connect(main.datefilter.close)
     main.datefilter.pbCancel.clicked.connect(main.datefilter.close)
     # main.datefilter.pbCancel.clicked.connect(lambda:showTrialBalance(main))
 
-    main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
+    # main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
     # main.trialbalance.tableView.doubleClicked.connect(lambda:filteredTrialBalanceDoubleClicked(main))
-
-    main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
-    main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
-    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
-    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
-    main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
 
 
     main.trialbalance.pbFilter.clicked.connect(lambda: filterbyDate(main))
-    main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
+    # main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
 
+    # ------------------------------------- Ledger Balance ------------------------------#
+
+    main.ledgerblance.pbBack.clicked.connect(main.ledgerblance.close)
 
 
 # ------------------------------------ For Login Function ---------------------------------------
@@ -334,7 +325,7 @@ def createCompanyPage(main):
     try:
         # main.hide()
         main.companycreate.show()
-        main.hide()
+        # main.hide()
 
 
     except:
@@ -1115,10 +1106,6 @@ def saveAlterLedgerData(main):
 
             main.db_connection.commit()
             cursor.close()
-
-
-
-
 
             if reply == QMessageBox.Yes:
 
@@ -1910,6 +1897,7 @@ def createLedgerEntries(main):
     except:
         print(traceback.print_exc())
 
+
 def closingBalance(main):
     try:
 
@@ -2128,6 +2116,8 @@ def closingBalance(main):
 
     except:
         print(traceback.print_exc())
+
+
 ######################################################  Payment Entry - Voucher #########################################
 def showPaymentEntry(main):
     try:
@@ -2244,7 +2234,6 @@ def updateCrDrComboBoxInPayment(main):
 
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names_in_payment = {"Dr": [], "Cr": []}
-
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDrInPayment(main):
     try:
@@ -2260,6 +2249,7 @@ def refreshComboBoxForDrInPayment(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 # Function to refresh the combobox with all account names for "Cr"
 def refreshComboBoxForCrInPayment(main):
@@ -2279,6 +2269,7 @@ def refreshComboBoxForCrInPayment(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 def addEntaryInPayment(main):
     try:
@@ -2500,6 +2491,7 @@ def showSalesEntry(main):
     except:
         print(traceback.print_exc())
 
+
 def setVisibilityForCashInSales(main):
     try:
         main.salesentry.cbAccountName.setVisible(False)
@@ -2509,6 +2501,7 @@ def setVisibilityForCashInSales(main):
         main.salesentry.lineEdit.setVisible(False)
     except:
         print(traceback.print_exc())
+
 
 def setVisibilityForDebitInSales(main):
     try:
@@ -2683,6 +2676,7 @@ def setVisibilityForCashInPurchase(main):
     except:
         print(traceback.print_exc())
 
+
 def setVisibilityForCreditInPurchase(main):
     try:
 
@@ -2693,7 +2687,8 @@ def setVisibilityForCreditInPurchase(main):
         main.purchaseentry.lineEdit.setVisible(True)
     except:
         print(traceback.print_exc())
-#
+
+
 def addRawInPurchase(main):
     try:
         if main.purchaseentry.rbCash.isChecked():
@@ -2766,7 +2761,8 @@ def addRawInPurchaseForCredit(main):
 
     except:
         print(traceback.print_exc())
-#
+
+
 def addRawInPurchaseForCash(main):
     try:
         print("hello")
@@ -2829,6 +2825,7 @@ def addRawInPurchaseForCash(main):
 
     except:
         print(traceback.print_exc())
+
 
 ##########################################  Receipt Entry - Voucher ##############################################
 def showRecieptEntry(main):
@@ -2954,7 +2951,6 @@ def updateCrDrComboBoxInReciet(main):
 
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names_in_receipt = {"Dr": [], "Cr": []}
-
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDrInReceipt(main):
     try:
@@ -2970,6 +2966,7 @@ def refreshComboBoxForDrInReceipt(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 # Function to refresh the combobox with all account names for "Cr"
 def refreshComboBoxForCrInReceipt(main):
@@ -2989,6 +2986,7 @@ def refreshComboBoxForCrInReceipt(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 def addEntaryInReceipt(main):
     try:
@@ -3287,7 +3285,6 @@ def updateSumsOnSelectionChange(main):
 
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names = {"Dr": [], "Cr": []}
-
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDr(main):
     try:
@@ -3303,6 +3300,7 @@ def refreshComboBoxForDr(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 # Function to refresh the combobox with all account names for "Cr"
 def refreshComboBoxForCr(main):
@@ -3544,6 +3542,7 @@ def showTableView(main):
     except:
         print(traceback.print_exc())
 
+
 def deleteRows(main):
     try:
         if main.createvoucher.last_serialno > 0:
@@ -3657,7 +3656,7 @@ def dayBookDoubleClicked(main):
     try:
         idx = main.daybook.tableView.selectedIndexes()[0].data()
         print("daybook index is ", idx)
-        # main.alterledger.show()
+
 
         indexes = main.daybook.tableView.selectedIndexes()
         index = indexes[0]  # Get the first selected index
@@ -3671,19 +3670,19 @@ def dayBookDoubleClicked(main):
 
             showAlterVoucher(main , name)
 
-
-        # if col == 1:
-        #     try:
-        #         main.daybook.tableView.doubleClicked.connect(lambda: showVoucherPage(main))
-        #         print("Hello Darshit!!!")
-        #     except:
-        #         print(traceback.print_exc())
-
-
         if col == 3 or col == 4:
             main.ledgerID = idx
-            print("alter ledger", idx)
+            # try:
+            #     cursor = main.db_connection.cursor()
+            #     query1 = '''SELECT AcMasterID FROM AccountMaster_table WHERE Ac_name = ?'''
+            #     cursor.execute(query1, (idx,))
+            #     ledger_data = cursor.fetchone()
+            #     print("alter ledger_data", ledger_data)
+            #     main.alterledger.show()
+            # except:
+            #     print(traceback.print_exc())
             main.alterledger.show()
+
             try:
                 print("888888888888888888888888888888888888888888888888888888888888")
                 cursor = main.db_connection.cursor()
@@ -3719,7 +3718,7 @@ def dayBookDoubleClicked(main):
                     # Set the selected role in the comboBox
                     selected_role = ledger_data[3]  # Assuming group role is at index 3
                     # main.alterledger.cbUnderGroup.addItem(selected_role)
-                    main.alterledger.cbUnderGroup.setCurrentText(selected_role)
+                    main.alterledger.cbUnderGroup.setCurrentText(ledger_data[2])
                     main.alterledger.ptAddress.setPlainText(ledger_data[5])
                     main.alterledger.leCountry.setText(ledger_data[7])
                     main.alterledger.lePincode.setText(str(ledger_data[8]))
@@ -3732,7 +3731,8 @@ def dayBookDoubleClicked(main):
 
     except:
         print(traceback.print_exc())
-    print("16012004")
+
+
 
 def filterDataByDateRange(main):
     try:
@@ -3858,16 +3858,12 @@ def showAlterVoucher(main , voucherNo):
 
 
             # main.createvoucher.lbCredit.setText(voucher_data[6])
-            main.createvoucher.lbCurrency.setText(voucher_data[9])
+            main.createvoucher.lbCurrency.setText(str(voucher_data[9]))
 
-
-
-
-            ##############TABLE Entries########################
+            #----------------------------- TABLE Entries --------------------------
 
             DRAccount=voucher_data[11]
             CRAccount=voucher_data[12]
-            DRAmt=voucher_data[13]
             DRAmt=voucher_data[13]
             CRAmt=voucher_data[14]
             Currency=voucher_data[15]
@@ -3889,10 +3885,6 @@ def showAlterVoucher(main , voucherNo):
             ind = main.createvoucher.model.index(0, 0)
             ind1 = main.createvoucher.model.index(0, 1)
             main.createvoucher.model.dataChanged.emit(ind, ind1)
-
-
-
-
 
         # main.createvoucher.clearFields() # Clear existing contents
 
@@ -3942,6 +3934,7 @@ def deleteVoucher(main):
         print(traceback.print_exc())
 
 # ------------------------------------ For Trial Balance ---------------------------------------
+
 
 # def fetchTrialBalanceData(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
 #     try:
@@ -4486,7 +4479,7 @@ def trialBalanceDoubleClicked(main):
         print(traceback.print_exc())
 
 
-# --------------------------------------- Filtered By From to To -------------------------------
+# --------------------------------------- Filtered By From to To For Trial Balance -------------------------------
 
 def filterbyDate(main):
     try:
@@ -4509,9 +4502,8 @@ def filterbyDate(main):
 
 
 
-    except Exception as e:
-        # print(traceback.print_exc())
-        print(e)
+    except:
+        print(traceback.print_exc())
 
 
 
@@ -4530,6 +4522,7 @@ def showLedgerBalance(main):
         # totalSumInLedger(main)
     except:
         print(traceback.print_exc())
+
 
 # Function to populate the QComboBox with distinct account names from both tables
 def populate_account_combobox(main):
@@ -4623,7 +4616,6 @@ def loadLedgerData(main):
         print("Error loading ledger data:", str(e))
 
 
-
 def totalSumInLedger(main):
     try:
 
@@ -4654,6 +4646,7 @@ def totalSumInLedger(main):
 
     except:
         print(traceback.print_exc())
+
 
 def totalClosingBalance(main):
     try:
@@ -4690,6 +4683,10 @@ def totalClosingBalance(main):
 
     except:
         print(traceback.print_exc())
+
+
+
+
 # def closingBalanceInLedger(main):
 #     try:
 #

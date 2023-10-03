@@ -49,10 +49,7 @@ class GatewaysWindow(QMainWindow):
         self.hideAllFrames()
         self.setStyleSheet(dt3)
 
-        #
-        # self.lbChangeCompany.hide()
-        # self.pbChangeCompany.clicked.connect(self.lbChangeCompany.show)
-        # self.pbChangeCompany.setToolTip("Change Company")
+
 
     def menuHideShow(self):
         try:

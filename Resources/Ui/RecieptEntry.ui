@@ -45,7 +45,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(212, 212, 212);
+       <string notr="true">background-color:#f5f6fa;
 font: 63 11pt &quot;Segoe UI Semibold&quot;;
 color:#000000</string>
       </property>
@@ -71,6 +71,7 @@ color:#000000</string>
        <property name="spacing">
         <number>0</number>
        </property>
+
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
          <property name="minimumSize">
@@ -142,6 +143,9 @@ QPushButton:hover {
        </item>
        <item row="2" column="0">
         <widget class="Line" name="line">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;</string>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
@@ -242,6 +246,7 @@ QPushButton:hover {
    </layout>
   </widget>
  </widget>
+
  <resources/>
  <connections/>
 </ui>

@@ -83,7 +83,7 @@ margin:0px;
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">
+       <string notr="true">background-color:#f5f6fa;
 font: 63 11pt &quot;Segoe UI Semibold&quot;;
 color:#000000</string>
       </property>
@@ -155,7 +155,7 @@ color:#000000</string>
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
          </property>
          <property name="iconSize">

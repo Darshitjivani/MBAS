@@ -40,7 +40,7 @@ class UIMain(QMainWindow):
 
 
         self.login.show()
-        self.hideAllFrames()
+        # self.hideAllFrames()
 
         self.maxwin = True
 
@@ -60,12 +60,12 @@ class UIMain(QMainWindow):
             self.showMaximized()
 
 
-    def hideAllFrames(self):
-        self.fCreateCompany.hide()
-
-    def showCreateCompany(self):
-        self.hideAllFrames()
-        self.fCreateCompany.show()
+    # def hideAllFrames(self):
+    #     self.fCreateCompany.hide()
+    #
+    # def showCreateCompany(self):
+    #     self.hideAllFrames()
+    #     self.fCreateCompany.show()
 
 
 

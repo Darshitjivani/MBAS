@@ -42,7 +42,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(212, 212, 212);
+       <string notr="true">background-color:#f5f6fa;
 font: 63 11pt &quot;Segoe UI Semibold&quot;;
 color:#000000</string>
       </property>
@@ -95,6 +95,9 @@ background-color: #9a9a9a
          <property name="icon">
           <iconset>
            <normaloff>:/newPrefix/icons/corner-down-left.svg</normaloff>:/newPrefix/icons/corner-down-left.svg</iconset>
+         </property>
+         <property name="shortcut">
+          <string>Esc</string>
          </property>
         </widget>
        </item>
@@ -533,7 +536,7 @@ color:#000000</string>
           </size>
          </property>
          <property name="text">
-          <string>--------</string>
+          <string/>
          </property>
         </widget>
        </item>
