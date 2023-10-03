@@ -4,6 +4,7 @@ import sqlite3
 import traceback
 import uuid
 import datetime
+from collections import defaultdict
 from functools import partial
 from PyQt5.QtCore import QModelIndex
 import numpy as np
@@ -193,6 +194,8 @@ def allSlots(main):
     main.createvoucher.pbContra.clicked.connect(lambda: showContraEntry(main))
 
     main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
+    # main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
+    main.createvoucher.pbDeleteRaw.clicked.connect(lambda: deleteRows(main))
 
     main.createvoucher.pbDelete.clicked.connect(lambda : deleteVoucher(main))
 
@@ -213,11 +216,11 @@ def allSlots(main):
     # main.createvoucher.pbAdd.clicked.connect(lambda: showTableView(main))
     # main.createvoucher.pbDelete.clicked.connect(lambda: deleteRows(main))
 
-    #--------------------------------------- Receipt Window ------------------------------#
+        #--------------------------------------- Receipt Window ------------------------------#
     main.recieptentry.pdAddRaw.clicked.connect(lambda: addRawInReciept(main))
     main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
 
-    #------------------------------------  Payment Window ------------------------------#
+        #------------------------------------  Payment Window ------------------------------#
     main.paymententry.pdAddRaw.clicked.connect(lambda: addRawInPayment(main))
     main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
 
@@ -1502,7 +1505,7 @@ def showVoucherPage(main):
         # main.contraentry.cbAccountName.addItems(account_name)
         # main.paymententry.cbAccountName.addItems(account_name)
 
-
+        main.createvoucher.pbSubmit.setVisible(False)
         main.createvoucher.model.dataChanged.connect(lambda: updateSumsOnSelectionChange(main))
         # main.createvoucher.tableView.selectionModel().selectionChanged.connect(lambda :updateSumsOnSelectionChange(main))
 
@@ -1556,7 +1559,9 @@ def saveVoucherData(main):
     try:
         try:
             company_id = main.companyID
-            main.voucher_no = main.createvoucher.leVoucherNo.text()
+            main.voucherNo = main.createvoucher.leVoucherNo.text()
+            print("voucher no-----------------",main.voucherNo)
+
             voucher_type = main.createvoucher.lbVoucherType.text()
             # debit_account = main.createvoucher.cbDebitedAccount.currentText()
 
@@ -1643,17 +1648,27 @@ def saveVoucherData(main):
                     # main.voucherNo = default_voucher_no
                     existing_voucher_id = None
 
+                num_rows = main.createvoucher.last_serialno
+                print("rows in table-----------------------", num_rows)
 
+                # Count the current number of "Cr" and "Dr" rows
+                num_cr_rows = sum(1 for row in main.createvoucher.table if row[0] == "Cr")
+                num_dr_rows = sum(1 for row in main.createvoucher.table if row[0] == "Dr")
 
+                # Check if adding a new row is allowed based on the current counts
+                # if (main.dr_cr == "Cr" and num_dr_rows >= 2) or (main.dr_cr == "Dr" and num_cr_rows >= 2):
+                #     return  #
+
+                print("Existing Voucher id--------------------------------",existing_voucher_id)
                 if existing_voucher_id:
 
 
                     # If a ledger ID is available (i.e., editing an existing ledger), perform an update
-                    update_query = '''UPDATE Voucher_Master SET CompanyID=?,VoucherNO=?, VoucherType=?,Date=?,
-                                    Narration=?,DebitAmount=?,CreditAmount=?,Currency=? WHERE VoucherID=?'''
+                    update_query = '''UPDATE Voucher_Master SET CompanyID=?, VoucherType=?,Date=?,
+                                    Narration=?,DebitAmount=?,CreditAmount=?,Currency=? WHERE VoucherID=? AND VoucherNO=?'''
                     update_values = (
-                        company_id, main.voucher_no, voucher_type, main.selected_date_str, narration, debit_amount,
-                        credit_amount, currency,existing_voucher_id[0])
+                        company_id, voucher_type, main.selected_date_str, narration, debit_amount,
+                        credit_amount, currency,existing_voucher_id[0], main.voucherNo)
                     print("update values:", update_values)
                     cursor.execute(update_query, update_values)
 
@@ -1663,15 +1678,71 @@ def saveVoucherData(main):
                     existing_entry = cursor.fetchone()
 
                     if existing_entry:
-                        update_query = '''UPDATE Voucher_details
-                                         SET DebitSideAccount=?, CreditSideAccount=?, DebitAmount=? , 
-                                         CreditAmount=? , Currency=?
-                                         WHERE VoucherID=? '''
-                        update_values = (
-                        main.createvoucher.table[0, 1], main.createvoucher.table[1, 1], main.createvoucher.table[0, 2],
-                        main.createvoucher.table[1, 3]
-                        , main.createvoucher.table[0, 4], existing_voucher_id[0])
-                        cursor.execute(update_query, update_values)
+                        if num_rows == 2:
+                            update_query = '''UPDATE Voucher_details
+                                             SET DebitSideAccount=?, CreditSideAccount=?, DebitAmount=? , 
+                                             CreditAmount=? , Currency=?
+                                             WHERE VoucherID=? '''
+                            update_values = (
+                            main.createvoucher.table[0, 1], main.createvoucher.table[1, 1], main.createvoucher.table[0, 2],
+                            main.createvoucher.table[1, 3]
+                            , main.createvoucher.table[0, 4], existing_voucher_id[0])
+                            cursor.execute(update_query, update_values)
+
+                            # Insert corresponding entries in Ledger_table
+                            insertLedgerEntries(main, main.createvoucher.table[0, 1], main.createvoucher.table[1, 1],
+                                                main.createvoucher.table[0, 2]
+                                                , main.createvoucher.table[0, 4]
+                                                )
+                        else:
+                            if num_cr_rows == 1 and num_dr_rows >= 2:
+                                # Save data for multiple debit rows and a single credit row
+                                debit_rows = [row for row in main.createvoucher.table if row[0] == "Dr"]
+                                credit_row = [row for row in main.createvoucher.table if row[0] == "Cr"][0]
+
+                                voucher_master_id = cursor.lastrowid  # Assuming you have the master voucher ID
+
+                                for debit_row in debit_rows:
+
+                                 updated_query_dr =        '''UPDATE Voucher_details
+                                             SET DebitSideAccount=?, CreditSideAccount=?, DebitAmount=? , 
+                                             CreditAmount=? , Currency=?
+                                             WHERE VoucherID=? '''
+
+                                 updated_value_dr =  (debit_row[1], credit_row[1], debit_row[2], debit_row[2], debit_row[4],
+                                         voucher_master_id)
+                                 cursor.execute(updated_query_dr, updated_value_dr)
+                                 # main.db_connection.commit()
+
+                                # Insert corresponding entries in Ledger_table
+                                insertLedgerEntries(main, debit_row[1], credit_row[1], debit_row[2], debit_row[4])
+
+
+                            elif num_dr_rows == 1 and num_cr_rows >= 2:
+                                # Save data for multiple credit rows and a single debit row
+                                credit_rows = [row for row in main.createvoucher.table if row[0] == "Cr"]
+                                debit_row = [row for row in main.createvoucher.table if row[0] == "Dr"][0]
+
+                                voucher_master_id = cursor.lastrowid  # Assuming you have the master voucher ID
+
+                                for credit_row in credit_rows:
+                                    updated_query_cr = '''UPDATE Voucher_details
+                                                                                    SET DebitSideAccount=?, CreditSideAccount=?, DebitAmount=? , 
+                                                                                    CreditAmount=? , Currency=?
+                                                                                    WHERE VoucherID=? '''
+                                    updated_value_cr = (debit_row[1], credit_row[1], credit_row[3], credit_row[3], debit_row[4],
+                                         voucher_master_id)
+                                    cursor.execute(updated_query_cr, updated_value_cr)
+                                    # main.db_connection.commit()
+
+                                    # cursor.execute(
+                                    #     "INSERT INTO Voucher_details (DebitSideAccount, CreditSideAccount, DebitAmount, CreditAmount, Currency, VoucherID) VALUES (?, ?, ?, ?, ?, ?)",
+
+                                    # main.db_connection.commit()
+
+                                    # Insert corresponding entries in Ledger_table
+                                    insertLedgerEntries(main, debit_row[1], credit_row[1], credit_row[3], debit_row[4]
+                                                        )
 
                     main.db_connection.commit()
 
@@ -1702,18 +1773,68 @@ def saveVoucherData(main):
 
 
                     value = (
-                        company_id,main.voucher_no,voucher_type, main.selected_date_str, narration, debit_amount,
+                        company_id,main.voucherNo,voucher_type, main.selected_date_str, narration, debit_amount,
                         credit_amount,currency)
                     cursor.execute(insert_query, value)
                     main.db_connection.commit()
+                    if num_rows == 2:
+                        voucher_master_id = cursor.lastrowid
 
-                    voucher_master_id = cursor.lastrowid
+                        cursor.execute(
+                            f"INSERT INTO Voucher_details (DebitSideAccount, CreditSideAccount,DebitAmount,CreditAmount, Currency, VoucherID) VALUES (?,?,?, ?,?,?)",
+                            (main.createvoucher.table[0, 1], main.createvoucher.table[1, 1], main.createvoucher.table[0, 2],
+                             main.createvoucher.table[1, 3], main.createvoucher.table[0, 4], voucher_master_id))
+                        main.db_connection.commit()
 
-                    cursor.execute(
-                        f"INSERT INTO Voucher_details (DebitSideAccount, CreditSideAccount,DebitAmount,CreditAmount, Currency, VoucherID) VALUES (?,?,?, ?,?,?)",
-                        (main.createvoucher.table[0, 1], main.createvoucher.table[1, 1], main.createvoucher.table[0, 2],
-                         main.createvoucher.table[1, 3], main.createvoucher.table[0, 4], voucher_master_id))
-                    main.db_connection.commit()
+                        # Insert corresponding entries in Ledger_table
+                        insertLedgerEntries(main, main.createvoucher.table[0, 1],  main.createvoucher.table[1, 1], main.createvoucher.table[0, 2]
+                                            , main.createvoucher.table[0, 4]
+                                            )
+
+                        # createLedgerEntries(main)
+                    else:
+                        if num_cr_rows == 1 and num_dr_rows >= 2:
+                            # Save data for multiple debit rows and a single credit row
+                            debit_rows = [row for row in main.createvoucher.table if row[0] == "Dr"]
+                            credit_row = [row for row in main.createvoucher.table if row[0] == "Cr"][0]
+
+                            voucher_master_id = cursor.lastrowid  # Assuming you have the master voucher ID
+
+                            for debit_row in debit_rows:
+                                cursor.execute(
+                                    "INSERT INTO Voucher_details (DebitSideAccount, CreditSideAccount, DebitAmount, CreditAmount, Currency, VoucherID) VALUES (?, ?, ?, ?, ?, ?)",
+                                    (debit_row[1], credit_row[1], debit_row[2], debit_row[2], debit_row[4],
+                                     voucher_master_id))
+                                main.db_connection.commit()
+
+                                # Insert corresponding entries in Ledger_table
+                                insertLedgerEntries(main, debit_row[1], credit_row[1], debit_row[2], debit_row[4]
+                                                    )
+
+                        elif num_dr_rows == 1 and num_cr_rows >= 2:
+                            # Save data for multiple credit rows and a single debit row
+                            credit_rows = [row for row in main.createvoucher.table if row[0] == "Cr"]
+                            debit_row = [row for row in main.createvoucher.table if row[0] == "Dr"][0]
+
+                            voucher_master_id = cursor.lastrowid  # Assuming you have the master voucher ID
+
+                            for credit_row in credit_rows:
+                                cursor.execute(
+                                    "INSERT INTO Voucher_details (DebitSideAccount, CreditSideAccount, DebitAmount, CreditAmount, Currency, VoucherID) VALUES (?, ?, ?, ?, ?, ?)",
+                                    (debit_row[1], credit_row[1], credit_row[3], credit_row[3], debit_row[4],
+                                     voucher_master_id))
+                                main.db_connection.commit()
+
+                                # Insert corresponding entries in Ledger_table
+                                insertLedgerEntries(main, debit_row[1], credit_row[1], credit_row[3], debit_row[4]
+                                                    )
+
+
+
+
+
+
+
 
                     reply = QMessageBox.question(
 
@@ -1780,17 +1901,34 @@ def saveVoucherData(main):
                 #     INSERT INTO Ledger_table (LedgerName, Date, Perticulars, VoucherNo, Currency, Debit, Credit)
                 #     VALUES (?, ?, ?, ?, ?, ?, ?)
                 # """, (main.createvoucher.table[1,1], selected_date_str, main.createvoucher.table[0,1], voucher_no, currency, 0, main.createvoucher.table[1,3]))
-                createLedgerEntries(main)
+                # createLedgerEntries(main)
 
-
+                closingBalanceIdea(main)
 
                 if reply == QMessageBox.Yes:
 
                     # User chose to continue, show the gateway window
 
                     # main.gateway(main, company_name)
+                    main.createvoucher.table[0: main.createvoucher.last_serialno] = [0, 0, 0, 0, 0]
+                    # self.model.removeRows(0, self.model.rowCount())
 
-                    main.createvoucher.clearFields()
+                    main.createvoucher.model.DelRows(0, main.createvoucher.last_serialno)
+                    main.createvoucher.last_serialno = 0
+                    main.createvoucher.model.last_serialno = 0
+                    main.createvoucher.model.rowCount()
+
+                    ind = main.createvoucher.model.index(0, 0)
+                    ind1 = main.createvoucher.model.index(0, 1)
+                    main.createvoucher.model.dataChanged.emit(ind, ind1)
+
+
+                    main.createvoucher.lbCredit.clear()
+                    main.createvoucher.leNarration.clear()
+                    main.createvoucher.lbDebit.clear()
+                    main.createvoucher.lbCurrency.clear()
+
+
                     setVoucherType(main)
                     new_voucher_number = generate_new_voucher_number(main)
                     main.createvoucher.leVoucherNo.setText(new_voucher_number)
@@ -1801,6 +1939,11 @@ def saveVoucherData(main):
                     main.paymententry.cbCurrency.setEnabled(True)
                     main.contraentry.cbCurrency.setEnabled(True)
 
+                    main.recieptentry.cbAccountName.clear()
+                    main.salesentry.cbAccountName.clear()
+                    main.purchaseentry.cbAccountName.clear()
+                    main.paymententry.cbAccountName.clear()
+                    main.contraentry.cbAccountName.clear()
 
 
                     # main.createvoucher.close()
@@ -1833,6 +1976,58 @@ def saveVoucherData(main):
     except:
         print(traceback.print_exc())
 
+
+def insertLedgerEntries(main, debit_account, credit_account, amount, currency):
+    try:
+        voucher_no = main.voucherNo
+        date = main.selected_date_str
+        cursor = main.db_connection.cursor()
+
+        if hasattr(main, 'voucherNo') and main.voucherNo is not None:
+            # A voucher number is available, so we can check for an existing voucher
+            query = '''SELECT LedgerID  FROM Ledger_table WHERE VoucherNO = ?'''
+            cursor.execute(query, (main.voucherNo,))
+            existing_ledger_id = cursor.fetchone()
+        else:
+            existing_ledger_id = None
+
+        if existing_ledger_id:
+            update_query = '''UPDATE Ledger_table
+                            SET LedgerName=?, Date=?, Perticulars=? , 
+                            Currency=?, Debit=?
+                            WHERE  VoucherNo=? AND Credit=0'''
+            value = (debit_account, date, credit_account, currency, amount,main.voucherNo)
+            cursor.execute(update_query,value)
+
+            print("debit side", value)
+
+            update_query2 = '''UPDATE Ledger_table
+                            SET LedgerName=?, Date=?, Perticulars=? , 
+                            Currency=?,Credit=?
+                            WHERE VoucherNo=? AND Debit=0 '''
+            value2 = (credit_account, date, debit_account,  currency, amount,main.voucherNo)
+            cursor.execute(update_query2, value2)
+
+            print("credit side", value2)
+            main.db_connection.commit()
+        else:
+
+            # Insert debit side entry
+            cursor.execute("""
+                INSERT INTO Ledger_table (LedgerName, Perticulars, Currency, Debit, Credit, VoucherNo, Date)
+                VALUES (?, ?, ?, ?, ?, ?,?)
+            """, (debit_account, credit_account, currency, amount, 0, voucher_no,date))
+
+            # Insert credit side entry
+            cursor.execute("""
+                INSERT INTO Ledger_table (LedgerName, Perticulars, Currency, Debit, Credit, VoucherNo , Date)
+                VALUES (?, ?, ?, ?, ?, ?,?)
+            """, (credit_account, debit_account, currency, 0, amount, voucher_no,date))
+
+        main.db_connection.commit()
+
+    except:
+        print(traceback.print_exc())
 
 def createLedgerEntries(main):
     try:
@@ -1896,6 +2091,250 @@ def createLedgerEntries(main):
 
     except:
         print(traceback.print_exc())
+
+
+def closingBalanceIdea(main):
+    try:
+        cursor = main.db_connection.cursor()
+
+        # debit_ledger_id = None
+        # debit_closing_balance = 0
+        # credit_ledger_id = None
+        # credit_closing_balance = 0
+
+
+
+        # Iterate through each unique account in the voucher details table
+        unique_accounts = {row[1] for row in main.createvoucher.table if row[1] != 0}
+        # print("unique account-----------------",unique_accounts )
+        currency = main.createvoucher.table[0, 4]
+        if currency=='INR':
+            for account in unique_accounts:
+                for row in main.createvoucher.table:
+                    if row[1] == account and row[0]=='Dr':
+                        debit_account = account
+
+                        # Find LedgerID for the debit account
+                        query_debit = '''SELECT LedgerID FROM Ledger_table WHERE LedgerName = ? AND Perticulars = ? AND Currency = 'INR' '''
+                        cursor.execute(query_debit, (debit_account, "Closing Balance"))
+                        debit_ledger_id = cursor.fetchone()
+                        print('Debit Ledger ID:', debit_ledger_id)
+
+                        query_debit_closing_balance = '''SELECT sum(Credit) - sum(Debit) FROM Ledger_table WHERE LedgerName = ? AND Currency = 'INR' AND Perticulars != 'Closing Balance' '''
+                        cursor.execute(query_debit_closing_balance, (debit_account,))
+                        debit_closing_balance = cursor.fetchone()
+                        debit_closing_balance = debit_closing_balance[0]
+
+                        print("closing balance for debit ", debit_closing_balance)
+
+                        if debit_ledger_id is not None:
+                            if debit_closing_balance < 0:
+                                update_query = '''UPDATE Ledger_table
+                                                SET Debit=?,Credit=?,
+                                                Date='31-03-2024', VoucherNo=''
+                                                WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='INR' '''
+                                value = (0, abs(debit_closing_balance), debit_account)
+                                cursor.execute(update_query, value)
+                            else:
+                                update_query = '''UPDATE Ledger_table
+                                                SET Debit=?,Credit=?,
+                                                Date='31-03-2024', VoucherNo=''
+                                                WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='INR'  '''
+                                value = (abs(debit_closing_balance), 0, debit_account)
+                                cursor.execute(update_query, value)
+
+                            print("debit side", value)
+                        else:
+                            if debit_closing_balance is not None and debit_closing_balance < 0:
+                                # Insert debit side entry
+                                cursor.execute("""
+                                                INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
+                                                VALUES (?, ?, ?, ?, ?,?,?)
+                                            """, (debit_account, '31-03-2024', 'Closing Balance', '', currency, 0,
+                                                  abs(debit_closing_balance)))
+                            else:
+                                # Insert debit side entry
+                                cursor.execute("""
+                                               INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
+                                               VALUES (?, ?, ?, ?, ?,?,?)
+                                           """, (
+                                debit_account, '31-03-2024', 'Closing Balance', '', currency, abs(debit_closing_balance),
+                                0))
+
+
+                    elif row[1] == account and row[0]=='Cr':
+                        credit_account = account
+
+                        # Find LedgerID for the credit account
+                        query_credit = '''SELECT LedgerID FROM Ledger_table WHERE LedgerName = ? AND Perticulars = ? AND Currency = 'INR' '''
+                        cursor.execute(query_credit, (credit_account, "Closing Balance"))
+                        credit_ledger_id = cursor.fetchone()
+                        print('Credit Ledger ID:', credit_ledger_id)
+
+                        query_credit_closing_balance = '''SELECT sum(Credit) - sum(Debit) FROM Ledger_table WHERE LedgerName = ? AND Currency = 'INR'  AND Perticulars != 'Closing Balance' '''
+                        cursor.execute(query_credit_closing_balance, (credit_account,))
+                        credit_closing_balance = cursor.fetchone()
+                        credit_closing_balance = credit_closing_balance[0]
+
+                        print("closing balance for debit ", credit_closing_balance)
+
+                        if credit_ledger_id is not None:
+                            if credit_closing_balance < 0:
+                                update_query = '''UPDATE Ledger_table
+                                                            SET Debit=?,Credit=?,
+                                                            Date='31-03-2024', VoucherNo=''
+                                                            WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency= 'INR'  '''
+                                value = (0, abs(credit_closing_balance), credit_account)
+                                cursor.execute(update_query, value)
+
+                                print("debit side", value)
+                            else:
+                                update_query = '''UPDATE Ledger_table
+                                                            SET Debit=?,Credit=? ,
+                                                            Date='31-03-2024', VoucherNo=''  
+                                                            WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='INR'  '''
+                                value = (abs(credit_closing_balance), 0, credit_account)
+                                cursor.execute(update_query, value)
+
+                                print("debit side", value)
+
+
+                        else:
+                            if credit_closing_balance is not None and credit_closing_balance < 0:
+                                # Insert credit side entry
+                                cursor.execute("""
+                                                           INSERT INTO Ledger_table (LedgerName,Date,Perticulars,VoucherNo, Currency, Debit, Credit)
+                                                           VALUES (?, ?, ?, ?, ?,?,?)
+                                                       """, (
+                                credit_account, '31-03-2024', 'Closing Balance', '', currency, 0,
+                                abs(credit_closing_balance)))
+                            else:
+                                # Insert credit side entry
+                                cursor.execute("""
+                                                           INSERT INTO Ledger_table (LedgerName, Date,Perticulars, VoucherNo,Currency, Debit, Credit)
+                                                           VALUES (?, ?, ?, ?, ?,?,?)
+                                                                       """,
+                                               (credit_account, '31-03-2024', 'Closing Balance', '', currency,
+                                                abs(credit_closing_balance), 0))
+        else:
+            for account in unique_accounts:
+                for row in main.createvoucher.table:
+                    if row[1] == account and row[0]=='Dr':
+                        debit_account = account
+
+                        # Find LedgerID for the debit account
+                        query_debit_usd = '''SELECT LedgerID FROM Ledger_table WHERE LedgerName = ? AND Perticulars = ? AND Currency = 'USD' '''
+                        cursor.execute(query_debit_usd, (debit_account, "Closing Balance"))
+                        debit_ledger_id_usd = cursor.fetchone()
+                        print('Debit Ledger ID for usd:', debit_ledger_id_usd)
+
+                        query_debit_closing_balance_usd = '''SELECT sum(Credit) - sum(Debit) FROM Ledger_table WHERE LedgerName = ? AND Currency = 'USD' AND Perticulars != 'Closing Balance' '''
+                        cursor.execute(query_debit_closing_balance_usd, (debit_account,))
+                        debit_closing_balance_usd = cursor.fetchone()
+                        debit_closing_balance_usd = debit_closing_balance_usd[0]
+
+                        print("closing balance for debit usd ", debit_closing_balance_usd)
+
+                        if debit_ledger_id_usd is not None:
+                            if debit_closing_balance_usd < 0:
+                                update_query = '''UPDATE Ledger_table
+                                                   SET Debit=?,Credit=? ,
+                                                   Date='31-03-2024', VoucherNo=''
+
+                                                   WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='USD' '''
+                                value = (0, abs(debit_closing_balance_usd), debit_account)
+                                cursor.execute(update_query, value)
+                            else:
+                                update_query = '''UPDATE Ledger_table
+                                                   SET Debit=?,Credit=? ,
+                                                   Date='31-03-2024', VoucherNo=''
+
+                                                   WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='USD' '''
+                                value = (abs(debit_closing_balance_usd), 0, debit_account)
+                                cursor.execute(update_query, value)
+
+                            print("debit side", value)
+                        else:
+                            if debit_closing_balance_usd is not None and debit_closing_balance_usd < 0:
+                                # Insert debit side entry
+                                cursor.execute("""
+                                                   INSERT INTO Ledger_table (LedgerName, Date,Perticulars,VoucherNo,Currency, Debit, Credit)
+                                                   VALUES (?, ?, ?, ?, ?,?,?)
+                                               """, (debit_account, '31-03-2024', 'Closing Balance', '', currency, 0,
+                                                     abs(debit_closing_balance_usd)))
+                            elif debit_closing_balance_usd is None:
+                                pass
+                            else:
+                                # Insert debit side entry
+                                cursor.execute("""
+                                              INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
+                                              VALUES (?, ?, ?, ?, ?,?,?)
+                                                              """,
+                                               (debit_account, '31-03-2024', 'Closing Balance', '', currency,
+                                                abs(debit_closing_balance_usd), 0))
+
+                    elif row[1] == account and row[0] == 'Cr':
+                        credit_account = account
+
+                        # Find LedgerID for the credit account
+                        query_credit_usd = '''SELECT LedgerID FROM Ledger_table WHERE LedgerName = ? AND Perticulars = ? AND Currency = 'USD' '''
+                        cursor.execute(query_credit_usd, (credit_account, "Closing Balance"))
+                        credit_ledger_id_usd = cursor.fetchone()
+                        print('Credit Ledger ID:', credit_ledger_id_usd)
+
+                        query_credit_closing_balance_usd = '''SELECT sum(Credit) - sum(Debit) FROM Ledger_table WHERE LedgerName = ? AND Currency = 'USD' AND Perticulars != 'Closing Balance' '''
+                        cursor.execute(query_credit_closing_balance_usd, (credit_account,))
+                        credit_closing_balance_usd = cursor.fetchone()
+                        credit_closing_balance_usd = credit_closing_balance_usd[0]
+
+                        print("closing balance for credit usd ", credit_closing_balance_usd)
+
+                        if credit_ledger_id_usd is not None:
+                            if credit_closing_balance_usd < 0:
+                                update_query = '''UPDATE Ledger_table
+                                                    SET Debit=?,Credit=? ,
+                                                    Date='31-03-2024', VoucherNo=''
+                                                    WHERE  LedgerName=? AND Perticulars='Closing Balance' AND Currency='USD' '''
+                                value = (0, abs(credit_closing_balance_usd), credit_account)
+                                cursor.execute(update_query, value)
+
+                                print("debit side", value)
+                            else:
+                                update_query = '''UPDATE Ledger_table
+                                                    SET Debit=?,Credit=?,
+                                                    Date='31-03-2024', VoucherNo='' 
+
+                                                    WHERE  LedgerName=? AND Perticulars='Closing Balance'  AND Currency='USD' '''
+                                value = (abs(credit_closing_balance_usd), 0, credit_account)
+                                cursor.execute(update_query, value)
+
+                                print("debit side", value)
+
+
+                        else:
+                            if credit_closing_balance_usd is not None and credit_closing_balance_usd < 0:
+                                # Insert credit side entry
+                                cursor.execute("""
+                                                   INSERT INTO Ledger_table (LedgerName,Date, Perticulars, VoucherNo,Currency, Debit, Credit)
+                                                   VALUES (?, ?, ?, ?, ?,?,?)
+                                               """, (credit_account, '31-03-2024', 'Closing Balance', '', currency, 0,
+                                                     abs(credit_closing_balance_usd)))
+                            elif credit_closing_balance_usd is None:
+                                pass
+                            else:
+                                # Insert credit side entry
+                                cursor.execute("""
+                                                   INSERT INTO Ledger_table (LedgerName, Date,Perticulars,VoucherNo, Currency, Debit, Credit)
+                                                   VALUES (?, ?, ?, ?, ?,?,?)
+                                                               """,
+                                               (credit_account, '31-03-2024', 'Closing Balance', '', currency,
+                                                abs(credit_closing_balance_usd), 0))
+
+        main.db_connection.commit()
+
+    except:
+        print(traceback.print_exc())
+
 
 
 def closingBalance(main):
@@ -1964,9 +2403,9 @@ def closingBalance(main):
                 else:
                     # Insert debit side entry
                     cursor.execute("""
-                                                   INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
-                                                   VALUES (?, ?, ?, ?, ?,?,?)
-                                               """, (debit_account,'31-03-2024', 'Closing Balance','', currency, abs(debit_closing_balance) , 0))
+                                   INSERT INTO Ledger_table (LedgerName,Date, Perticulars,VoucherNo,Currency, Debit, Credit)
+                                   VALUES (?, ?, ?, ?, ?,?,?)
+                               """, (debit_account,'31-03-2024', 'Closing Balance','', currency, abs(debit_closing_balance) , 0))
 
 
             if credit_ledger_id is not None:
@@ -2106,7 +2545,7 @@ def closingBalance(main):
                                        INSERT INTO Ledger_table (LedgerName, Date,Perticulars,VoucherNo, Currency, Debit, Credit)
                                        VALUES (?, ?, ?, ?, ?,?,?)
                                                    """,
-                                   (credit_account, '31-03-024','Closing Balance','', currency, abs(credit_closing_balance_usd), 0))
+                                   (credit_account, '31-03-2024','Closing Balance','', currency, abs(credit_closing_balance_usd), 0))
 
 
         main.db_connection.commit()
@@ -2234,6 +2673,7 @@ def updateCrDrComboBoxInPayment(main):
 
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names_in_payment = {"Dr": [], "Cr": []}
+
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDrInPayment(main):
     try:
@@ -2761,8 +3201,7 @@ def addRawInPurchaseForCredit(main):
 
     except:
         print(traceback.print_exc())
-
-
+#
 def addRawInPurchaseForCash(main):
     try:
         print("hello")
@@ -2951,6 +3390,7 @@ def updateCrDrComboBoxInReciet(main):
 
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names_in_receipt = {"Dr": [], "Cr": []}
+
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDrInReceipt(main):
     try:
@@ -3276,6 +3716,8 @@ def updateSumsOnSelectionChange(main):
         #
         # main.creditSum = np.sum(main.createvoucher.table[ : , 3].astype(float))
         # main.createvoucher.lbCredit.setText(str(main.creditSum))
+        # if main.debitSum == main.creditSum == 0:
+        #     main.createvoucher.pbSubmit.setVisible(False)
 
         main.createvoucher.pbSubmit.setVisible(main.debitSum == main.creditSum)
 
@@ -3285,6 +3727,7 @@ def updateSumsOnSelectionChange(main):
 
 # Initialize a dictionary to store selected account names for "Dr" and "Cr"
 selected_account_names = {"Dr": [], "Cr": []}
+
 # Function to refresh the combobox with account names for "Dr"
 def refreshComboBoxForDr(main):
     try:
@@ -3583,7 +4026,7 @@ def fetchDayBookData(main):
         SELECT 
                 a.Date,
                 a.VoucherNO,a.VoucherType,b.DebitSideAccount as 'Debit Acc',
-                b.CreditSideAccount as 'Credit Acc',a.DebitAmount as 'Amount',b.Currency,a.Narration
+                b.CreditSideAccount as 'Credit Acc',b.DebitAmount as 'Amount',b.Currency,a.Narration
                 FROM Voucher_Master a left join Voucher_details b on a.VoucherID = b.VoucherID
                 Where CompanyID = ?
                 ORDER BY a.Date ASC
@@ -3808,6 +4251,19 @@ def showAlterVoucher(main , voucherNo):
         main.createvoucher.show()
         # main.createvoucher.lbDebit.setText(str(101))
 
+        main.createvoucher.table[0: main.createvoucher.last_serialno] = [0, 0, 0, 0, 0]
+        # self.model.removeRows(0, self.model.rowCount())
+
+        main.createvoucher.model.DelRows(0, main.createvoucher.last_serialno)
+        main.createvoucher.last_serialno = 0
+        main.createvoucher.model.last_serialno = 0
+        main.createvoucher.model.rowCount()
+
+        ind = main.createvoucher.model.index(0, 0)
+        ind1 = main.createvoucher.model.index(0, 1)
+        main.createvoucher.model.dataChanged.emit(ind, ind1)
+
+
         main.createvoucher.clearFields()
         cursor = main.db_connection.cursor()
 
@@ -3819,8 +4275,8 @@ def showAlterVoucher(main , voucherNo):
                    WHERE vm.VoucherNO = ?
                '''
         cursor.execute(query, (voucherNo,))
-        voucher_data = cursor.fetchone()
-        # print("Alter Voucher data", voucher_data)
+        voucher_data = cursor.fetchall()
+        print("Alter Voucher data", voucher_data)
 
         account = getAccountMaster(main)
         main.account = account
@@ -3836,55 +4292,91 @@ def showAlterVoucher(main , voucherNo):
         main.createvoucher.model.dataChanged.connect(lambda: updateSumsOnSelectionChange(main))
 
         if voucher_data:
-            main.createvoucher.leVoucherNo.setText(voucher_data[1])
-            main.createvoucher.lbVoucherType.setText(voucher_data[2])
-            # Assuming voucher_data[3] contains a date string in the format 'YYYY-MM-DD'
-            date_str = voucher_data[3]
-            date_obj = datetime.datetime.strptime(date_str, '%d-%m-%Y').date()
+            # Create dictionaries to store consolidated data
+            dr_accounts = defaultdict(float)
+            cr_accounts = defaultdict(float)
+            for raw in voucher_data:
+                main.createvoucher.leVoucherNo.setText(raw[1])
+                main.createvoucher.lbVoucherType.setText(raw[2])
+                # Assuming voucher_data[3] contains a date string in the format 'YYYY-MM-DD'
+                date_str = raw[3]
+                date_obj = datetime.datetime.strptime(date_str, '%d-%m-%Y').date()
 
-            # Now you can set the date in your QDateEdit widget
-            main.createvoucher.deDate.setDate(date_obj)
-            main.createvoucher.leNarration.setText(voucher_data[4])
-
-
-            debit_amount = voucher_data[5]  # Assuming voucher_data[5] is a float
-            debit_amount_str = "{:.2f}".format(debit_amount)  # Format the float with 2 decimal places
-            main.createvoucher.lbDebit.setText(debit_amount_str)  # Set the formatted string as text
-
-
-            credit_amount = voucher_data[6]  # Assuming voucher_data[5] is a float
-            credit_amount_str = "{:.2f}".format(credit_amount)  # Format the float with 2 decimal places
-            main.createvoucher.lbCredit.setText(credit_amount_str)  # Set the formatted string as text
+                # Now you can set the date in your QDateEdit widget
+                main.createvoucher.deDate.setDate(date_obj)
+                main.createvoucher.leNarration.setText(raw[4])
 
 
-            # main.createvoucher.lbCredit.setText(voucher_data[6])
-            main.createvoucher.lbCurrency.setText(str(voucher_data[9]))
+                debit_amount = raw[5]  # Assuming voucher_data[5] is a float
+                debit_amount_str = "{:.2f}".format(debit_amount)  # Format the float with 2 decimal places
+                main.createvoucher.lbDebit.setText(debit_amount_str)  # Set the formatted string as text
 
-            #----------------------------- TABLE Entries --------------------------
 
-            DRAccount=voucher_data[11]
-            CRAccount=voucher_data[12]
-            DRAmt=voucher_data[13]
-            CRAmt=voucher_data[14]
-            Currency=voucher_data[15]
+                credit_amount = raw[6]  # Assuming voucher_data[5] is a float
+                credit_amount_str = "{:.2f}".format(credit_amount)  # Format the float with 2 decimal places
+                main.createvoucher.lbCredit.setText(credit_amount_str)  # Set the formatted string as text
 
-            main.createvoucher.table[main.createvoucher.last_serialno,]=['Dr',DRAccount,DRAmt,0,Currency]
 
-            main.createvoucher.last_serialno+=1
-            main.createvoucher.model.last_serialno+=1
-            main.createvoucher.model.insertRows()
-            main.createvoucher.model.rowCount()
+                # main.createvoucher.lbCredit.setText(voucher_data[6])
+                main.createvoucher.lbCurrency.setText(str(raw[9]))
 
-            main.createvoucher.table[main.createvoucher.last_serialno,] = ['Cr', CRAccount, 0, CRAmt, Currency]
 
-            main.createvoucher.last_serialno += 1
-            main.createvoucher.model.last_serialno += 1
-            main.createvoucher.model.insertRows()
-            main.createvoucher.model.rowCount()
+
+
+                ##############TABLE Entries########################
+
+                DRAccount=raw[11]
+                CRAccount=raw[12]
+                DRAmt=raw[13]
+                CRAmt=raw[14]
+                Currency=raw[15]
+
+                # Update consolidated amounts
+                if DRAccount:
+                    dr_accounts[DRAccount] += DRAmt
+                if CRAccount:
+                    cr_accounts[CRAccount] += CRAmt
+
+            # Update the table with consolidated data
+            for account, amount in dr_accounts.items():
+                main.createvoucher.table[main.createvoucher.last_serialno,] = ['Dr', account, amount, 0,
+                                                                               Currency]
+                main.createvoucher.last_serialno += 1
+                main.createvoucher.model.last_serialno += 1
+                main.createvoucher.model.insertRows()
+
+            for account, amount in cr_accounts.items():
+                main.createvoucher.table[main.createvoucher.last_serialno,] = ['Cr', account, 0, amount,
+                                                                               Currency]
+                main.createvoucher.last_serialno += 1
+                main.createvoucher.model.last_serialno += 1
+                main.createvoucher.model.insertRows()
 
             ind = main.createvoucher.model.index(0, 0)
             ind1 = main.createvoucher.model.index(0, 1)
             main.createvoucher.model.dataChanged.emit(ind, ind1)
+
+                # main.createvoucher.table[main.createvoucher.last_serialno,]=['Dr',DRAccount,DRAmt,0,Currency]
+                #
+                # main.createvoucher.last_serialno+=1
+                # main.createvoucher.model.last_serialno+=1
+                # main.createvoucher.model.insertRows()
+                # main.createvoucher.model.rowCount()
+                #
+                # main.createvoucher.table[main.createvoucher.last_serialno,] = ['Cr', CRAccount, 0, CRAmt, Currency]
+                #
+                # main.createvoucher.last_serialno += 1
+                # main.createvoucher.model.last_serialno += 1
+                # main.createvoucher.model.insertRows()
+                # main.createvoucher.model.rowCount()
+                #
+                # ind = main.createvoucher.model.index(0, 0)
+                # ind1 = main.createvoucher.model.index(0, 1)
+                # main.createvoucher.model.dataChanged.emit(ind, ind1)
+
+
+
+
 
         # main.createvoucher.clearFields() # Clear existing contents
 
@@ -3935,247 +4427,238 @@ def deleteVoucher(main):
 
 # ------------------------------------ For Trial Balance ---------------------------------------
 
-
-def fetchTrialBalanceData(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
-    try:
-        # Get the selected "From" and "To" dates
-        fromDate = main.daybook.deFrom.date()
-        toDate = main.daybook.deTo.date()
-
-        # Convert dates to strings in the required format
-        fromDateStr = fromDate.toString("dd-MM-yyyy")
-        toDateStr = toDate.toString("dd-MM-yyyy")
-
-        # Use SQL query to fetch data within the date range
-        cursor = main.db_connection.cursor()
-        # command = """
-        #             SELECT
-        #                 AccountMaster_table.Ac_name,
-        #                 SUM(Voucher_table.DebitAmount) AS TotalDebit,
-        #                 SUM(Voucher_table.CreditAmount) AS TotalCredit
-        #             FROM
-        #                 AccountMaster_table
-        #             JOIN
-        #                 Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-        #             WHERE
-        #                 AccountMaster_table.CompanyID = ?
-        #                 AND  Voucher_table.Date BETWEEN  ? AND ?
-        #             GROUP BY
-        #                 AccountMaster_table.AcMasterID,
-        #                 AccountMaster_table.Ac_name
-        #             """
-        command = '''SELECT 
-                        Date,LedgerName AS Account ,Perticulars,Debit,Credit,Currency 
-                    FROM 
-                        Ledger_table 
-                    WHERE 
-                        Perticulars == 'Closing Balance'
-                         '''
-
-        cursor.execute(command, (main.companyID,fromdate,enddate,))
-
-        data = cursor.fetchall()
-
-        for row in data:
-            main.trialbalance.table[main.trialbalance.last_serialno,[0,1,2]] = list(row)
-            print(main.trialbalance.table[main.trialbalance
-                  .last_serialno])
-            main.trialbalance.last_serialno += 1
-            main.trialbalance.model.last_serialno += 1
-            main.trialbalance.model.insertRows()
-            main.trialbalance.model.rowCount()
-
-            ind = main.trialbalance.model.index(0, 0)
-            ind1 = main.trialbalance.model.index(0, 1)
-            main.trialbalance.model.dataChanged.emit(ind, ind1)
-
-        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
-        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
-
-        # lbCredit and lbDebit with the sum
-        main.trialbalance.lbdebitINR.setText(str(total_debit))
-        main.trialbalance.lbcreditINR.setText(str(total_credit))
-
-        # main.trialbalance.lbdebitINR.setText(f"{total_debit} INR")
-        # main.trialbalance.lbcreditINR.setText(f"{total_credit} INR")
-
-
-    except:
-        print(traceback.print_exc())
-
-
-def showTrialBalance(main):
-    try:
-        current_date = QDate.currentDate()
-        current_date_str = current_date.toString("dd-MM-yyyy")
-        main.trialbalance.lbDate.setText(current_date_str)
-
-        date = main.datefilter.deFrom.date()
-        fromdate = date.toString("dd-MM-yyyy")
-        print('dateeeee',fromdate)
-
-        main.trialbalance.show()
-        fetchTrialBalanceData(main)
-    except:
-        print(traceback.print_exc())
-
-
-def fetchTrialBalanceGroup(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
-    try:
-
-        main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
-
-        main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
-        main.trialbalance.last_serialno = 0
-        main.trialbalance.model.last_serialno = 0
-        main.trialbalance.model.rowCount()
-        ind = main.trialbalance.model.index(0, 0)
-        ind1 = main.trialbalance.model.index(0, 1)
-        main.trialbalance.model.dataChanged.emit(ind, ind1)
-
-        cursor = main.db_connection.cursor()
-
-        # cursor.execute("SELECT AccountMaster_table.Under_groupname,Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table JOIN Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID;")
-        command = """
-                    SELECT
-                        AccountMaster_table.Under_groupname,
-                        SUM(Voucher_table.DebitAmount) AS TotalDebit,
-                        SUM(Voucher_table.CreditAmount) AS TotalCredit
-                    FROM
-                        AccountMaster_table
-                    JOIN
-                        Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-                    WHERE
-                        AccountMaster_table.CompanyID = ?
-                       AND Voucher_table.Date BETWEEN  ? AND ?
-                    GROUP BY
-                        AccountMaster_table.Under_groupname
-                """
-        cursor.execute(command, (main.companyID,fromdate,enddate,))
-        data = cursor.fetchall()
-
-        for row in data:
-            main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
-            print(main.trialbalance.table[main.trialbalance
-                  .last_serialno])
-            main.trialbalance.last_serialno += 1
-            main.trialbalance.model.last_serialno += 1
-            main.trialbalance.model.insertRows()
-            main.trialbalance.model.rowCount()
-
-            ind = main.trialbalance.model.index(0, 0)
-            ind1 = main.trialbalance.model.index(0, 1)
-            main.trialbalance.model.dataChanged.emit(ind, ind1)
-
-        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
-        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
-
-        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
-        main.trialbalance.lbdebitINR.setText(str(total_debit))
-        main.trialbalance.lbcreditINR.setText(str(total_credit))
-
-    except:
-        print(traceback.print_exc())
-
-
-def fetchTrialBalanceBranch(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
-    try:
-
-        main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
-
-        main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
-        main.trialbalance.last_serialno = 0
-        main.trialbalance.model.last_serialno = 0
-        main.trialbalance.model.rowCount()
-        ind = main.trialbalance.model.index(0, 0)
-        ind1 = main.trialbalance.model.index(0, 1)
-        main.trialbalance.model.dataChanged.emit(ind, ind1)
-
-        cursor = main.db_connection.cursor()
-        # cursor.execute("SELECT AccountMaster_table.under_branchname, Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table AS AccountMaster_table JOIN Voucher_table AS Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID; ")
-        command = """
-                    SELECT
-                        AccountMaster_table.under_branchname,
-                        SUM(Voucher_table.DebitAmount) AS TotalDebit,
-                        SUM(Voucher_table.CreditAmount) AS TotalCredit
-                    FROM
-                        AccountMaster_table
-                    JOIN
-                        Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-                    WHERE
-                        AccountMaster_table.CompanyID = ?
-                        AND Voucher_table.Date BETWEEN  ? AND ?
-                    GROUP BY
-                        AccountMaster_table.under_branchname
-                 """
-        cursor.execute(command, (main.companyID,fromdate,enddate,))
-        data = cursor.fetchall()
-
-        # main.trialbalance.model.beginResetModel()  # Reset the model
-        for row in data:
-            main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
-            print(main.trialbalance.table[main.trialbalance
-                  .last_serialno])
-            main.trialbalance.last_serialno += 1
-            main.trialbalance.model.last_serialno += 1
-            main.trialbalance.model.insertRows()
-            main.trialbalance.model.rowCount()
-
-            ind = main.trialbalance.model.index(0, 0)
-            ind1 = main.trialbalance.model.index(0, 1)
-            main.trialbalance.model.dataChanged.emit(ind, ind1)
-
-        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
-        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
-
-        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
-        main.trialbalance.lbdebitINR.setText(str(total_debit))
-        main.trialbalance.lbcreditINR.setText(str(total_credit))
-
-    except:
-        print(traceback.print_exc())
-
-
-def trialBalanceComboBox(main):
-    try:
-        global is_filtered
-        main.trialbalance.model.clear()
-        main.trialbalance.last_serialno = 0
-        main.trialbalance.model.last_serialno = 0
-
-        selcted_item = main.trialbalance.cbtrialbalance.currentText()
-        print(selcted_item)
-        is_filtered = True
-        if selcted_item ==("Ledger-Wise"):
-            fetchTrialBalanceData(main)
-        elif selcted_item ==("Group-Wise"):
-            fetchTrialBalanceGroup(main)
-        else:
-            fetchTrialBalanceBranch(main)
-    except:
-        print(traceback.print_exc())
-
-
-def filterClicked(main):
-    try:
-        main.trialbalance.model.clear()
-        main.trialbalance.last_serialno = 0
-        main.trialbalance.model.last_serialno = 0
-
-        selcted_item = main.trialbalance.cbtrialbalance.currentText()
-        if selcted_item ==("Ledger-Wise"):
-            main.datefilter.pbGetData.clicked.connect(lambda: fetchTrialBalanceData(main, main.selectdateFrom, main.selectdateTo))
-
-        elif selcted_item ==("Group-Wise"):
-            main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceGroup(main,main.selectdateFrom,main.selectdateTo))
-
-        else:
-            main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceBranch(main,main.selectdateFrom,main.selectdateTo))
-
-       # trialBalanceDoubleClicked(main)
-
-    except:
-        print(traceback.print_exc())
+# def fetchTrialBalanceData(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
+#     try:
+#         # Get the selected "From" and "To" dates
+#         fromDate = main.daybook.deFrom.date()
+#         toDate = main.daybook.deTo.date()
+#
+#         # Convert dates to strings in the required format
+#         fromDateStr = fromDate.toString("dd-MM-yyyy")
+#         toDateStr = toDate.toString("dd-MM-yyyy")
+#
+#         # Use SQL query to fetch data within the date range
+#         cursor = main.db_connection.cursor()
+#         command = """
+#                     SELECT
+#                         AccountMaster_table.Ac_name,
+#                         SUM(Voucher_table.DebitAmount) AS TotalDebit,
+#                         SUM(Voucher_table.CreditAmount) AS TotalCredit
+#                     FROM
+#                         AccountMaster_table
+#                     JOIN
+#                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+#                     WHERE
+#                         AccountMaster_table.CompanyID = ?
+#                         AND  Voucher_table.Date BETWEEN  ? AND ?
+#                     GROUP BY
+#                         AccountMaster_table.AcMasterID,
+#                         AccountMaster_table.Ac_name
+#                     """
+#         cursor.execute(command, (main.companyID,fromdate,enddate,))
+#
+#         data = cursor.fetchall()
+#
+#         for row in data:
+#             main.trialbalance.table[main.trialbalance.last_serialno,[0,1,2]] = list(row)
+#             print(main.trialbalance.table[main.trialbalance
+#                   .last_serialno])
+#             main.trialbalance.last_serialno += 1
+#             main.trialbalance.model.last_serialno += 1
+#             main.trialbalance.model.insertRows()
+#             main.trialbalance.model.rowCount()
+#
+#             ind = main.trialbalance.model.index(0, 0)
+#             ind1 = main.trialbalance.model.index(0, 1)
+#             main.trialbalance.model.dataChanged.emit(ind, ind1)
+#
+#         total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+#         total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+#
+#         # lbCredit and lbDebit with the sum
+#         main.trialbalance.lbdebitINR.setText(str(total_debit))
+#         main.trialbalance.lbcreditINR.setText(str(total_credit))
+#
+#         # main.trialbalance.lbdebitINR.setText(f"{total_debit} INR")
+#         # main.trialbalance.lbcreditINR.setText(f"{total_credit} INR")
+#
+#
+#     except:
+#         print(traceback.print_exc())
+#
+#
+# def showTrialBalance(main):
+#     try:
+#         current_date = QDate.currentDate()
+#         current_date_str = current_date.toString("dd-MM-yyyy")
+#         main.trialbalance.lbDate.setText(current_date_str)
+#
+#         date = main.datefilter.deFrom.date()
+#         fromdate = date.toString("dd-MM-yyyy")
+#         print('dateeeee',fromdate)
+#
+#         main.trialbalance.show()
+#         fetchTrialBalanceData(main)
+#     except:
+#         print(traceback.print_exc())
+#
+#
+# def fetchTrialBalanceGroup(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
+#     try:
+#
+#         main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
+#
+#         main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
+#         main.trialbalance.last_serialno = 0
+#         main.trialbalance.model.last_serialno = 0
+#         main.trialbalance.model.rowCount()
+#         ind = main.trialbalance.model.index(0, 0)
+#         ind1 = main.trialbalance.model.index(0, 1)
+#         main.trialbalance.model.dataChanged.emit(ind, ind1)
+#
+#         cursor = main.db_connection.cursor()
+#
+#         # cursor.execute("SELECT AccountMaster_table.Under_groupname,Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table JOIN Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID;")
+#         command = """
+#                     SELECT
+#                         AccountMaster_table.Under_groupname,
+#                         SUM(Voucher_table.DebitAmount) AS TotalDebit,
+#                         SUM(Voucher_table.CreditAmount) AS TotalCredit
+#                     FROM
+#                         AccountMaster_table
+#                     JOIN
+#                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+#                     WHERE
+#                         AccountMaster_table.CompanyID = ?
+#                        AND Voucher_table.Date BETWEEN  ? AND ?
+#                     GROUP BY
+#                         AccountMaster_table.Under_groupname
+#                 """
+#         cursor.execute(command, (main.companyID,fromdate,enddate,))
+#         data = cursor.fetchall()
+#
+#         for row in data:
+#             main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
+#             print(main.trialbalance.table[main.trialbalance
+#                   .last_serialno])
+#             main.trialbalance.last_serialno += 1
+#             main.trialbalance.model.last_serialno += 1
+#             main.trialbalance.model.insertRows()
+#             main.trialbalance.model.rowCount()
+#
+#             ind = main.trialbalance.model.index(0, 0)
+#             ind1 = main.trialbalance.model.index(0, 1)
+#             main.trialbalance.model.dataChanged.emit(ind, ind1)
+#
+#         total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+#         total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+#
+#         # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+#         main.trialbalance.lbdebitINR.setText(str(total_debit))
+#         main.trialbalance.lbcreditINR.setText(str(total_credit))
+#
+#     except:
+#         print(traceback.print_exc())
+#
+#
+# def fetchTrialBalanceBranch(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
+#     try:
+#
+#         main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
+#
+#         main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
+#         main.trialbalance.last_serialno = 0
+#         main.trialbalance.model.last_serialno = 0
+#         main.trialbalance.model.rowCount()
+#         ind = main.trialbalance.model.index(0, 0)
+#         ind1 = main.trialbalance.model.index(0, 1)
+#         main.trialbalance.model.dataChanged.emit(ind, ind1)
+#
+#         cursor = main.db_connection.cursor()
+#         # cursor.execute("SELECT AccountMaster_table.under_branchname, Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table AS AccountMaster_table JOIN Voucher_table AS Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID; ")
+#         command = """
+#                     SELECT
+#                         AccountMaster_table.under_branchname,
+#                         SUM(Voucher_table.DebitAmount) AS TotalDebit,
+#                         SUM(Voucher_table.CreditAmount) AS TotalCredit
+#                     FROM
+#                         AccountMaster_table
+#                     JOIN
+#                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+#                     WHERE
+#                         AccountMaster_table.CompanyID = ?
+#                         AND Voucher_table.Date BETWEEN  ? AND ?
+#                     GROUP BY
+#                         AccountMaster_table.under_branchname
+#                  """
+#         cursor.execute(command, (main.companyID,fromdate,enddate,))
+#         data = cursor.fetchall()
+#
+#         # main.trialbalance.model.beginResetModel()  # Reset the model
+#         for row in data:
+#             main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
+#             print(main.trialbalance.table[main.trialbalance
+#                   .last_serialno])
+#             main.trialbalance.last_serialno += 1
+#             main.trialbalance.model.last_serialno += 1
+#             main.trialbalance.model.insertRows()
+#             main.trialbalance.model.rowCount()
+#
+#             ind = main.trialbalance.model.index(0, 0)
+#             ind1 = main.trialbalance.model.index(0, 1)
+#             main.trialbalance.model.dataChanged.emit(ind, ind1)
+#
+#         total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+#         total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+#
+#         # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+#         main.trialbalance.lbdebitINR.setText(str(total_debit))
+#         main.trialbalance.lbcreditINR.setText(str(total_credit))
+#
+#     except:
+#         print(traceback.print_exc())
+#
+#
+# def trialBalanceComboBox(main):
+#     try:
+#         global is_filtered
+#         main.trialbalance.model.clear()
+#         main.trialbalance.last_serialno = 0
+#         main.trialbalance.model.last_serialno = 0
+#
+#         selcted_item = main.trialbalance.cbtrialbalance.currentText()
+#         print(selcted_item)
+#         is_filtered = True
+#         if selcted_item ==("Ledger-Wise"):
+#             fetchTrialBalanceData(main)
+#         elif selcted_item ==("Group-Wise"):
+#             fetchTrialBalanceGroup(main)
+#         else:
+#             fetchTrialBalanceBranch(main)
+#     except:
+#         print(traceback.print_exc())
+#
+#
+# def filterClicked(main):
+#     try:
+#         main.trialbalance.model.clear()
+#         main.trialbalance.last_serialno = 0
+#         main.trialbalance.model.last_serialno = 0
+#
+#         selcted_item = main.trialbalance.cbtrialbalance.currentText()
+#         if selcted_item ==("Ledger-Wise"):
+#             main.datefilter.pbGetData.clicked.connect(lambda: fetchTrialBalanceData(main, main.selectdateFrom, main.selectdateTo))
+#
+#         elif selcted_item ==("Group-Wise"):
+#             main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceGroup(main,main.selectdateFrom,main.selectdateTo))
+#
+#         else:
+#             main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceBranch(main,main.selectdateFrom,main.selectdateTo))
+#
+#        # trialBalanceDoubleClicked(main)
+#
+#     except:
+#         print(traceback.print_exc())
 
 
 # is_filtered=False
@@ -4487,7 +4970,7 @@ def trialBalanceDoubleClicked(main):
         print(traceback.print_exc())
 
 
-# --------------------------------------- Filtered By From to To For Trial Balance -------------------------------
+# --------------------------------------- Filtered By From to To -------------------------------
 
 def filterbyDate(main):
     try:
@@ -4526,11 +5009,11 @@ def showLedgerBalance(main):
         # Connect the currentIndexChanged signal to the slot function
         main.ledgerblance.cbAccount.activated.connect(lambda : loadLedgerData(main))
         main.ledgerblance.cbAccount.activated.connect(lambda : totalClosingBalance(main))
+        main.ledgerblance.cbAccount.activated.connect(lambda : totalSumInLedger(main))
 
         # totalSumInLedger(main)
     except:
         print(traceback.print_exc())
-
 
 # Function to populate the QComboBox with distinct account names from both tables
 def populate_account_combobox(main):
@@ -4593,7 +5076,7 @@ def loadLedgerData(main):
         # Populate the model only if there is data available
         for row in ledger_data:
             if row[3]=='INR':
-                print("ledger data",[row[0],row[1],row[2],f"{row[4]}  {row[3]}",f"{row[5]}  {row[3]}",0,0])
+                # print("ledger data",[row[0],row[1],row[2],f"{row[4]}  {row[3]}",f"{row[5]}  {row[3]}",0,0])
                 main.ledgerblance.table[main.ledgerblance.last_serialno,index_list] = [row[0],row[1],row[2],row[4],row[5],0,0]
                 main.ledgerblance.last_serialno += 1
                 main.ledgerblance.model.last_serialno += 1
@@ -4619,23 +5102,38 @@ def loadLedgerData(main):
                 ind1 = main.ledgerblance.model.index(0, 1)
                 main.ledgerblance.model.dataChanged.emit(ind, ind1)
 
-        # totalSumInLedger(main)
+        totalSumInLedger(main)
     except Exception as e:
         print("Error loading ledger data:", str(e))
+
 
 
 def totalSumInLedger(main):
     try:
 
-        debitSum = np.sum(main.ledgerblance.table[:main.ledgerblance.last_serialno, 4].astype(float))
-        debitSumFormatted = "{:.2f}".format(debitSum)  # Format the float with 2 decimal places
+        condition = main.ledgerblance.table[:main.ledgerblance.last_serialno, 1] != 'Closing Balance'
+
+        ###################################### INR SUm ###########################################################
+
+        debitSumInr = np.sum(main.ledgerblance.table[:main.ledgerblance.last_serialno, 3][condition].astype(float))
+        debitSumFormattedInr = "{:.2f}".format(debitSumInr)  # Format the float with 2 decimal places
         # print("debit sum", debitSumFormatted)
-        main.ledgerblance.lbDebit.setText(debitSumFormatted)
+        main.ledgerblance.lbtotalDebitINR.setText(debitSumFormattedInr)
 
-        creditSum = np.sum(main.ledgerblance.table[:main.ledgerblance.last_serialno, 5].astype(float))
-        creditSumFormatted = "{:.2f}".format(creditSum)  # Format the float with 2 decimal places
-        main.ledgerblance.lbCredit.setText(creditSumFormatted)
+        creditSumInr = np.sum(main.ledgerblance.table[:main.ledgerblance.last_serialno, 4][condition].astype(float))
+        creditSumFormattedInr = "{:.2f}".format(creditSumInr)  # Format the float with 2 decimal places
+        main.ledgerblance.lbtotalCreditINR.setText(creditSumFormattedInr)
 
+        ######################################### USD Sum #################################################
+
+        debitSumUsd = np.sum(main.ledgerblance.table[:main.ledgerblance.last_serialno, 5][condition].astype(float))
+        debitSumFormattedUsd = "{:.2f}".format(debitSumUsd)  # Format the float with 2 decimal places
+        # print("debit sum", debitSumFormatted)
+        main.ledgerblance.lbtotalDebitUSD.setText(debitSumFormattedUsd)
+
+        creditSumUsd = np.sum(main.ledgerblance.table[:main.ledgerblance.last_serialno, 6][condition].astype(float))
+        creditSumFormattedUsd = "{:.2f}".format(creditSumUsd)  # Format the float with 2 decimal places
+        main.ledgerblance.lbtotalCreditUSD.setText(creditSumFormattedUsd)
 
         # print('data',main.ledgerblance.table[:,:])
 
@@ -4657,7 +5155,16 @@ def totalSumInLedger(main):
 
 
 def totalClosingBalance(main):
+
     try:
+
+        main.ledgerblance.lbClosingBalanceCreditUSD.clear()
+        main.ledgerblance.lbClosingBalanceDebitUSD.clear()
+        main.ledgerblance.lbClosingBalanceCreditINR.clear()
+        main.ledgerblance.lbClosingBalanceDebitINR.clear()
+
+        # last_two_rows = main.ledgerblance.table[main.ledgerblance.last_serialno - 1:main.ledgerblance.last_serialno + 1]
+        #
         selected_account = main.ledgerblance.cbAccount.currentText()
 
         # Execute the SQL query based on the selected account name

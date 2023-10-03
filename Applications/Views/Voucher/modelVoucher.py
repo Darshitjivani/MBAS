@@ -82,45 +82,91 @@ class ModelTS(QtCore.QAbstractTableModel):
             print(traceback.print_exc())
 
     def setData(self, index, value, role=None):
-        try:
-            if role == Qt.EditRole:
-                if value == '':
-                    return False
+        if role == Qt.EditRole:
+            if value == '':
+                return False
 
-                row = index.row()
-                col = index.column()
-                dr_cr = self._data[row][0]
+            row = index.row()
+            col = index.column()
+            dr_cr = self._data[row][0]
 
-                # Check if the edited cell is in a "Dr" or "Cr" column
-                if dr_cr == 'Dr' and col == 2:
-                    # Find the corresponding "Cr" row
-                    cr_row = next((i for i, row in enumerate(self._data) if row[0] == 'Cr'), None)
+            if dr_cr == 'Dr':
+                if col == 2:
+                    original_value = float(self._data[row][col])
+                    diff = float(value) - original_value
+                    cr_rows = [(i, float(row[3])) for i, row in enumerate(self._data) if row[0] == 'Cr']
+                    total_cr = sum(cr[1] for cr in cr_rows)
 
-                    if cr_row is not None:
-                        # Update the corresponding "Cr" row's amount
-                        self._data[cr_row][3] = str(value)
+                    if total_cr == 0:
+                        return False
 
-                elif dr_cr == 'Cr' and col == 3:
-                    # Find the corresponding "Dr" row
-                    dr_row = next((i for i, row in enumerate(self._data) if row[0] == 'Dr'), None)
+                    for i, cr_row in cr_rows:
+                        proportion = float(cr_row) / total_cr
+                        change = proportion * diff
+                        self._data[i][3] = str(float(self._data[i][3]) + change)
 
-                    if dr_row is not None:
-                        # Update the corresponding "Dr" row's amount
-                        self._data[dr_row][2] = str(value)
+            elif dr_cr == 'Cr':
+                if col == 3:
+                    original_value = float(self._data[row][col])
+                    diff = float(value) - original_value
+                    dr_rows = [(i, float(row[2])) for i, row in enumerate(self._data) if row[0] == 'Dr']
+                    total_dr = sum(dr[1] for dr in dr_rows)
 
-                self._data[row][col] = str(value)
-                self.updated_row[self._data[row][0]] = {str(col + 1): str(value)}  # Update the dictionary
-                self.dataChanged.emit(index, index)
+                    if total_dr == 0:
+                        return False
 
-                # Update sums after editing
-                # updateSumsOnSelectionChange(main)
+                    for i, dr_row in dr_rows:
+                        proportion = float(dr_row) / total_dr
+                        change = proportion * diff
+                        self._data[i][2] = str(float(self._data[i][2]) + change)
 
-                return True
-
-        except Exception as e:
-            print(traceback.print_exc())
+            self._data[row][col] = str(value)
+            self.updated_row[self._data[row][0]] = {str(col + 1): str(value)}
+            self.dataChanged.emit(index, index)
+            return True
 
         return False
+
+    # def setData(self, index, value, role=None):
+    #     try:
+    #         if role == Qt.EditRole:
+    #             if value == '':
+    #                 return False
+    #
+    #             row = index.row()
+    #             col = index.column()
+    #             dr_cr = self._data[row][0]
+    #
+    #             # Check if the edited cell is in a "Dr" or "Cr" column
+    #             if dr_cr == 'Dr' and col == 2:
+    #                 # Find the corresponding "Cr" row
+    #                 cr_row = next((i for i, row in enumerate(self._data) if row[0] == 'Cr'), None)
+    #
+    #                 if cr_row is not None:
+    #                     # Update the corresponding "Cr" row's amount
+    #                     self._data[cr_row][3] = str(value)
+    #
+    #             elif dr_cr == 'Cr' and col == 3:
+    #                 # Find the corresponding "Dr" row
+    #                 dr_row = next((i for i, row in enumerate(self._data) if row[0] == 'Dr'), None)
+    #
+    #                 if dr_row is not None:
+    #                     # Update the corresponding "Dr" row's amount
+    #                     self._data[dr_row][2] = str(value)
+    #
+    #             self._data[row][col] = str(value)
+    #             self.updated_row[self._data[row][0]] = {str(col + 1): str(value)}  # Update the dictionary
+    #             self.dataChanged.emit(index, index)
+    #
+    #             ## Update sums after editing
+    #             # updateSumsOnSelectionChange(main)
+    #             #
+    #             return True
+    #
+    #     except Exception as e:
+    #         print(traceback.print_exc())
+    #
+    #     return False
 
     # def setData(self, index, value, role=None):
     #     '''
