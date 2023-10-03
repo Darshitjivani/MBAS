@@ -210,10 +210,10 @@ class CreateVoucherWindow(QMainWindow):
         # self.cbVoucherType.setCurrentIndex(0)
         # self.cbDebitedAccount.setCurrentIndex(0)
         # self.model.removeRows(0, self.model.rowCount())
-        self.table[ : self.last_serialno] = [0, 0, 0, 0, 0]
-        self.model.removeRows(0, self.model.rowCount())
-        
-
+        self.table[0: self.last_serialno] = [0, 0, 0, 0, 0]
+        # # self.model.removeRows(0, self.model.rowCount())
+        #
+        #
         self.model.DelRows(0, self.last_serialno)
         self.last_serialno = 0
         self.model.last_serialno = 0
