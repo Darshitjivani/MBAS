@@ -4,6 +4,7 @@ import sqlite3
 import traceback
 import uuid
 import datetime
+from collections import defaultdict
 from functools import partial
 from PyQt5.QtCore import QModelIndex
 import numpy as np
