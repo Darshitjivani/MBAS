@@ -3936,238 +3936,246 @@ def deleteVoucher(main):
 # ------------------------------------ For Trial Balance ---------------------------------------
 
 
-# def fetchTrialBalanceData(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
-#     try:
-#         # Get the selected "From" and "To" dates
-#         fromDate = main.daybook.deFrom.date()
-#         toDate = main.daybook.deTo.date()
-#
-#         # Convert dates to strings in the required format
-#         fromDateStr = fromDate.toString("dd-MM-yyyy")
-#         toDateStr = toDate.toString("dd-MM-yyyy")
-#
-#         # Use SQL query to fetch data within the date range
-#         cursor = main.db_connection.cursor()
-#         command = """
-#                     SELECT
-#                         AccountMaster_table.Ac_name,
-#                         SUM(Voucher_table.DebitAmount) AS TotalDebit,
-#                         SUM(Voucher_table.CreditAmount) AS TotalCredit
-#                     FROM
-#                         AccountMaster_table
-#                     JOIN
-#                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-#                     WHERE
-#                         AccountMaster_table.CompanyID = ?
-#                         AND  Voucher_table.Date BETWEEN  ? AND ?
-#                     GROUP BY
-#                         AccountMaster_table.AcMasterID,
-#                         AccountMaster_table.Ac_name
-#                     """
-#         cursor.execute(command, (main.companyID,fromdate,enddate,))
-#
-#         data = cursor.fetchall()
-#
-#         for row in data:
-#             main.trialbalance.table[main.trialbalance.last_serialno,[0,1,2]] = list(row)
-#             print(main.trialbalance.table[main.trialbalance
-#                   .last_serialno])
-#             main.trialbalance.last_serialno += 1
-#             main.trialbalance.model.last_serialno += 1
-#             main.trialbalance.model.insertRows()
-#             main.trialbalance.model.rowCount()
-#
-#             ind = main.trialbalance.model.index(0, 0)
-#             ind1 = main.trialbalance.model.index(0, 1)
-#             main.trialbalance.model.dataChanged.emit(ind, ind1)
-#
-#         total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
-#         total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
-#
-#         # lbCredit and lbDebit with the sum
-#         main.trialbalance.lbdebitINR.setText(str(total_debit))
-#         main.trialbalance.lbcreditINR.setText(str(total_credit))
-#
-#         # main.trialbalance.lbdebitINR.setText(f"{total_debit} INR")
-#         # main.trialbalance.lbcreditINR.setText(f"{total_credit} INR")
-#
-#
-#     except:
-#         print(traceback.print_exc())
-#
-#
-# def showTrialBalance(main):
-#     try:
-#         current_date = QDate.currentDate()
-#         current_date_str = current_date.toString("dd-MM-yyyy")
-#         main.trialbalance.lbDate.setText(current_date_str)
-#
-#         date = main.datefilter.deFrom.date()
-#         fromdate = date.toString("dd-MM-yyyy")
-#         print('dateeeee',fromdate)
-#
-#         main.trialbalance.show()
-#         fetchTrialBalanceData(main)
-#     except:
-#         print(traceback.print_exc())
-#
-#
-# def fetchTrialBalanceGroup(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
-#     try:
-#
-#         main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
-#
-#         main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
-#         main.trialbalance.last_serialno = 0
-#         main.trialbalance.model.last_serialno = 0
-#         main.trialbalance.model.rowCount()
-#         ind = main.trialbalance.model.index(0, 0)
-#         ind1 = main.trialbalance.model.index(0, 1)
-#         main.trialbalance.model.dataChanged.emit(ind, ind1)
-#
-#         cursor = main.db_connection.cursor()
-#
-#         # cursor.execute("SELECT AccountMaster_table.Under_groupname,Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table JOIN Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID;")
-#         command = """
-#                     SELECT
-#                         AccountMaster_table.Under_groupname,
-#                         SUM(Voucher_table.DebitAmount) AS TotalDebit,
-#                         SUM(Voucher_table.CreditAmount) AS TotalCredit
-#                     FROM
-#                         AccountMaster_table
-#                     JOIN
-#                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-#                     WHERE
-#                         AccountMaster_table.CompanyID = ?
-#                        AND Voucher_table.Date BETWEEN  ? AND ?
-#                     GROUP BY
-#                         AccountMaster_table.Under_groupname
-#                 """
-#         cursor.execute(command, (main.companyID,fromdate,enddate,))
-#         data = cursor.fetchall()
-#
-#         for row in data:
-#             main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
-#             print(main.trialbalance.table[main.trialbalance
-#                   .last_serialno])
-#             main.trialbalance.last_serialno += 1
-#             main.trialbalance.model.last_serialno += 1
-#             main.trialbalance.model.insertRows()
-#             main.trialbalance.model.rowCount()
-#
-#             ind = main.trialbalance.model.index(0, 0)
-#             ind1 = main.trialbalance.model.index(0, 1)
-#             main.trialbalance.model.dataChanged.emit(ind, ind1)
-#
-#         total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
-#         total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
-#
-#         # Update the lbCredit and lbDebit QLable widgets with the calculated sums
-#         main.trialbalance.lbdebitINR.setText(str(total_debit))
-#         main.trialbalance.lbcreditINR.setText(str(total_credit))
-#
-#     except:
-#         print(traceback.print_exc())
-#
-#
-# def fetchTrialBalanceBranch(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
-#     try:
-#
-#         main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
-#
-#         main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
-#         main.trialbalance.last_serialno = 0
-#         main.trialbalance.model.last_serialno = 0
-#         main.trialbalance.model.rowCount()
-#         ind = main.trialbalance.model.index(0, 0)
-#         ind1 = main.trialbalance.model.index(0, 1)
-#         main.trialbalance.model.dataChanged.emit(ind, ind1)
-#
-#         cursor = main.db_connection.cursor()
-#         # cursor.execute("SELECT AccountMaster_table.under_branchname, Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table AS AccountMaster_table JOIN Voucher_table AS Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID; ")
-#         command = """
-#                     SELECT
-#                         AccountMaster_table.under_branchname,
-#                         SUM(Voucher_table.DebitAmount) AS TotalDebit,
-#                         SUM(Voucher_table.CreditAmount) AS TotalCredit
-#                     FROM
-#                         AccountMaster_table
-#                     JOIN
-#                         Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
-#                     WHERE
-#                         AccountMaster_table.CompanyID = ?
-#                         AND Voucher_table.Date BETWEEN  ? AND ?
-#                     GROUP BY
-#                         AccountMaster_table.under_branchname
-#                  """
-#         cursor.execute(command, (main.companyID,fromdate,enddate,))
-#         data = cursor.fetchall()
-#
-#         # main.trialbalance.model.beginResetModel()  # Reset the model
-#         for row in data:
-#             main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
-#             print(main.trialbalance.table[main.trialbalance
-#                   .last_serialno])
-#             main.trialbalance.last_serialno += 1
-#             main.trialbalance.model.last_serialno += 1
-#             main.trialbalance.model.insertRows()
-#             main.trialbalance.model.rowCount()
-#
-#             ind = main.trialbalance.model.index(0, 0)
-#             ind1 = main.trialbalance.model.index(0, 1)
-#             main.trialbalance.model.dataChanged.emit(ind, ind1)
-#
-#         total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
-#         total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
-#
-#         # Update the lbCredit and lbDebit QLable widgets with the calculated sums
-#         main.trialbalance.lbdebitINR.setText(str(total_debit))
-#         main.trialbalance.lbcreditINR.setText(str(total_credit))
-#
-#     except:
-#         print(traceback.print_exc())
-#
-#
-# def trialBalanceComboBox(main):
-#     try:
-#         global is_filtered
-#         main.trialbalance.model.clear()
-#         main.trialbalance.last_serialno = 0
-#         main.trialbalance.model.last_serialno = 0
-#
-#         selcted_item = main.trialbalance.cbtrialbalance.currentText()
-#         print(selcted_item)
-#         is_filtered = True
-#         if selcted_item ==("Ledger-Wise"):
-#             fetchTrialBalanceData(main)
-#         elif selcted_item ==("Group-Wise"):
-#             fetchTrialBalanceGroup(main)
-#         else:
-#             fetchTrialBalanceBranch(main)
-#     except:
-#         print(traceback.print_exc())
-#
-#
-# def filterClicked(main):
-#     try:
-#         main.trialbalance.model.clear()
-#         main.trialbalance.last_serialno = 0
-#         main.trialbalance.model.last_serialno = 0
-#
-#         selcted_item = main.trialbalance.cbtrialbalance.currentText()
-#         if selcted_item ==("Ledger-Wise"):
-#             main.datefilter.pbGetData.clicked.connect(lambda: fetchTrialBalanceData(main, main.selectdateFrom, main.selectdateTo))
-#
-#         elif selcted_item ==("Group-Wise"):
-#             main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceGroup(main,main.selectdateFrom,main.selectdateTo))
-#
-#         else:
-#             main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceBranch(main,main.selectdateFrom,main.selectdateTo))
-#
-#        # trialBalanceDoubleClicked(main)
-#
-#     except:
-#         print(traceback.print_exc())
+def fetchTrialBalanceData(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
+    try:
+        # Get the selected "From" and "To" dates
+        fromDate = main.daybook.deFrom.date()
+        toDate = main.daybook.deTo.date()
+
+        # Convert dates to strings in the required format
+        fromDateStr = fromDate.toString("dd-MM-yyyy")
+        toDateStr = toDate.toString("dd-MM-yyyy")
+
+        # Use SQL query to fetch data within the date range
+        cursor = main.db_connection.cursor()
+        # command = """
+        #             SELECT
+        #                 AccountMaster_table.Ac_name,
+        #                 SUM(Voucher_table.DebitAmount) AS TotalDebit,
+        #                 SUM(Voucher_table.CreditAmount) AS TotalCredit
+        #             FROM
+        #                 AccountMaster_table
+        #             JOIN
+        #                 Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+        #             WHERE
+        #                 AccountMaster_table.CompanyID = ?
+        #                 AND  Voucher_table.Date BETWEEN  ? AND ?
+        #             GROUP BY
+        #                 AccountMaster_table.AcMasterID,
+        #                 AccountMaster_table.Ac_name
+        #             """
+        command = '''SELECT 
+                        Date,LedgerName AS Account ,Perticulars,Debit,Credit,Currency 
+                    FROM 
+                        Ledger_table 
+                    WHERE 
+                        Perticulars == 'Closing Balance'
+                         '''
+
+        cursor.execute(command, (main.companyID,fromdate,enddate,))
+
+        data = cursor.fetchall()
+
+        for row in data:
+            main.trialbalance.table[main.trialbalance.last_serialno,[0,1,2]] = list(row)
+            print(main.trialbalance.table[main.trialbalance
+                  .last_serialno])
+            main.trialbalance.last_serialno += 1
+            main.trialbalance.model.last_serialno += 1
+            main.trialbalance.model.insertRows()
+            main.trialbalance.model.rowCount()
+
+            ind = main.trialbalance.model.index(0, 0)
+            ind1 = main.trialbalance.model.index(0, 1)
+            main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+
+        # lbCredit and lbDebit with the sum
+        main.trialbalance.lbdebitINR.setText(str(total_debit))
+        main.trialbalance.lbcreditINR.setText(str(total_credit))
+
+        # main.trialbalance.lbdebitINR.setText(f"{total_debit} INR")
+        # main.trialbalance.lbcreditINR.setText(f"{total_credit} INR")
+
+
+    except:
+        print(traceback.print_exc())
+
+
+def showTrialBalance(main):
+    try:
+        current_date = QDate.currentDate()
+        current_date_str = current_date.toString("dd-MM-yyyy")
+        main.trialbalance.lbDate.setText(current_date_str)
+
+        date = main.datefilter.deFrom.date()
+        fromdate = date.toString("dd-MM-yyyy")
+        print('dateeeee',fromdate)
+
+        main.trialbalance.show()
+        fetchTrialBalanceData(main)
+    except:
+        print(traceback.print_exc())
+
+
+def fetchTrialBalanceGroup(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
+    try:
+
+        main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
+
+        main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+        main.trialbalance.model.rowCount()
+        ind = main.trialbalance.model.index(0, 0)
+        ind1 = main.trialbalance.model.index(0, 1)
+        main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        cursor = main.db_connection.cursor()
+
+        # cursor.execute("SELECT AccountMaster_table.Under_groupname,Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table JOIN Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID;")
+        command = """
+                    SELECT
+                        AccountMaster_table.Under_groupname,
+                        SUM(Voucher_table.DebitAmount) AS TotalDebit,
+                        SUM(Voucher_table.CreditAmount) AS TotalCredit
+                    FROM
+                        AccountMaster_table
+                    JOIN
+                        Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                    WHERE
+                        AccountMaster_table.CompanyID = ?
+                       AND Voucher_table.Date BETWEEN  ? AND ?
+                    GROUP BY
+                        AccountMaster_table.Under_groupname
+                """
+        cursor.execute(command, (main.companyID,fromdate,enddate,))
+        data = cursor.fetchall()
+
+        for row in data:
+            main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
+            print(main.trialbalance.table[main.trialbalance
+                  .last_serialno])
+            main.trialbalance.last_serialno += 1
+            main.trialbalance.model.last_serialno += 1
+            main.trialbalance.model.insertRows()
+            main.trialbalance.model.rowCount()
+
+            ind = main.trialbalance.model.index(0, 0)
+            ind1 = main.trialbalance.model.index(0, 1)
+            main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+
+        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+        main.trialbalance.lbdebitINR.setText(str(total_debit))
+        main.trialbalance.lbcreditINR.setText(str(total_credit))
+
+    except:
+        print(traceback.print_exc())
+
+
+def fetchTrialBalanceBranch(main,fromdate='01-04-2023',enddate=datetime.today().strftime('%d-%m-%Y')):
+    try:
+
+        main.trialbalance.table[0:main.trialbalance.last_serialno] = [0, 0, 0, 0]
+
+        main.trialbalance.model.DelRows(0, main.trialbalance.last_serialno)
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+        main.trialbalance.model.rowCount()
+        ind = main.trialbalance.model.index(0, 0)
+        ind1 = main.trialbalance.model.index(0, 1)
+        main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        cursor = main.db_connection.cursor()
+        # cursor.execute("SELECT AccountMaster_table.under_branchname, Voucher_table.CreditAmount, Voucher_table.DebitAmount FROM AccountMaster_table AS AccountMaster_table JOIN Voucher_table AS Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID; ")
+        command = """
+                    SELECT
+                        AccountMaster_table.under_branchname,
+                        SUM(Voucher_table.DebitAmount) AS TotalDebit,
+                        SUM(Voucher_table.CreditAmount) AS TotalCredit
+                    FROM
+                        AccountMaster_table
+                    JOIN
+                        Voucher_table ON AccountMaster_table.AcMasterID = Voucher_table.AccountMasterID
+                    WHERE
+                        AccountMaster_table.CompanyID = ?
+                        AND Voucher_table.Date BETWEEN  ? AND ?
+                    GROUP BY
+                        AccountMaster_table.under_branchname
+                 """
+        cursor.execute(command, (main.companyID,fromdate,enddate,))
+        data = cursor.fetchall()
+
+        # main.trialbalance.model.beginResetModel()  # Reset the model
+        for row in data:
+            main.trialbalance.table[main.trialbalance.last_serialno, [0, 1, 2]] = list(row)
+            print(main.trialbalance.table[main.trialbalance
+                  .last_serialno])
+            main.trialbalance.last_serialno += 1
+            main.trialbalance.model.last_serialno += 1
+            main.trialbalance.model.insertRows()
+            main.trialbalance.model.rowCount()
+
+            ind = main.trialbalance.model.index(0, 0)
+            ind1 = main.trialbalance.model.index(0, 1)
+            main.trialbalance.model.dataChanged.emit(ind, ind1)
+
+        total_debit = sum(row[1] if row[1] is not None else 0 for row in data)
+        total_credit = sum(row[2] if row[2] is not None else 0 for row in data)
+
+        # Update the lbCredit and lbDebit QLable widgets with the calculated sums
+        main.trialbalance.lbdebitINR.setText(str(total_debit))
+        main.trialbalance.lbcreditINR.setText(str(total_credit))
+
+    except:
+        print(traceback.print_exc())
+
+
+def trialBalanceComboBox(main):
+    try:
+        global is_filtered
+        main.trialbalance.model.clear()
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+
+        selcted_item = main.trialbalance.cbtrialbalance.currentText()
+        print(selcted_item)
+        is_filtered = True
+        if selcted_item ==("Ledger-Wise"):
+            fetchTrialBalanceData(main)
+        elif selcted_item ==("Group-Wise"):
+            fetchTrialBalanceGroup(main)
+        else:
+            fetchTrialBalanceBranch(main)
+    except:
+        print(traceback.print_exc())
+
+
+def filterClicked(main):
+    try:
+        main.trialbalance.model.clear()
+        main.trialbalance.last_serialno = 0
+        main.trialbalance.model.last_serialno = 0
+
+        selcted_item = main.trialbalance.cbtrialbalance.currentText()
+        if selcted_item ==("Ledger-Wise"):
+            main.datefilter.pbGetData.clicked.connect(lambda: fetchTrialBalanceData(main, main.selectdateFrom, main.selectdateTo))
+
+        elif selcted_item ==("Group-Wise"):
+            main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceGroup(main,main.selectdateFrom,main.selectdateTo))
+
+        else:
+            main.datefilter.pbGetData.clicked.connect(lambda :fetchTrialBalanceBranch(main,main.selectdateFrom,main.selectdateTo))
+
+       # trialBalanceDoubleClicked(main)
+
+    except:
+        print(traceback.print_exc())
 
 
 # is_filtered=False
