@@ -26,13 +26,7 @@ class CreateVoucherWindow(QMainWindow):
         self.cr_last_serialno = 0
         # self.initUI()
         self.tables_details_TWM()
-        # self.window = Terminal()
-        # self.pbAdd.clicked.connect(self.window.show)
-        # self.window.adddata.clicked.connect(self.AddRow)
-
-        # self.blur_effect = QGraphicsBlurEffect()
-        # self.blur_effect.setBlurRadius(5)  # You can adjust the blur radius as needed
-        # self.setGraphicsEffect(self.blur_effect)
+        self.voucherColumnProfile()
 
 
 
@@ -62,6 +56,8 @@ class CreateVoucherWindow(QMainWindow):
             self.tableView.setContextMenuPolicy(Qt.CustomContextMenu)
             self.tableView.setDragDropMode(self.tableView.InternalMove)
             self.tableView.setDragDropOverwriteMode(False)
+            self.tableView.horizontalHeader().setContextMenuPolicy(Qt.CustomContextMenu)
+            self.tableView.horizontalHeader().customContextMenuRequested.connect(self.headerRightClickMenu)
         #
         except:
             print(traceback.print_exc())
@@ -73,7 +69,7 @@ class CreateVoucherWindow(QMainWindow):
 
             binData = self.tableView.horizontalHeader().saveState()
             save = QFileDialog.getSaveFileName(self, 'Save file', defaultDir)[0]
-            print('save TrialBal save column profile', save)
+            print('save Voucher save column profile', save)
 
             with open(save, 'wb') as f:
                 f.write(binData)
@@ -85,9 +81,9 @@ class CreateVoucherWindow(QMainWindow):
             f1 = open(settingsFilePath)
             pathDetails = json.load(f1)
             f1.close()
-            a = pathDetails['TrialBal']['defaultColumnProfile']
+            a = save
             save = "Resources" + str(a.split('Resources')[1])
-            print('save TrialBal save column profile', save)
+            print('save Voucher save column profile', save)
 
             pathDetails_new = json.dumps(pathDetails, indent=4)
 
@@ -99,13 +95,13 @@ class CreateVoucherWindow(QMainWindow):
         except:
             print(traceback.print_exc())
 
-    def defaultColumnProfile(self):
+    def voucherColumnProfile(self):
         loc = os.getcwd().split('Application')
         settingsFilePath = os.path.join(loc[0], 'Resources', 'Settings.json')
         f1 = open(settingsFilePath)
         pathDetails = json.load(f1)
         f1.close()
-        lastCPFilePath = pathDetails['TrialBal']['defaultColumnProfile']
+        lastCPFilePath = pathDetails['Voucher']['voucherColumnProfile']
         lastCPFilePath = os.path.join(loc[0], lastCPFilePath)
 
         with open(lastCPFilePath, 'rb') as f:
@@ -119,7 +115,7 @@ class CreateVoucherWindow(QMainWindow):
         f1 = open(settingsFilePath)
         pathDetails = json.load(f1)
         f1.close()
-        lastCPFilePath = pathDetails['TrialBal']['defaultColumnProfile']
+        lastCPFilePath = pathDetails['Voucher']['voucherColumnProfile']
         with open(lastCPFilePath, 'rb') as f:
             binData = f.read()
         f.close()
@@ -145,9 +141,9 @@ class CreateVoucherWindow(QMainWindow):
             f1 = open(settingsFilePath)
             pathDetails = json.load(f1)
             f1.close()
-            a = pathDetails['TrialBal']['lastSavedColumnProfile']
+            a = save
             save = "Resources" + str(a.split('Resources')[1])
-            print('save TrialBal save column profile', save)
+            print('save Voucher save column profile', save)
 
             pathDetails_new = json.dumps(pathDetails, indent=4)
 
@@ -158,6 +154,7 @@ class CreateVoucherWindow(QMainWindow):
 
         except:
             print(traceback.print_exc())
+
 
     def openColumnProfile(self):
         loc = os.getcwd().split('Application')
@@ -205,6 +202,7 @@ class CreateVoucherWindow(QMainWindow):
 
         except:
             print(sys.exc_info()[1])
+
     def clearFields(self):
         # Add code here to clear the input fields in your window
         # self.cbVoucherType.setCurrentIndex(0)

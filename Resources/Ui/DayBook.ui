@@ -198,6 +198,14 @@ background-color: #9a9a9a
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leAccount</tabstop>
+  <tabstop>deFrom</tabstop>
+  <tabstop>deTo</tabstop>
+  <tabstop>pbGetData</tabstop>
+  <tabstop>tableView</tabstop>
+  <tabstop>pbBack</tabstop>
+ </tabstops>
  <resources>
   <include location="../icons/icons.qrc"/>
  </resources>

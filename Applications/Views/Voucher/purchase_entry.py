@@ -17,6 +17,7 @@ class PurchaseEntryWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
+        self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
 
         # ----------------------------------- For Window Movement ----------------------------------$
         self.dragging = False

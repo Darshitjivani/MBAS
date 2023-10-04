@@ -215,7 +215,7 @@ QPushButton:hover {
           <string>Add Data</string>
          </property>
          <property name="shortcut">
-          <string/>
+          <string>Return, Enter</string>
          </property>
         </widget>
        </item>
@@ -223,6 +223,9 @@ QPushButton:hover {
         <widget class="QPushButton" name="pbcancel">
          <property name="text">
           <string>Cancel</string>
+         </property>
+         <property name="shortcut">
+          <string>Esc</string>
          </property>
         </widget>
        </item>
@@ -242,6 +245,15 @@ QPushButton:hover {
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>cbAccountName</tabstop>
+  <tabstop>cbDrCr</tabstop>
+  <tabstop>leAmount</tabstop>
+  <tabstop>cbCurrency</tabstop>
+  <tabstop>tbNarretion</tabstop>
+  <tabstop>pdAddRaw</tabstop>
+  <tabstop>pbcancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

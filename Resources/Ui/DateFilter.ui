@@ -216,6 +216,12 @@ border: none;
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>deFrom</tabstop>
+  <tabstop>deTo</tabstop>
+  <tabstop>pbGetData</tabstop>
+  <tabstop>pbCancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

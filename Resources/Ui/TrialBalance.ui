@@ -754,6 +754,12 @@ background-color: #9a9a9a
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>cbtrialbalance</tabstop>
+  <tabstop>pbFilter</tabstop>
+  <tabstop>tableView</tabstop>
+  <tabstop>pbBack</tabstop>
+ </tabstops>
  <resources>
   <include location="../icons/icons.qrc"/>
  </resources>
