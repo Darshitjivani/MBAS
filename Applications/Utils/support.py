@@ -60,7 +60,7 @@ def allObjects(main):
     main.altergrouplist = AlterGroupListWindow()  # Group List Window For Alteration
     main.alterledger = AlterLedgerUpdateWindow()
     main.daybook = DayBookWindow()
-    main.filterdatedaybook = DateFilterInDayBookWindow()
+    # main.filterdatedaybook = DateFilterInDayBookWindow()
 
     main.trialbalance = TrialBalanceWindow()
     main.datefilter = DateFilterWindow()
@@ -463,8 +463,8 @@ def listOfCompany(main):
 
             # Create a QPushButton for each company and add it to the layout
             for company in company_data:
-                company_name = company[2]
-                company_id = company[1]
+                company_name = company[1]
+                company_id = company[0]
 
 
                 item = QListWidgetItem()
@@ -4066,12 +4066,12 @@ def fetchDayBookData(main):
         cursor = main.db_connection.cursor()
         command = """
         SELECT 
-                a.Date,
-                a.VoucherNO,a.VoucherType,b.DebitSideAccount as 'Debit Acc',
-                b.CreditSideAccount as 'Credit Acc',b.DebitAmount as 'Amount',b.Currency,a.Narration
-                FROM Voucher_Master a left join Voucher_details b on a.VoucherID = b.VoucherID
-                Where CompanyID = ?
-                ORDER BY a.Date ASC
+        a.Date,
+        a.VoucherNO,a.VoucherType,b.DebitSideAccount as 'Debit Acc',
+        b.CreditSideAccount as 'Credit Acc',b.DebitAmount as 'Amount',b.Currency,a.Narration
+        FROM Voucher_Master a left join Voucher_details b on a.VoucherID = b.VoucherID
+        Where CompanyID = ?
+        ORDER BY a.Date ASC
         """
         cursor.execute(command, (main.companyID,))
         data = cursor.fetchall()
