@@ -68,8 +68,6 @@ class UIMain(QMainWindow):
         self.fCreateCompany.show()
 
 
-
-
     def showmaximized(self):
         self.showMaximized()  # show the window in full screen
 

@@ -245,7 +245,7 @@ QPushButton:hover {
           <string>Add Data</string>
          </property>
          <property name="shortcut">
-          <string>Enter</string>
+          <string>Return, Enter</string>
          </property>
         </widget>
        </item>

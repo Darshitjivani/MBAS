@@ -1,16 +1,4 @@
-import sqlite3
-import sys
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel
-import csv
-# from tabletask import Ui_MainWindow
 import os
-from PyQt5 import uic
-from PyQt5 import *
-import qdarkstyle
-import traceback
-import numpy as np
-# from model import ModelTS
 
 
 # ---------------------------------------- Imports For Files -----------------------------#

@@ -281,6 +281,15 @@ p, li { white-space: pre-wrap; }
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>cbAccountName</tabstop>
+  <tabstop>lineEdit_2</tabstop>
+  <tabstop>lineEdit_3</tabstop>
+  <tabstop>lineEdit</tabstop>
+  <tabstop>tbNarretion</tabstop>
+  <tabstop>pdAddRaw</tabstop>
+  <tabstop>pbcancel</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

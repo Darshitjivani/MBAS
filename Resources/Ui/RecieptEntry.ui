@@ -219,7 +219,7 @@ QPushButton:hover {
           <string>Add Data</string>
          </property>
          <property name="shortcut">
-          <string/>
+          <string>Return, Enter</string>
          </property>
         </widget>
        </item>
@@ -227,6 +227,9 @@ QPushButton:hover {
         <widget class="QPushButton" name="pbcancel">
          <property name="text">
           <string>Cancel</string>
+         </property>
+         <property name="shortcut">
+          <string>Esc</string>
          </property>
         </widget>
        </item>

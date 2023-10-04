@@ -398,8 +398,29 @@ color:#000000</string>
            <height>0</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QDateEdit{
+background-color: rgb(173, 216, 230);
+}
+
+QDateEdit::hover{
+background-color:rgb(173, 216, 230);
+color:#000000
+border: none;
+}</string>
+         </property>
+         <property name="currentSection">
+          <enum>QDateTimeEdit::DaySection</enum>
+         </property>
          <property name="displayFormat">
           <string>dd-MM-yyyy</string>
+         </property>
+         <property name="date">
+          <date>
+           <year>2023</year>
+           <month>4</month>
+           <day>1</day>
+          </date>
          </property>
         </widget>
        </item>
@@ -410,6 +431,9 @@ color:#000000</string>
            <width>150</width>
            <height>16777215</height>
           </size>
+         </property>
+         <property name="maxLength">
+          <number>10</number>
          </property>
         </widget>
        </item>
@@ -481,11 +505,32 @@ color:#000000</string>
            <height>0</height>
           </size>
          </property>
+         <property name="styleSheet">
+          <string notr="true">QDateEdit{
+background-color: rgb(173, 216, 230);
+}
+
+QDateEdit::hover{
+background-color:rgb(173, 216, 230);
+color:#000000
+border: none;
+}</string>
+         </property>
          <property name="currentSection">
           <enum>QDateTimeEdit::DaySection</enum>
          </property>
          <property name="displayFormat">
           <string>dd-MM-yyyy</string>
+         </property>
+         <property name="currentSectionIndex">
+          <number>0</number>
+         </property>
+         <property name="date">
+          <date>
+           <year>2023</year>
+           <month>4</month>
+           <day>1</day>
+          </date>
          </property>
         </widget>
        </item>
@@ -567,6 +612,24 @@ color:#000000</string>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>leComapnyName</tabstop>
+  <tabstop>leMailingName</tabstop>
+  <tabstop>ptAddress</tabstop>
+  <tabstop>leState</tabstop>
+  <tabstop>leCountry</tabstop>
+  <tabstop>lePincode</tabstop>
+  <tabstop>leMobile</tabstop>
+  <tabstop>leFax</tabstop>
+  <tabstop>leEmail</tabstop>
+  <tabstop>leWebsite</tabstop>
+  <tabstop>leCurrencySymbol</tabstop>
+  <tabstop>leFormalName</tabstop>
+  <tabstop>deFYDate</tabstop>
+  <tabstop>deBookYear</tabstop>
+  <tabstop>pbSubmit</tabstop>
+  <tabstop>pbClose</tabstop>
+ </tabstops>
  <resources>
   <include location="../icons/icons.qrc"/>
  </resources>

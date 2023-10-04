@@ -508,6 +508,12 @@ color:#000000</string>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pbCreateGroup</tabstop>
+  <tabstop>pdCreateLedger</tabstop>
+  <tabstop>pbCreateBranch</tabstop>
+  <tabstop>pbBack</tabstop>
+ </tabstops>
  <resources>
   <include location="../icons/icons.qrc"/>
  </resources>

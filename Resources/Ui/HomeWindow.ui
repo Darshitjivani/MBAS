@@ -634,6 +634,13 @@ color:#000000</string>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pbCreateCompany</tabstop>
+  <tabstop>listWidget</tabstop>
+  <tabstop>pbClose</tabstop>
+  <tabstop>pbMinimized</tabstop>
+  <tabstop>pbMaximized</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

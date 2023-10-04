@@ -514,6 +514,12 @@ font: 63 11pt &quot;Segoe UI Semibold&quot;;
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pbAlterGroup</tabstop>
+  <tabstop>pbAlterLedger</tabstop>
+  <tabstop>pbAlterBranch</tabstop>
+  <tabstop>pbBack</tabstop>
+ </tabstops>
  <resources>
   <include location="../icons/icons.qrc"/>
  </resources>

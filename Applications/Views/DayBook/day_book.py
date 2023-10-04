@@ -32,7 +32,7 @@ class DayBookWindow(QMainWindow):
         self.tables_details_DBK()
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
-        self.defaultColumnProfile()
+        self.daybookColumnProfile()
 
         # self.tableView.setSelectionBehavior(QTableView.SelectRows)
 
@@ -106,13 +106,13 @@ class DayBookWindow(QMainWindow):
         except:
             print(traceback.print_exc())
 
-    def defaultColumnProfile(self):
+    def daybookColumnProfile(self):
         loc = os.getcwd().split('Application')
         settingsFilePath = os.path.join(loc[0], 'Resources', 'Settings.json')
         f1 = open(settingsFilePath)
         pathDetails = json.load(f1)
         f1.close()
-        lastCPFilePath = pathDetails['TrialBal']['defaultColumnProfile']
+        lastCPFilePath = pathDetails['Daybook']['daybookColumnProfile']
         lastCPFilePath = os.path.join(loc[0], lastCPFilePath)
 
         with open(lastCPFilePath, 'rb') as f:
@@ -152,9 +152,9 @@ class DayBookWindow(QMainWindow):
             f1 = open(settingsFilePath)
             pathDetails = json.load(f1)
             f1.close()
-            a = pathDetails['TrialBal']['lastSavedColumnProfile']
+            a = save
             save = "Resources" + str(a.split('Resources')[1])
-            print('save TrialBal save column profile', save)
+            print('save Daybook save column profile', save)
 
             pathDetails_new = json.dumps(pathDetails, indent=4)
 

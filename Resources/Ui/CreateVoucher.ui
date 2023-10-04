@@ -96,6 +96,9 @@ background-color: #9a9a9a
           <iconset>
            <normaloff>:/newPrefix/icons/corner-down-left.svg</normaloff>:/newPrefix/icons/corner-down-left.svg</iconset>
          </property>
+         <property name="shortcut">
+          <string>Esc</string>
+         </property>
         </widget>
        </item>
        <item row="0" column="1">
@@ -189,33 +192,24 @@ color:#000000</string>
        <property name="verticalSpacing">
         <number>4</number>
        </property>
-       <item row="0" column="6">
-        <widget class="QDateEdit" name="deDate">
-         <property name="maximumSize">
-          <size>
-           <width>100</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="displayFormat">
-          <string>dd-MM-yyyy</string>
-         </property>
-         <property name="calendarPopup">
-          <bool>false</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPushButton" name="pbPayment">
+       <item row="11" column="0">
+        <widget class="QPushButton" name="pbContra">
          <property name="text">
-          <string>Payment (F6)</string>
+          <string>Contra (F9)</string>
          </property>
          <property name="shortcut">
-          <string>F6</string>
+          <string>F9</string>
          </property>
         </widget>
        </item>
-       <item row="16" column="6">
+       <item row="1" column="6">
+        <widget class="QPushButton" name="pbDeleteRaw">
+         <property name="text">
+          <string>Delete Row</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="8">
         <widget class="QPushButton" name="pbSubmit">
          <property name="text">
           <string>Submit</string>
@@ -225,7 +219,39 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="6">
+       <item row="6" column="0">
+        <widget class="Line" name="line_3">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="10" column="0">
+        <widget class="Line" name="line_5">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="8">
         <widget class="QLabel" name="lbCurrency">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -250,20 +276,26 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="7" column="0">
-        <widget class="QPushButton" name="pbPurchase">
-         <property name="text">
-          <string>Purchase (F7)</string>
+       <item row="0" column="8">
+        <widget class="QDateEdit" name="deDate">
+         <property name="maximumSize">
+          <size>
+           <width>100</width>
+           <height>16777215</height>
+          </size>
          </property>
-         <property name="shortcut">
-          <string>F7</string>
+         <property name="displayFormat">
+          <string>dd-MM-yyyy</string>
+         </property>
+         <property name="calendarPopup">
+          <bool>false</bool>
          </property>
         </widget>
        </item>
-       <item row="16" column="1" colspan="2">
-        <widget class="QLineEdit" name="leNarration">
+       <item row="15" column="4">
+        <widget class="QLabel" name="lbDebit">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
@@ -271,69 +303,17 @@ color:#000000</string>
          <property name="minimumSize">
           <size>
            <width>0</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>1645645</width>
-           <height>40</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="10" column="0">
-        <widget class="Line" name="line_5">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
            <height>20</height>
           </size>
          </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: transparent;</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_2">
          <property name="maximumSize">
           <size>
-           <width>66</width>
+           <width>120</width>
            <height>16777215</height>
           </size>
          </property>
          <property name="text">
-          <string>Voucher No :</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QLineEdit" name="leVoucherNo">
-         <property name="maximumSize">
-          <size>
-           <width>200</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Voucher_0001</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="1">
-        <widget class="QLabel" name="label_6">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Narration :</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -350,81 +330,6 @@ color:#000000</string>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="12" column="0">
-        <widget class="Line" name="line_6">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: transparent;</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="11" column="0">
-        <widget class="QPushButton" name="pbContra">
-         <property name="text">
-          <string>Contra (F9)</string>
-         </property>
-         <property name="shortcut">
-          <string>F9</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="lbVoucherType">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>25</height>
-          </size>
-         </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="Line" name="line_7">
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>20</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true">background-color: transparent;</string>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="0">
-        <widget class="QPushButton" name="pbSales">
-         <property name="text">
-          <string>Sales (F8)</string>
-         </property>
-         <property name="shortcut">
-          <string>F8</string>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QPushButton" name="pbCurConvsn">
-         <property name="text">
-          <string>Cur.Convsn. (F10)</string>
-         </property>
-         <property name="shortcut">
-          <string>F10</string>
          </property>
         </widget>
        </item>
@@ -454,18 +359,80 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1" rowspan="13" colspan="6">
-        <widget class="QTableView" name="tableView">
+       <item row="9" column="0">
+        <widget class="QPushButton" name="pbSales">
+         <property name="text">
+          <string>Sales (F8)</string>
+         </property>
+         <property name="shortcut">
+          <string>F8</string>
+         </property>
+        </widget>
+       </item>
+       <item row="16" column="1" colspan="2">
+        <widget class="QLineEdit" name="leNarration">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>0</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>1645645</width>
+           <height>40</height>
+          </size>
+         </property>
         </widget>
        </item>
-       <item row="6" column="0">
-        <widget class="Line" name="line_3">
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pbPayment">
+         <property name="text">
+          <string>Payment (F6)</string>
+         </property>
+         <property name="shortcut">
+          <string>F6</string>
+         </property>
+        </widget>
+       </item>
+       <item row="14" column="0">
+        <widget class="Line" name="line_2">
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="8">
+        <widget class="QPushButton" name="pbDelete">
+         <property name="text">
+          <string>Delete</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_2">
+         <property name="maximumSize">
+          <size>
+           <width>66</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Voucher No :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="Line" name="line_7">
          <property name="maximumSize">
           <size>
            <width>16777215</width>
@@ -480,17 +447,72 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="14" column="0">
-        <widget class="Line" name="line_2">
+       <item row="1" column="4">
+        <widget class="QPushButton" name="pbCreateLedger">
+         <property name="text">
+          <string>Create Ledger</string>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+L</string>
+         </property>
+        </widget>
+       </item>
+       <item row="13" column="0">
+        <widget class="QPushButton" name="pbCurConvsn">
+         <property name="text">
+          <string>Cur.Convsn. (F10)</string>
+         </property>
+         <property name="shortcut">
+          <string>F10</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="pbPurchase">
+         <property name="text">
+          <string>Purchase (F7)</string>
+         </property>
+         <property name="shortcut">
+          <string>F7</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="7">
+        <widget class="Line" name="line_8">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>5</width>
+           <height>0</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">background-color: transparent;</string>
          </property>
          <property name="orientation">
-          <enum>Qt::Vertical</enum>
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
-       <item row="15" column="5">
+       <item row="0" column="2">
+        <widget class="QLineEdit" name="leVoucherNo">
+         <property name="maximumSize">
+          <size>
+           <width>200</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="text">
+          <string>Voucher_0001</string>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="6">
         <widget class="QLabel" name="lbCredit">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
@@ -515,8 +537,60 @@ color:#000000</string>
          </property>
         </widget>
        </item>
-       <item row="15" column="4">
-        <widget class="QLabel" name="lbDebit">
+       <item row="1" column="1">
+        <widget class="QLabel" name="lbVoucherType">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>25</height>
+          </size>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1" rowspan="13" colspan="8">
+        <widget class="QTableView" name="tableView">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="Line" name="line_6">
+         <property name="maximumSize">
+          <size>
+           <width>16777215</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;</string>
+         </property>
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="15" column="1">
+        <widget class="QLabel" name="label_6">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Narration :</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="5">
+        <widget class="Line" name="line_9">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -525,32 +599,15 @@ color:#000000</string>
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
-           <height>20</height>
+           <width>4</width>
+           <height>0</height>
           </size>
          </property>
-         <property name="maximumSize">
-          <size>
-           <width>120</width>
-           <height>16777215</height>
-          </size>
+         <property name="styleSheet">
+          <string notr="true">background-color: transparent;</string>
          </property>
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="6">
-        <widget class="QPushButton" name="pbDelete">
-         <property name="text">
-          <string>DELETE</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="5">
-        <widget class="QPushButton" name="pbDeleteRaw">
-         <property name="text">
-          <string>DELETE ROW</string>
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
          </property>
         </widget>
        </item>
@@ -560,6 +617,22 @@ color:#000000</string>
    </layout>
   </widget>
  </widget>
+ <tabstops>
+  <tabstop>pbReciept</tabstop>
+  <tabstop>pbPayment</tabstop>
+  <tabstop>pbPurchase</tabstop>
+  <tabstop>pbSales</tabstop>
+  <tabstop>pbContra</tabstop>
+  <tabstop>pbCurConvsn</tabstop>
+  <tabstop>leNarration</tabstop>
+  <tabstop>pbBack</tabstop>
+  <tabstop>leVoucherNo</tabstop>
+  <tabstop>pbDeleteRaw</tabstop>
+  <tabstop>deDate</tabstop>
+  <tabstop>pbDelete</tabstop>
+  <tabstop>pbSubmit</tabstop>
+  <tabstop>tableView</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
