@@ -16,7 +16,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.uic.properties import QtCore
 
 from Applications.Views.BalanceSheet.balancesheet import BalanceSheetWindow
-from Applications.Views.DayBook.date_filter_daybook import DateFilterInDayBookWindow
+# from Applications.Views.DayBook.date_filter_daybook import DateFilterInDayBookWindow
 from Applications.Views.DayBook.day_book import DayBookWindow
 from Applications.Views.Branch.alter_branch_list import AlterBranchListWindow
 from Applications.Views.Branch.create_branch import BranchCreateWindow
@@ -53,15 +53,12 @@ def allObjects(main):
     main.altermasterlist = AlterMasterListWindow()  # Master List window For Alteration
     main.alterledgerlist = AlterLedgerListWindow() # Ledger List Window For Alteration
     main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
-    main.createvoucher  = CreateVoucherWindow()  # Create Voucher Window
     main.alterbranchlist = AlterBranchListWindow()  #Ledger list Branch wise for Alteration
     main.createbranch = BranchCreateWindow() # Branch List Window For Alteration
-    main.tableshow = Terminal()
     main.altergrouplist = AlterGroupListWindow()  # Group List Window For Alteration
     main.alterledger = AlterLedgerUpdateWindow()
     main.daybook = DayBookWindow()
-    main.filterdatedaybook = DateFilterInDayBookWindow()
-
+    # main.filterdatedaybook = DateFilterInDayBookWindow()
     main.trialbalance = TrialBalanceWindow()
     main.datefilter = DateFilterWindow()
     main.balancesheet = BalanceSheetWindow()
@@ -69,6 +66,7 @@ def allObjects(main):
 
 
     #-------------------------------------- Voucher Object --------------------------------
+
     main.createvoucher = CreateVoucherWindow()  # Create Voucher Window
     main.paymententry = PaymentEntryWindow()
     main.salesentry = SalesEntryWindow()
@@ -113,6 +111,7 @@ def allSlots(main):
     main.companycreate.pbSubmit.clicked.connect(main.companycreate.hide)
     main.companycreate.pbClose.clicked.connect(main.companycreate.hide)
     main.pbCreateCompany.clicked.connect(main.companycreate.show)
+    # main.pbCreateCompany.clicked.connect(lambda: createCompanyPage(main))
 
     # Connect the "Add" button to the clear function
     main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
@@ -124,11 +123,8 @@ def allSlots(main):
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
     main.gateway.pbVouchers.clicked.connect(lambda: showVoucherPage(main))
-    main.gateway.pbTrailBalance.clicked.connect(lambda: showTrialBalance(main))
     main.gateway.pbLedgerBalance.clicked.connect(lambda: showLedgerBalance(main))
 
-    # main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
-    # main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbCreateMaster.clicked.connect(main.gateway.showCreateFrame)
     main.gateway.pbAlterMaster.clicked.connect(main.gateway.showAlterFrame)
     main.gateway.pbDayBook.clicked.connect(main.gateway.showDayBookFrame)
@@ -137,7 +133,6 @@ def allSlots(main):
     main.gateway.pbTrailBalance.clicked.connect(main.gateway.showTrialBalanceFrame)
     main.gateway.pbLedgerBalance.clicked.connect(main.gateway.showLedgerBalanceFrame)
 
-    # main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
     main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
     main.gateway.pbClose.clicked.connect(main.gateway.close)
 
@@ -147,7 +142,6 @@ def allSlots(main):
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
     main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
-    # main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
 
     main.masterlist.pbBack.clicked.connect(main.masterlist.hide)
 
@@ -211,6 +205,10 @@ def allSlots(main):
     main.createvoucher.pbCurConvsn.clicked.connect(lambda: setVoucherType(main))
     main.createvoucher.pbContra.clicked.connect(lambda : setVoucherType(main))
 
+    main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
+    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
+    main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
+
         #-----------------------------        Contra Window ----------------------------#
     main.contraentry.pbcancel.clicked.connect(main.contraentry.hide)
     main.contraentry.pdAddRaw.clicked.connect(lambda: addRawInContra(main))
@@ -223,15 +221,19 @@ def allSlots(main):
 
         #------------------------------------  Payment Window ------------------------------#
     main.paymententry.pdAddRaw.clicked.connect(lambda: addRawInPayment(main))
+    main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
+
+        #-------------------------------------- Sales Window ------------------------------#
+    main.salesentry.pdAddRaw.clicked.connect(lambda:  addRawInSales(main))
+
+        #------------------------------------------ Purchase Window ---------------------------#
+    main.purchaseentry.pdAddRaw.clicked.connect(lambda: addRawInPurchase(main))
 
 
-    #----------------------------------- Table Window ---------------------------------------------#
-    # main.tableshow.pdAddRaw.clicked.connect(lambda: addRaw(main))
 
     #----------------------------------- Day Book Window ------------------------------------------#
     # main.daybook.deDateEdit.dateChanged.connect(lambda: filterDataByDate(main))
     main.daybook.leAccount.textChanged.connect(lambda: filterDataByAccountName(main))
-    # Connect the doubleClickedOnVoucherCell function to the double-click event
     main.daybook.tableView.doubleClicked.connect(lambda : dayBookDoubleClicked(main))
     # main.daybook.tableView.doubleClicked.connect(lambda : doubleClickedOnVoucherCell(main))
 
@@ -243,35 +245,31 @@ def allSlots(main):
 
     # main.daybook.pbFilter.clicked.connect(lambda: filterClicked(main))
     main.daybook.pbGetData.clicked.connect(lambda: filterDataByDateRange(main))
-
     main.daybook.pbBack.clicked.connect(main.daybook.hide)
-
     main.daybook.tableView.doubleClicked.connect(lambda: dayBookDoubleClicked(main))
 
 
 
     # ------------------------------------- Trial Balance ------------------------------#
+
     main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
-    main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
-    main.datefilter.deFrom.dateChanged.connect(lambda: filterbyDate(main))
-    main.datefilter.deTo.dateChanged.connect(lambda: filterbyDate(main))
+    # main.trialbalance.cbtrialbalance.activated.connect(lambda: trialBalanceComboBox(main))
+    # main.datefilter.deFrom.dateChanged.connect(lambda: filterbyDate(main))
+    # main.datefilter.deTo.dateChanged.connect(lambda: filterbyDate(main))
     main.datefilter.pbGetData.clicked.connect(main.datefilter.close)
     main.datefilter.pbCancel.clicked.connect(main.datefilter.close)
     # main.datefilter.pbCancel.clicked.connect(lambda:showTrialBalance(main))
 
-    main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
+    # main.trialbalance.tableView.doubleClicked.connect(lambda:trialBalanceDoubleClicked(main))
     # main.trialbalance.tableView.doubleClicked.connect(lambda:filteredTrialBalanceDoubleClicked(main))
-
-    main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
-    main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
-    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
-    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
-    main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
 
 
     main.trialbalance.pbFilter.clicked.connect(lambda: filterbyDate(main))
-    main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
+    # main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
 
+    # ------------------------------------- Ledger Balance ------------------------------#
+
+    main.ledgerblance.pbBack.clicked.connect(main.ledgerblance.close)
 
 
 # ------------------------------------ For Login Function ---------------------------------------
@@ -335,7 +333,7 @@ def createCompanyPage(main):
     try:
         # main.hide()
         main.companycreate.show()
-        main.hide()
+        # main.hide()
 
 
     except:
@@ -487,12 +485,31 @@ def listOfCompany(main):
 
             # Create a QPushButton for each company and add it to the layout
             for company in company_data:
-                company_name = company[2]
-                company_id = company[1]
+                company_name = company[1]
+                company_id = company[0]
 
 
                 item = QListWidgetItem()
                 company_button = QPushButton(company_name)
+                company_button.setStyleSheet( "QPushButton {" "width: 150px;"
+                                                "cursor: pointer;"
+                                                "height: 30px;"
+                                                "font: 63 11pt Segoe UI Semibold;"
+                                                "background-color: #293241;"
+                                                "color: #FFFFFF;"
+                                                "border: none;"
+                                                "text-align: center;"
+                                                "text-decoration: none;"
+                                                "display: inline-block;"
+                                                "font-size: 16px;"
+                                                "margin: 8px;"
+                                                "border-radius: 5px;""}"
+                                                "QPushButton:hover {"
+                                                "background-color: #f0f0f0;"
+                                                "color: #000000;""}");
+
+
+
                 # button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
                 company_button.clicked.connect(lambda _, name=company_name, id=company_id: gateway(main, name, id))
                 item.setSizeHint(company_button.sizeHint())  # Set the size of the item to match the button's size
@@ -526,7 +543,7 @@ def gateway(main, company_name, company_id):
         # main.showMaximized()
         main.companyID = company_id
         main.companyName = company_name
-        print(main.companyID)
+        print("Gateway window",main.companyID)
 
         main.gateway.updateTitleLabel(company_name)
     except:
@@ -729,46 +746,59 @@ def saveGroupData(main):
 
 group_list_shown = False
 def alterGroupListpage(main):
+    try:
 
-    ''' This function will show the all ledger list which is created by that particular company.'''
-    global group_list_shown  # Declare the flag variable as global
-    # Check if the ledger list is already shown, and show it only if it's not shown
-    if not group_list_shown:
-        try:
-            # Show the ledger list
-            company_id = main.companyID
-            command = ''' SELECT * FROM Group_role WHERE CompanyID = ? '''
-            cursor = main.db_connection.cursor()
+        ''' This function will show the all ledger list which is created by that particular company.'''
+        global group_list_shown  # Declare the flag variable as global
+        # Check if the ledger list is already shown, and show it only if it's not shown
 
+        company_groups = getGroupsCreatedByCompany(main)
+        # role_names = [role[1] for role in group_roles]
+
+
+        # all_items = role_names + group_names
+
+        if not group_list_shown:
             try:
-                cursor.execute(command, (company_id,))
-                group_data = cursor.fetchall()
-                main.listWidget.clear()
+                # Show the ledger list
+                company_id = main.companyID
+                command = ''' SELECT * FROM Group_role WHERE CompanyID = ? '''
+                cursor = main.db_connection.cursor()
 
-                for group in group_data:
-                    group_name = group[1]
-                    group_id = group[0]
-                    item = QListWidgetItem()
-                    group_button = QPushButton(group_name)
-                    # group_button.clicked.connect(
-                    #     lambda _, name=group_name, id=group_id: alterLedgerPage(main, name, id))
-                    item.setSizeHint(group_button.sizeHint())
-                    main.altergrouplist.listwidget.addItem(item)
-                    main.altergrouplist.listwidget.setItemWidget(item, group_button)
-                    item.setData(Qt.UserRole, group_id)
-                    # ledger_button.clicked.connect(main.alterledgerlist.showAlterLedgerFrame)
+                try:
+                    cursor.execute(command, (company_id,))
+                    role_names = cursor.fetchall()
+                    group_data = role_names + company_groups
+                    # print("group data-------", group_data)
+                    main.listWidget.clear()
 
-                # Set the flag to True, indicating that the ledger list is now shown
-                group_list_shown = True
-            except sqlite3.Error as e:
-                print("Error executing query:", e)
-            cursor.close()
-        except:
-            print(traceback.print_exc())
-    else:
-        # If the ledger list is already shown, you can choose to do nothing or handle it differently
-        pass
-    main.altergrouplist.show()
+                    for group in group_data:
+                        group_name = group[1]
+                        # print("group names", group_name)
+                        group_id = group[0]
+                        item = QListWidgetItem()
+                        group_button = QPushButton(group_name)
+                        # group_button.clicked.connect(
+                        #     lambda _, name=group_name, id=group_id: alterLedgerPage(main, name, id))
+                        item.setSizeHint(group_button.sizeHint())
+                        main.altergrouplist.listwidget.addItem(item)
+                        main.altergrouplist.listwidget.setItemWidget(item, group_button)
+                        item.setData(Qt.UserRole, group_id)
+                        # ledger_button.clicked.connect(main.alterledgerlist.showAlterLedgerFrame)
+
+                    # Set the flag to True, indicating that the ledger list is now shown
+                    group_list_shown = True
+                except sqlite3.Error as e:
+                    print("Error executing query:", e)
+                cursor.close()
+            except:
+                print(traceback.print_exc())
+        else:
+            # If the ledger list is already shown, you can choose to do nothing or handle it differently
+            pass
+        main.altergrouplist.show()
+    except:
+        print(traceback.print_exc())
 
 
 # ------------------------------------ For Ledger ---------------------------------------
@@ -890,7 +920,7 @@ def saveledger(main):
             reply = QMessageBox.question(
                 main,
                 'Confirmation',
-                'Company entry created successfully!\nDo you want to continue?',
+                'Account Master  entry created successfully!\nDo you want to continue?',
                 QMessageBox.Yes | QMessageBox.No,
                 QMessageBox.No
             )
@@ -932,6 +962,7 @@ def alterLedgerListpage(main):
             try:
                 cursor.execute(command, (company_id,))
                 ledger_data = cursor.fetchall()
+                print("ledger list-----------------------", ledger_data)
                 main.listWidget.clear()
 
                 for ledger in ledger_data:
@@ -1097,10 +1128,6 @@ def saveAlterLedgerData(main):
 
             main.db_connection.commit()
             cursor.close()
-
-
-
-
 
             if reply == QMessageBox.Yes:
 
@@ -1680,12 +1707,11 @@ def saveVoucherData(main):
                             main.createvoucher.table[1, 3]
                             , main.createvoucher.table[0, 4], existing_voucher_id[0])
                             cursor.execute(update_query, update_values)
-
                             # Insert corresponding entries in Ledger_table
-                            insertLedgerEntries(main, main.createvoucher.table[0, 1], main.createvoucher.table[1, 1],
-                                                main.createvoucher.table[0, 2]
-                                                , main.createvoucher.table[0, 4]
+                            updateLedgerEntries(main, main.createvoucher.table[0, 1], main.createvoucher.table[1, 1],
+                                                main.createvoucher.table[0, 2], main.createvoucher.table[0, 4]
                                                 )
+                            # createLedgerEntries(main)
                         else:
                             if num_cr_rows == 1 and num_dr_rows >= 2:
                                 # Save data for multiple debit rows and a single credit row
@@ -1696,7 +1722,7 @@ def saveVoucherData(main):
 
                                 for debit_row in debit_rows:
 
-                                 updated_query_dr =        '''UPDATE Voucher_details
+                                 updated_query_dr =   '''UPDATE Voucher_details
                                              SET DebitSideAccount=?, CreditSideAccount=?, DebitAmount=? , 
                                              CreditAmount=? , Currency=?
                                              WHERE VoucherID=? '''
@@ -1707,8 +1733,8 @@ def saveVoucherData(main):
                                  # main.db_connection.commit()
 
                                 # Insert corresponding entries in Ledger_table
-                                insertLedgerEntries(main, debit_row[1], credit_row[1], debit_row[2], debit_row[4])
-                                                        
+                                updateLedgerEntries(main, debit_row[1], credit_row[1], debit_row[2], debit_row[4])
+
 
                             elif num_dr_rows == 1 and num_cr_rows >= 2:
                                 # Save data for multiple credit rows and a single debit row
@@ -1718,12 +1744,14 @@ def saveVoucherData(main):
                                 voucher_master_id = cursor.lastrowid  # Assuming you have the master voucher ID
 
                                 for credit_row in credit_rows:
+                                    print("update credit raws", credit_row)
                                     updated_query_cr = '''UPDATE Voucher_details
-                                                                                    SET DebitSideAccount=?, CreditSideAccount=?, DebitAmount=? , 
-                                                                                    CreditAmount=? , Currency=?
-                                                                                    WHERE VoucherID=? '''
+                                                        SET DebitSideAccount=?, CreditSideAccount=?, DebitAmount=? , 
+                                                        CreditAmount=? , Currency=?
+                                                        WHERE VoucherID=? '''
                                     updated_value_cr = (debit_row[1], credit_row[1], credit_row[3], credit_row[3], debit_row[4],
                                          voucher_master_id)
+                                    print("updated value--------------", updated_value_cr)
                                     cursor.execute(updated_query_cr, updated_value_cr)
                                     # main.db_connection.commit()
 
@@ -1733,8 +1761,9 @@ def saveVoucherData(main):
                                     # main.db_connection.commit()
 
                                     # Insert corresponding entries in Ledger_table
-                                    insertLedgerEntries(main, debit_row[1], credit_row[1], credit_row[3], debit_row[4]
+                                    updateLedgerEntries(main, debit_row[1], credit_row[1], credit_row[3], debit_row[4]
                                                         )
+
 
                     main.db_connection.commit()
 
@@ -1779,9 +1808,11 @@ def saveVoucherData(main):
                         main.db_connection.commit()
 
                         # Insert corresponding entries in Ledger_table
-                        insertLedgerEntries(main, main.createvoucher.table[0, 1],  main.createvoucher.table[1, 1], main.createvoucher.table[0, 2]
-                                            , main.createvoucher.table[0, 4]
+                        insertLedgerEntries(main, main.createvoucher.table[0, 1], main.createvoucher.table[1, 1],
+                                            main.createvoucher.table[0, 2], main.createvoucher.table[0, 4]
                                             )
+
+                        # createLedgerEntries(main)
 
                         # createLedgerEntries(main)
                     else:
@@ -1803,14 +1834,16 @@ def saveVoucherData(main):
                                 insertLedgerEntries(main, debit_row[1], credit_row[1], debit_row[2], debit_row[4]
                                                     )
 
+
                         elif num_dr_rows == 1 and num_cr_rows >= 2:
                             # Save data for multiple credit rows and a single debit row
                             credit_rows = [row for row in main.createvoucher.table if row[0] == "Cr"]
                             debit_row = [row for row in main.createvoucher.table if row[0] == "Dr"][0]
-
                             voucher_master_id = cursor.lastrowid  # Assuming you have the master voucher ID
 
                             for credit_row in credit_rows:
+                                print("credit raws-------------", credit_row)
+
                                 cursor.execute(
                                     "INSERT INTO Voucher_details (DebitSideAccount, CreditSideAccount, DebitAmount, CreditAmount, Currency, VoucherID) VALUES (?, ?, ?, ?, ?, ?)",
                                     (debit_row[1], credit_row[1], credit_row[3], credit_row[3], debit_row[4],
@@ -1822,9 +1855,7 @@ def saveVoucherData(main):
                                                     )
 
 
-
-
-
+                        # closingBalanceIdea(main)
 
 
 
@@ -1896,7 +1927,6 @@ def saveVoucherData(main):
                 # createLedgerEntries(main)
 
                 closingBalanceIdea(main)
-
                 if reply == QMessageBox.Yes:
 
                     # User chose to continue, show the gateway window
@@ -1968,55 +1998,82 @@ def saveVoucherData(main):
     except:
         print(traceback.print_exc())
 
+def updateLedgerEntries(main,debit_account, credit_account, amount, currency):
+    try:
+        print("helloo ledger entries")
+        voucher_no = main.voucherNo
+        date = main.selected_date_str
+        cursor = main.db_connection.cursor()
+        print("updated debit account-------------", debit_account)
+        print("updated credit account----------------", credit_account)
+
+        if hasattr(main, 'voucherNo') and main.voucherNo is not None:
+            # A voucher number is available, so we can check for an existing voucher
+            query = '''SELECT LedgerID  FROM Ledger_table WHERE VoucherNO = ? AND  LedgerName=? AND  Perticulars=? '''
+            cursor.execute(query, (main.voucherNo,debit_account,credit_account,))
+            existing_ledger_id_dr = cursor.fetchone()
+        else:
+            existing_ledger_id_dr = None
+        print("existing ledger id for dr",existing_ledger_id_dr)
+        if existing_ledger_id_dr:
+            update_query = '''UPDATE Ledger_table
+                               SET Date=?,
+                               Currency=?, Debit=?
+                               WHERE  VoucherNo=? AND Credit=0'''
+            value = (date,  currency, amount, main.voucherNo)
+            cursor.execute(update_query, value)
+
+            print("debit side----------------", value)
+        else:
+            pass
+        if hasattr(main, 'voucherNo') and main.voucherNo is not None:
+            # A voucher number is available, so we can check for an existing voucher
+            query = '''SELECT LedgerID  FROM Ledger_table WHERE VoucherNO = ? AND  LedgerName=? AND  Perticulars=? '''
+            cursor.execute(query, (main.voucherNo, credit_account, debit_account,))
+            existing_ledger_id_cr = cursor.fetchone()
+        else:
+            existing_ledger_id_cr = None
+
+        print("existing ledger id for cr", existing_ledger_id_cr)
+
+        if existing_ledger_id_cr:
+            update_query2 = '''UPDATE Ledger_table
+                               SET Date=?,
+                               Currency=?,Credit=?
+                               WHERE VoucherNo=? AND Debit=0 '''
+            value2 = ( date, currency, amount, main.voucherNo)
+            cursor.execute(update_query2, value2)
+
+            print("credit side------------------", value2)
+        else:
+            pass
+        main.db_connection.commit()
+    except:
+        print(traceback.print_exc())
 
 def insertLedgerEntries(main, debit_account, credit_account, amount, currency):
     try:
+        print("helloo ledger entries")
         voucher_no = main.voucherNo
         date = main.selected_date_str
         cursor = main.db_connection.cursor()
 
-        if hasattr(main, 'voucherNo') and main.voucherNo is not None:
-            # A voucher number is available, so we can check for an existing voucher
-            query = '''SELECT LedgerID  FROM Ledger_table WHERE VoucherNO = ?'''
-            cursor.execute(query, (main.voucherNo,))
-            existing_ledger_id = cursor.fetchone()
-        else:
-            existing_ledger_id = None
 
-        if existing_ledger_id:
-            update_query = '''UPDATE Ledger_table
-                            SET LedgerName=?, Date=?, Perticulars=? , 
-                            Currency=?, Debit=?
-                            WHERE  VoucherNo=? AND Credit=0'''
-            value = (debit_account, date, credit_account, currency, amount,main.voucherNo)
-            cursor.execute(update_query,value)
-
-            print("debit side", value)
-
-            update_query2 = '''UPDATE Ledger_table
-                            SET LedgerName=?, Date=?, Perticulars=? , 
-                            Currency=?,Credit=?
-                            WHERE VoucherNo=? AND Debit=0 '''
-            value2 = (credit_account, date, debit_account,  currency, amount,main.voucherNo)
-            cursor.execute(update_query2, value2)
-
-            print("credit side", value2)
-            main.db_connection.commit()
-        else:
-
-            # Insert debit side entry
-            cursor.execute("""
-                INSERT INTO Ledger_table (LedgerName, Perticulars, Currency, Debit, Credit, VoucherNo, Date)
-                VALUES (?, ?, ?, ?, ?, ?,?)
-            """, (debit_account, credit_account, currency, amount, 0, voucher_no,date))
-
-            # Insert credit side entry
-            cursor.execute("""
-                INSERT INTO Ledger_table (LedgerName, Perticulars, Currency, Debit, Credit, VoucherNo , Date)
-                VALUES (?, ?, ?, ?, ?, ?,?)
-            """, (credit_account, debit_account, currency, 0, amount, voucher_no,date))
+        # Insert debit side entry
+        cursor.execute("""
+            INSERT INTO Ledger_table (LedgerName, Perticulars, Currency, Debit, Credit, VoucherNo, Date)
+            VALUES (?, ?, ?, ?, ?, ?,?)
+        """, (debit_account, credit_account, currency, amount, 0, voucher_no,date))
+        print("debi side value-----------------", (debit_account, credit_account, currency, amount, 0, voucher_no,date))
+        # Insert credit side entry
+        cursor.execute("""
+            INSERT INTO Ledger_table (LedgerName, Perticulars, Currency, Debit, Credit, VoucherNo , Date)
+            VALUES (?, ?, ?, ?, ?, ?,?)
+        """, (credit_account, debit_account, currency, 0, amount, voucher_no,date))
+        print("credit side value -------------------",(credit_account, debit_account, currency, 0, amount, voucher_no,date) )
 
         main.db_connection.commit()
+
 
     except:
         print(traceback.print_exc())
@@ -2028,7 +2085,7 @@ def createLedgerEntries(main):
         debit_account = main.createvoucher.table[0,1]
         date = main.selected_date_str
         credit_account = main.createvoucher.table[1,1]
-        voucher_no = main.voucher_no
+        voucher_no = main.voucherNo
         currency = main.createvoucher.table[0,4]
         debit_amount = main.createvoucher.table[0,2]
         credit_amount = main.createvoucher.table[1,3]
@@ -2098,7 +2155,7 @@ def closingBalanceIdea(main):
 
         # Iterate through each unique account in the voucher details table
         unique_accounts = {row[1] for row in main.createvoucher.table if row[1] != 0}
-        # print("unique account-----------------",unique_accounts )
+        print("unique account-----------------",unique_accounts )
         currency = main.createvoucher.table[0, 4]
         if currency=='INR':
             for account in unique_accounts:
@@ -2203,9 +2260,9 @@ def closingBalanceIdea(main):
                             else:
                                 # Insert credit side entry
                                 cursor.execute("""
-                                                           INSERT INTO Ledger_table (LedgerName, Date,Perticulars, VoucherNo,Currency, Debit, Credit)
-                                                           VALUES (?, ?, ?, ?, ?,?,?)
-                                                                       """,
+                                               INSERT INTO Ledger_table (LedgerName, Date,Perticulars, VoucherNo,Currency, Debit, Credit)
+                                               VALUES (?, ?, ?, ?, ?,?,?)
+                                                           """,
                                                (credit_account, '31-03-2024', 'Closing Balance', '', currency,
                                                 abs(credit_closing_balance), 0))
         else:
@@ -2547,6 +2604,8 @@ def closingBalance(main):
 
     except:
         print(traceback.print_exc())
+
+
 ######################################################  Payment Entry - Voucher #########################################
 def showPaymentEntry(main):
     try:
@@ -2958,6 +3017,7 @@ def addRawInSalesForDebit(main):
 
         main.currency = main.salesentry.cbCurrency.currentText()
         print("currency", main.currency)
+
         # ----------------------- disable other currency option after selected -----------------------------
 
         if main.currency == "INR":
@@ -2979,23 +3039,57 @@ def addRawInSalesForDebit(main):
 
         indexlist = [0, 1, 2, 3, 4]
 
-        # to add "Dr" raw
-        main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Dr",main.account_name,
-                                                                                 main.amount, 0, main.currency]
-        main.createvoucher.last_serialno += 1
-        main.createvoucher.model.last_serialno += 1
-        main.createvoucher.model.insertRows()
-        main.createvoucher.model.rowCount()
+        num_rows = main.createvoucher.last_serialno
+        print("rows in table-----------------------", num_rows)
 
-        # to add "Cr" raw
-        main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Cr", "Stock", 0,
-                                                                                 main.amount, main.currency]
+        # # to add "Dr" raw
+        first_column_values = [row[0] for row in main.createvoucher.table]
+        # print("first coulmn", first_column_values)
+        if num_rows<2:
+            main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Dr",main.account_name,
+                                                                                     main.amount, 0, main.currency]
+            main.createvoucher.last_serialno += 1
+            main.createvoucher.model.last_serialno += 1
+            main.createvoucher.model.insertRows()
+            main.createvoucher.model.rowCount()
 
-        main.createvoucher.last_serialno += 1
-        print("last serial number in cr", main.createvoucher.last_serialno)
-        main.createvoucher.model.last_serialno += 1
-        main.createvoucher.model.insertRows()
-        main.createvoucher.model.rowCount()  # print(main.createvoucher.model.rowCount())
+            # to add "Cr" raw
+            main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Cr", "Stock", 0,
+                                                                                     main.amount, main.currency]
+
+            main.createvoucher.last_serialno += 1
+            print("last serial number in cr", main.createvoucher.last_serialno)
+            main.createvoucher.model.last_serialno += 1
+            main.createvoucher.model.insertRows()
+            main.createvoucher.model.rowCount()  # print(main.createvoucher.model.rowCount())
+
+
+        else:
+            cr_row = next((i for i, row in enumerate(main.createvoucher.table) if row[0] == "Cr"), None)
+            if cr_row is not None:
+                # Update the "Cr" row's debit and credit amounts
+                main.createvoucher.table[cr_row][2] = 0  # Update debit amount
+                main.createvoucher.table[cr_row][3] += main.amount  # Update credit amount
+
+            # Check if there's an existing "Dr" row with the same account name
+            existing_dr_row = next(
+                (i for i, row in enumerate(main.createvoucher.table) if row[0] == "Dr" and row[1] == main.account_name),
+                None)
+
+            if existing_dr_row is not None:
+                # Update the existing "Dr" row's debit amount
+                main.createvoucher.table[existing_dr_row][2] += main.amount
+            else:
+                indexlist = [0, 1, 2, 3, 4]
+
+
+                # Add a new "Dr" row
+                main.createvoucher.table[main.createvoucher.last_serialno, indexlist] = ["Dr", main.account_name,
+                                                                                         main.amount, 0, main.currency]
+                main.createvoucher.last_serialno += 1
+                main.createvoucher.model.last_serialno += 1
+                main.createvoucher.model.insertRows()
+                main.createvoucher.model.rowCount()
 
         # Emit dataChanged signal for the modified rows
         ind = main.createvoucher.model.index(0, 0)
@@ -3112,7 +3206,8 @@ def setVisibilityForCreditInPurchase(main):
         main.purchaseentry.lineEdit.setVisible(True)
     except:
         print(traceback.print_exc())
-#
+
+
 def addRawInPurchase(main):
     try:
         if main.purchaseentry.rbCash.isChecked():
@@ -3390,6 +3485,7 @@ def refreshComboBoxForDrInReceipt(main):
     except Exception as e:
         print(traceback.print_exc())
 
+
 # Function to refresh the combobox with all account names for "Cr"
 def refreshComboBoxForCrInReceipt(main):
     try:
@@ -3408,6 +3504,7 @@ def refreshComboBoxForCrInReceipt(main):
 
     except Exception as e:
         print(traceback.print_exc())
+
 
 def addEntaryInReceipt(main):
     try:
@@ -3915,7 +4012,7 @@ def addRawInContra(main):
         print(main.createvoucher.table[:main.createvoucher.last_serialno],type(main.createvoucher.table[:main.createvoucher.last_serialno]))
         debitSum = main.createvoucher.table[:main.createvoucher.last_serialno,3].sum()
         main.debitAmount =  main.createvoucher.lbDebit.setText(str(debitSum))
-        print("debit Sum Amount")
+        # print("debit Sum Amount")
 
         creditSum = main.createvoucher.table[:main.createvoucher.last_serialno,2].sum()
         main.creditAmount = main.createvoucher.lbCredit.setText(str(creditSum))
@@ -4012,7 +4109,7 @@ def fetchDayBookData(main):
         """
         cursor.execute(command, (main.companyID,))
         data = cursor.fetchall()
-
+        print("daybook data-----------", data)
         main.daybook.table[0:main.ledgerblance.last_serialno]=[0,0,0,0,0,0,0,0]
         main.daybook.model.DelRows(0,main.daybook.model.last_serialno)
         main.daybook.last_serialno = 0
@@ -4039,6 +4136,7 @@ def fetchDayBookData(main):
 def showDayBook(main):
     try:
         main.daybook.show()
+
         fetchDayBookData(main)
         main.daybook.leAccount.clear()
         current_date = QDate.currentDate()
@@ -4049,7 +4147,7 @@ def showDayBook(main):
         day, month, year = map(int, date_str.split('-'))
 
         # Create a QDate object
-        date = QDate(year , month , day)
+        date = QDate(year, month, day)
 
         # Set the date in your QDateEdit widget
         main.daybook.deFrom.setDate(date)
@@ -4078,7 +4176,7 @@ def dayBookDoubleClicked(main):
     try:
         idx = main.daybook.tableView.selectedIndexes()[0].data()
         print("daybook index is ", idx)
-        # main.alterledger.show()
+
 
         indexes = main.daybook.tableView.selectedIndexes()
         index = indexes[0]  # Get the first selected index
@@ -4088,25 +4186,25 @@ def dayBookDoubleClicked(main):
 
         if col == 1:
             name = index.sibling(index.row(), col).data()
-            print("column name",name)
+            print("column name", name)
 
-            showAlterVoucher(main , name)
-
-
-        # if col == 1:
-        #     try:
-        #         main.daybook.tableView.doubleClicked.connect(lambda: showVoucherPage(main))
-        #         print("Hello Darshit!!!")
-        #     except:
-        #         print(traceback.print_exc())
-
+            showAlterVoucher(main, name)
 
         if col == 3 or col == 4:
             main.ledgerID = idx
-            print("alter ledger", idx)
+            # try:
+            #     cursor = main.db_connection.cursor()
+            #     query1 = '''SELECT AcMasterID FROM AccountMaster_table WHERE Ac_name = ?'''
+            #     cursor.execute(query1, (idx,))
+            #     ledger_data = cursor.fetchone()
+            #     print("alter ledger_data", ledger_data)
+            #     main.alterledger.show()
+            # except:
+            #     print(traceback.print_exc())
             main.alterledger.show()
+
             try:
-                print("888888888888888888888888888888888888888888888888888888888888")
+
                 cursor = main.db_connection.cursor()
                 # query1 = '''SELECT AcMasterID FROM AccountMaster_table WHERE Ac_name = ?'''
                 query = '''SELECT * FROM AccountMaster_table WHERE Ac_name = ?'''
@@ -4140,7 +4238,7 @@ def dayBookDoubleClicked(main):
                     # Set the selected role in the comboBox
                     selected_role = ledger_data[3]  # Assuming group role is at index 3
                     # main.alterledger.cbUnderGroup.addItem(selected_role)
-                    main.alterledger.cbUnderGroup.setCurrentText(selected_role)
+                    main.alterledger.cbUnderGroup.setCurrentText(ledger_data[2])
                     main.alterledger.ptAddress.setPlainText(ledger_data[5])
                     main.alterledger.leCountry.setText(ledger_data[7])
                     main.alterledger.lePincode.setText(str(ledger_data[8]))
@@ -4153,7 +4251,8 @@ def dayBookDoubleClicked(main):
 
     except:
         print(traceback.print_exc())
-    print("16012004")
+
+
 
 def filterDataByDateRange(main):
     try:
@@ -4169,12 +4268,12 @@ def filterDataByDateRange(main):
         cursor = main.db_connection.cursor()
         command = """
         SELECT 
-                a.Date,
-                a.VoucherNO,a.VoucherType,b.DebitSideAccount as 'Debit Acc',
-                b.CreditSideAccount as 'Credit Acc',a.DebitAmount as 'Amount',b.Currency,a.Narration
-                FROM Voucher_Master a left join Voucher_details b on a.VoucherID = b.VoucherID
-                WHERE CompanyID = ? AND Date BETWEEN ? AND ?
-                ORDER BY a.Date ASC
+        a.Date,
+        a.VoucherNO,a.VoucherType,b.DebitSideAccount as 'Debit Acc',
+        b.CreditSideAccount as 'Credit Acc',a.DebitAmount as 'Amount',b.Currency,a.Narration
+        FROM Voucher_Master a left join Voucher_details b on a.VoucherID = b.VoucherID
+        WHERE CompanyID = ? AND Date BETWEEN ? AND ?
+        ORDER BY a.Date ASC 
         """
         cursor.execute(command, (main.companyID, fromDateStr, toDateStr))
         data = cursor.fetchall()
@@ -4258,7 +4357,6 @@ def showAlterVoucher(main , voucherNo):
 
         account = getAccountMaster(main)
         main.account = account
-
 
 
         account_name = [name[1] for name in account]
@@ -4972,9 +5070,8 @@ def filterbyDate(main):
 
 
 
-    except Exception as e:
-        # print(traceback.print_exc())
-        print(e)
+    except:
+        print(traceback.print_exc())
 
 
 
@@ -5155,7 +5252,7 @@ def totalClosingBalance(main):
                     ORDER BY Date ASC;
                 """, (selected_account,))
         ledger_data = cursor.fetchall()
-        # print("ledger data", ledger_data)
+        print("ledger data", ledger_data)
         closing_credit_inr = ledger_data[0][1]
         closing_debit_inr = ledger_data[0][0]
         currency_inr = ledger_data[0][2]
@@ -5177,6 +5274,10 @@ def totalClosingBalance(main):
 
     except:
         print(traceback.print_exc())
+
+
+
+
 # def closingBalanceInLedger(main):
 #     try:
 #

@@ -45,7 +45,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(212, 212, 212);
+       <string notr="true">background-color:#f5f6fa;
 font: 63 11pt &quot;Segoe UI Semibold&quot;;
 color:#000000</string>
       </property>
@@ -150,6 +150,12 @@ border: none;
        </item>
        <item row="0" column="1">
         <widget class="QDateEdit" name="deFrom">
+         <property name="maximumSize">
+          <size>
+           <width>90</width>
+           <height>16777215</height>
+          </size>
+         </property>
          <property name="styleSheet">
           <string notr="true">background-color: rgb(173, 216, 230);</string>
          </property>

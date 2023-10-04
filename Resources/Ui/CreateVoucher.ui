@@ -388,7 +388,7 @@ color:#000000</string>
           </size>
          </property>
          <property name="text">
-          <string>--------</string>
+          <string/>
          </property>
         </widget>
        </item>
@@ -550,7 +550,7 @@ color:#000000</string>
        <item row="1" column="5">
         <widget class="QPushButton" name="pbDeleteRaw">
          <property name="text">
-          <string>DELETE RAW</string>
+          <string>DELETE ROW</string>
          </property>
         </widget>
        </item>

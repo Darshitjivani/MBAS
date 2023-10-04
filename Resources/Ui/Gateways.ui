@@ -45,7 +45,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">background-color: rgb(212, 212, 212);</string>
+       <string notr="true">background-color: #ffffff;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
@@ -280,8 +280,7 @@
        </size>
       </property>
       <property name="styleSheet">
-       <string notr="true">
-background-color: rgb(212, 212, 212);</string>
+       <string notr="true">background-color:#f5f6fa;</string>
       </property>
       <property name="frameShape">
        <enum>QFrame::NoFrame</enum>
@@ -390,7 +389,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/minimize.svg</normaloff>:/newPrefix/icons/minimize.svg</iconset>
             </property>
            </widget>
@@ -416,7 +415,7 @@ QPushButton:hover {
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/maximize-2.svg</normaloff>:/newPrefix/icons/maximize-2.svg</iconset>
             </property>
             <property name="iconSize">
@@ -469,7 +468,7 @@ background-color: rgb(186, 73, 51);
              <string/>
             </property>
             <property name="icon">
-             <iconset resource="../icons/icons.qrc">
+             <iconset>
               <normaloff>:/newPrefix/icons/x.svg</normaloff>:/newPrefix/icons/x.svg</iconset>
             </property>
             <property name="iconSize">
@@ -525,7 +524,7 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/menu.svg</normaloff>:/newPrefix/icons/menu.svg</iconset>
          </property>
          <property name="iconSize">
@@ -533,6 +532,9 @@ QPushButton:hover {
            <width>18</width>
            <height>18</height>
           </size>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+M</string>
          </property>
         </widget>
        </item>
@@ -551,7 +553,7 @@ QPushButton:hover {
           </size>
          </property>
          <property name="toolTip">
-          <string notr="true">Change Company</string>
+          <string notr="true">Change Company(Ctrl+C)</string>
          </property>
          <property name="toolTipDuration">
           <number>-1</number>
@@ -586,8 +588,11 @@ QPushButton:hover {
           <string/>
          </property>
          <property name="icon">
-          <iconset resource="../icons/icons.qrc">
+          <iconset>
            <normaloff>:/newPrefix/icons/pie-chart.svg</normaloff>:/newPrefix/icons/pie-chart.svg</iconset>
+         </property>
+         <property name="shortcut">
+          <string>Ctrl+C</string>
          </property>
         </widget>
        </item>
@@ -622,9 +627,12 @@ color: rgb(0, 0, 0)</string>
         <widget class="Line" name="line">
          <property name="maximumSize">
           <size>
-           <width>3</width>
+           <width>4</width>
            <height>0</height>
           </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">background-color:transparent;</string>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -644,7 +652,7 @@ color: rgb(0, 0, 0)</string>
       </property>
       <property name="minimumSize">
        <size>
-        <width>180</width>
+        <width>170</width>
         <height>0</height>
        </size>
       </property>
@@ -660,7 +668,7 @@ color: rgb(0, 0, 0)</string>
 	text-align:left;}
 
 QWidget{
-	background-color: rgb(230, 230, 250);
+	background-color: #ffffff;
 }
 
 QPushButton:hover {
@@ -690,6 +698,226 @@ QPushButton:hover {
        <property name="verticalSpacing">
         <number>10</number>
        </property>
+       <item row="8" column="0">
+        <widget class="QLabel" name="label_9">
+         <property name="styleSheet">
+          <string notr="true"/>
+         </property>
+         <property name="text">
+          <string>REPORTS</string>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QPushButton" name="pbLedgerBalance">
+         <property name="minimumSize">
+          <size>
+           <width>148</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                                                font: 63 11pt Segoe UI Semibold;
+                                                background-color: #f0f0f0;
+                                                color: #000000;
+                                                border: none;
+                                                text-align:left;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                            
+                                                border-radius: 5px;}
+
+
+                                                QPushButton:hover {
+                                                background-color: #6c757e;
+                                                color: #ffffff;}</string>
+         </property>
+         <property name="text">
+          <string>Ledger</string>
+         </property>
+         <property name="shortcut">
+          <string>L</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="pbAlterMaster">
+         <property name="minimumSize">
+          <size>
+           <width>148</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                                                font: 63 11pt Segoe UI Semibold;
+                                                background-color: #f0f0f0;
+                                                color: #000000;
+                                                border: none;
+                                                text-align:left;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                            
+                                                border-radius: 5px;}
+
+
+                                                QPushButton:hover {
+                                                background-color: #6c757e;
+                                                color: #ffffff;}</string>
+         </property>
+         <property name="text">
+          <string>   Alter</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icons/Alter.svg</normaloff>../icons/Alter.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="shortcut">
+          <string>A</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QPushButton" name="pbDayBook">
+         <property name="minimumSize">
+          <size>
+           <width>148</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                                                font: 63 11pt Segoe UI Semibold;
+                                                background-color: #f0f0f0;
+                                                color: #000000;
+                                                border: none;
+                                                text-align:left;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                            
+                                                border-radius: 5px;}
+
+
+                                                QPushButton:hover {
+                                                background-color: #6c757e;
+                                                color: #ffffff;}</string>
+         </property>
+         <property name="text">
+          <string>   Day Book</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icons/daybook.svg</normaloff>../icons/daybook.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="shortcut">
+          <string>D</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="pbVouchers">
+         <property name="minimumSize">
+          <size>
+           <width>148</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                                                font: 63 11pt Segoe UI Semibold;
+                                                background-color: #f0f0f0;
+                                                color: #000000;
+                                                border: none;
+                                                text-align:left;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                            
+                                                border-radius: 5px;}
+
+
+                                                QPushButton:hover {
+                                                background-color: #6c757e;
+                                                color: #ffffff;}</string>
+         </property>
+         <property name="text">
+          <string>   Vouchers</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icons/Voucher.svg</normaloff>../icons/Voucher.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="shortcut">
+          <string>V</string>
+         </property>
+        </widget>
+       </item>
+       <item row="9" column="0">
+        <widget class="QPushButton" name="pbBalanceSheet">
+         <property name="minimumSize">
+          <size>
+           <width>148</width>
+           <height>30</height>
+          </size>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QPushButton {
+                                                font: 63 11pt Segoe UI Semibold;
+                                                background-color: #f0f0f0;
+                                                color: #000000;
+                                                border: none;
+                                                text-align:left;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                            
+                                                border-radius: 5px;}
+
+
+                                                QPushButton:hover {
+                                                background-color: #6c757e;
+                                                color: #ffffff;}</string>
+         </property>
+         <property name="text">
+          <string>   Balance Sheet</string>
+         </property>
+         <property name="icon">
+          <iconset>
+           <normaloff>../icons/balancesheet.svg</normaloff>../icons/balancesheet.svg</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>20</width>
+           <height>20</height>
+          </size>
+         </property>
+         <property name="shortcut">
+          <string>B</string>
+         </property>
+        </widget>
+       </item>
        <item row="4" column="0">
         <widget class="QLabel" name="label_10">
          <property name="styleSheet">
@@ -704,12 +932,27 @@ QPushButton:hover {
         <widget class="QPushButton" name="pbTrailBalance">
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>148</width>
            <height>30</height>
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string notr="true">QPushButton {
+                                                font: 63 11pt Segoe UI Semibold;
+                                                background-color: #f0f0f0;
+                                                color: #000000;
+                                                border: none;
+                                                text-align:left;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                            
+                                                border-radius: 5px;}
+
+
+                                                QPushButton:hover {
+                                                background-color: #6c757e;
+                                                color: #ffffff;}</string>
          </property>
          <property name="text">
           <string>   Trail Balance</string>
@@ -724,31 +967,8 @@ QPushButton:hover {
            <height>20</height>
           </size>
          </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="pbAlterMaster">
-         <property name="minimumSize">
-          <size>
-           <width>120</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>   Alter</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../icons/Alter.svg</normaloff>../icons/Alter.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
+         <property name="shortcut">
+          <string>T</string>
          </property>
         </widget>
        </item>
@@ -774,58 +994,6 @@ QPushButton:hover {
          </property>
         </widget>
        </item>
-       <item row="9" column="0">
-        <widget class="QPushButton" name="pbBalanceSheet">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>   Balance Sheet</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../icons/balancesheet.svg</normaloff>../icons/balancesheet.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPushButton" name="pbVouchers">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>   Vouchers</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../icons/Voucher.svg</normaloff>../icons/Voucher.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
-         </property>
-        </widget>
-       </item>
        <item row="0" column="0">
         <widget class="QLabel" name="label_11">
          <property name="styleSheet">
@@ -833,42 +1001,6 @@ QPushButton:hover {
          </property>
          <property name="text">
           <string>MASTERS</string>
-         </property>
-        </widget>
-       </item>
-       <item row="8" column="0">
-        <widget class="QLabel" name="label_9">
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>REPORTS</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QPushButton" name="pbDayBook">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>   Day Book</string>
-         </property>
-         <property name="icon">
-          <iconset>
-           <normaloff>../icons/daybook.svg</normaloff>../icons/daybook.svg</iconset>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>20</width>
-           <height>20</height>
-          </size>
          </property>
         </widget>
        </item>
@@ -882,7 +1014,7 @@ QPushButton:hover {
          </property>
          <property name="minimumSize">
           <size>
-           <width>0</width>
+           <width>148</width>
            <height>30</height>
           </size>
          </property>
@@ -893,7 +1025,22 @@ QPushButton:hover {
           </size>
          </property>
          <property name="styleSheet">
-          <string notr="true"/>
+          <string notr="true">QPushButton {
+                                                font: 63 11pt Segoe UI Semibold;
+                                                background-color: #f0f0f0;
+                                                color: #000000;
+                                                border: none;
+                                                text-align:left;
+                                                text-decoration: none;
+                                                display: inline-block;
+                                                font-size: 16px;
+                                            
+                                                border-radius: 5px;}
+
+
+                                                QPushButton:hover {
+                                                background-color: #6c757e;
+                                                color: #ffffff;}</string>
          </property>
          <property name="text">
           <string>  Create</string>
@@ -908,18 +1055,8 @@ QPushButton:hover {
            <height>20</height>
           </size>
          </property>
-        </widget>
-       </item>
-       <item row="7" column="0">
-        <widget class="QPushButton" name="pbLedgerBalance">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>30</height>
-          </size>
-         </property>
-         <property name="text">
-          <string>Ledger</string>
+         <property name="shortcut">
+          <string>C</string>
          </property>
         </widget>
        </item>
