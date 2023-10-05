@@ -4163,7 +4163,6 @@ def totalSumInLedger(main):
 
 
         closingNalanceInr = creditSumInr - debitSumInr
-        print("sum of closing inr",closingNalanceInr )
         if closingNalanceInr <0:
             main.ledgerblance.lbClosingBalanceCreditINR.setText(f"{abs(closingNalanceInr)} INR")
             main.ledgerblance.lbClosingBalanceDebitINR.setText(f"{0} INR")
@@ -4185,7 +4184,6 @@ def totalSumInLedger(main):
 
 
         closingNalanceUsd = creditSumUsd - debitSumUsd
-        print("sum of closing inr", closingNalanceInr)
         if closingNalanceUsd < 0:
             main.ledgerblance.lbClosingBalanceCreditUSD.setText(f"{abs(closingNalanceUsd)} USD")
             main.ledgerblance.lbClosingBalanceDebitUSD.setText(f"{0} USD")
