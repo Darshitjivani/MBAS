@@ -26,9 +26,6 @@ class AlterMasterListWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
-        # self.creategroup.pbClose.clicked.connect(self.creategroup.close)
-        # self.pbClose.clicked.connect(self.close)
-        # Hide all frames initially
         self.hideAllFrames()
 
     def hideAllFrames(self):

@@ -15,8 +15,6 @@ def initialObjects(main):
 
     main.login = LoginWindow()  # Login Window
 
-
-
 def initVariables(main):
     try:
         main.is_filtered = False
@@ -26,13 +24,9 @@ def initVariables(main):
 def intialSlots(main):
     # ------------------------------- Main Window --------------#
 
-    # main.pbCreateCompany.clicked.connect(lambda: createCompanyPage(main))
-    # main.pbListOfCompany.clicked.connect(lambda: listOfCompany(main))
     main.pbCreateCompany.clicked.connect(main.showCreateCompany)
     main.pbClose.clicked.connect(main.close)
     main.login.pbLogin.clicked.connect(lambda: loginFunction(main))
-    ##-------------------- Connect the dropdown signal to a function -------------------------#
-    # main.cbListOfComapny.currentIndexChanged.connect(lambda index: displayCompanyDetails(main, index)
 
 
 

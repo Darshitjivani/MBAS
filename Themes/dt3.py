@@ -1196,8 +1196,8 @@ QComboBox QAbstractItemView:alternate {
 }
 
 QComboBox:disabled {
-  background-color: #2D4059;
-  color: #ffffff;
+  background-color: #6499E9;
+  color: #000000;
 }
 
 QComboBox:focus {
@@ -2086,7 +2086,7 @@ font: 63 9pt "Segoe UI Semibold";
 }
 
 QDateEdit:on, QDateTimeEdit:on {
- color:#ffffff;
+ color:#000000;
    outline: none;
 font: 63 9pt "Segoe UI Semibold";
   selection-background-color: lightblue;
@@ -2097,14 +2097,14 @@ QDateEdit::drop-down, QDateTimeEdit::drop-down {
   subcontrol-origin: padding;
   subcontrol-position: top right;
   width: 12px;
-  border-left: 0px solid #ffffff;
+  border-left: 0px solid #000000;
 }
 
 QDateEdit::down-arrow, QDateTimeEdit::down-arrow {
  color:#000000;
    outline: none;
 font: 63 9pt "Segoe UI Semibold";
-  image: url(":/qss_icons/rc/arrow_down_disabled.png");
+  image: url(":Resources/icons/arrow-down-de.png");
   height: 8px;
   width: 8px;
 }

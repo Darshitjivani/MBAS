@@ -11,9 +11,3 @@ def readConfig():
         userId=data['UserID']
         Password=data['Password']
     return userId,Password
-#
-# def updateConfig(userId, password):
-#     data = {"UserID": userId, "Password": password}
-#
-#     with open(path, 'w') as json_file:
-#         json.dump(data, json_file)

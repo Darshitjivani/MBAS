@@ -25,11 +25,7 @@ class LedgerBalanceWindow(QMainWindow):
         loc1 = os.getcwd().split('Application')
         ui_login = os.path.join(loc1[0], 'Resources', 'UI', 'LedgerBalance.ui')
         uic.loadUi(ui_login, self)
-        # self.setWindowFlag(Qt.FramelessWindowHint)
-        # self.dragging = True
-        # self.offset = None
         self.last_serialno = 0
-        # self.initUI()
         self.tables_details_LBC()
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
@@ -174,8 +170,6 @@ class LedgerBalanceWindow(QMainWindow):
 
     def headerRightClickMenu(self, position):
         try:
-            # print('dfdsfdsf')
-            # a=(self.tableView.selectedIndexes()[0].data())
             menu = QMenu()
 
             saveColumnProfile = menu.addAction("Save New Col profile")

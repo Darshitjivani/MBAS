@@ -109,8 +109,6 @@ class ModelDBK(QtCore.QAbstractTableModel):
             return Qt.ItemIsSelectable | Qt.ItemIsEnabled
         except Exception as e:
             print(traceback.print_exc())
-            # Client_logger.error(f"{e}", exc_info=True)
-
     def rowCount(self, index=''):
 
         try:
@@ -118,7 +116,6 @@ class ModelDBK(QtCore.QAbstractTableModel):
             return self.last_serialno
         except Exception as e:
             print(traceback.print_exc())
-            # Client_logger.error(f"{e}", exc_info=True)
 
 
     def columnCount(self, index):

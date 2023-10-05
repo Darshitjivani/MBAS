@@ -71,7 +71,6 @@ color:#000000</string>
        <property name="spacing">
         <number>0</number>
        </property>
-
        <item row="0" column="0">
         <widget class="QLabel" name="label_3">
          <property name="minimumSize">
@@ -174,6 +173,12 @@ QPushButton:hover {
        </item>
        <item row="3" column="2">
         <widget class="QComboBox" name="cbCurrency">
+         <property name="styleSheet">
+          <string notr="true">QComboBox:disabled {
+  background-color: #1464a0;
+  color: #ffffff;
+}</string>
+         </property>
          <item>
           <property name="text">
            <string>INR</string>
@@ -201,7 +206,11 @@ QPushButton:hover {
         </widget>
        </item>
        <item row="4" column="1" colspan="2">
-        <widget class="QTextBrowser" name="tbNarretion"/>
+        <widget class="QTextBrowser" name="tbNarretion">
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextSelectableByMouse</set>
+         </property>
+        </widget>
        </item>
        <item row="5" column="1">
         <widget class="Line" name="line_4">
@@ -249,7 +258,6 @@ QPushButton:hover {
    </layout>
   </widget>
  </widget>
-
  <resources/>
  <connections/>
 </ui>

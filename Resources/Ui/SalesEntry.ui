@@ -179,6 +179,12 @@ QPushButton:hover {
        </item>
        <item row="3" column="4">
         <widget class="QComboBox" name="cbCurrency">
+         <property name="styleSheet">
+          <string notr="true">QComboBox:disabled {
+  background-color: #1464a0;
+  color: #ffffff;
+}</string>
+         </property>
          <item>
           <property name="text">
            <string>INR</string>

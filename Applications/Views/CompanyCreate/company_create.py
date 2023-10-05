@@ -22,8 +22,3 @@ class CompanyCreateWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
-        # self.pbClose.clicked.connect(self.showflanding)
-
-
-    # def showflanding(self):
-    #     self.fLanding.show()
