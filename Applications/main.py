@@ -46,7 +46,7 @@ class UIMain(QMainWindow):
 
         self.pbMaximized.clicked.connect(self.showmaxORnormal)
         self.pbMinimized.clicked.connect(self.showminimized)
-
+        dark = qdarkstyle.load_stylesheet()
         self.setStyleSheet(dt3)
 
     def showminimized(self):
