@@ -2577,7 +2577,6 @@ def addRawInPurchaseForCredit(main):
                                                                                      main.amount, main.currency]
 
             main.createvoucher.last_serialno += 1
-            print("last serial number in cr", main.createvoucher.last_serialno)
             main.createvoucher.model.last_serialno += 1
             main.createvoucher.model.insertRows()
             main.createvoucher.model.rowCount()  # print(main.createvoucher.model.rowCount())
@@ -2608,11 +2607,6 @@ def addRawInPurchaseForCredit(main):
                 main.createvoucher.model.last_serialno += 1
                 main.createvoucher.model.insertRows()
                 main.createvoucher.model.rowCount()
-
-        main.createvoucher.last_serialno += 1
-        main.createvoucher.model.last_serialno += 1
-        main.createvoucher.model.insertRows()
-        main.createvoucher.model.rowCount()
 
         # Emit dataChanged signal for the modified rows
         ind = main.createvoucher.model.index(0, 0)
