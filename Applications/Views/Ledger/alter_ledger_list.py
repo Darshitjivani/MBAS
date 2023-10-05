@@ -27,21 +27,6 @@ class AlterLedgerListWindow(QMainWindow):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
 
-    #     # Hide all frames initially
-    #     self.hideAllFrames()
-    #
-    # def hideAllFrames(self):
-    #     self.fListView.hide()
-    #     self.fAlterLedger.hide()
-    #
-    # def showListViewFrame(self):
-    #     self.hideAllFrames()
-    #     self.fListView.show()
-    #
-    # def showAlterLedgerFrame(self):
-    #     self.hideAllFrames()
-    #     self.fAlterLedger.show()
-
 
 
 

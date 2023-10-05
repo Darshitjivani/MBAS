@@ -18,9 +18,3 @@ class DateFilterWindow(QMainWindow):
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
         self.setWindowFlags(self.windowFlags() | Qt.WindowStaysOnTopHint)
-    #     self.createShortcuts()
-    #
-    #
-    # def createShortcuts(self):
-    #     self.quitSc = QShortcut(QKeySequence('Esc'), self)
-    #     self.quitSc.activated.connect(self.hide)

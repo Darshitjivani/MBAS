@@ -523,16 +523,6 @@
               <string>Ledger-Wise</string>
              </property>
             </item>
-            <item>
-             <property name="text">
-              <string>Group-Wise</string>
-             </property>
-            </item>
-            <item>
-             <property name="text">
-              <string>Branch-Wise</string>
-             </property>
-            </item>
            </widget>
           </item>
           <item row="0" column="5" rowspan="3">

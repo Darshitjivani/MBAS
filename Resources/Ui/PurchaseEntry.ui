@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>362</width>
-    <height>231</height>
+    <height>229</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -126,29 +126,8 @@ QPushButton:hover {
        <property name="spacing">
         <number>5</number>
        </property>
-       <item row="0" column="1">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Type</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="2">
-        <widget class="QRadioButton" name="rbCash">
-         <property name="text">
-          <string>Cash</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="3">
-        <widget class="QRadioButton" name="rbCredit">
-         <property name="text">
-          <string>Credit</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="4">
-        <widget class="Line" name="line_5">
+       <item row="7" column="4">
+        <widget class="Line" name="line_3">
          <property name="styleSheet">
           <string notr="true">background-color: transparent</string>
          </property>
@@ -157,32 +136,14 @@ QPushButton:hover {
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="Line" name="line">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Account</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="2" colspan="2">
-        <widget class="QComboBox" name="cbAccountName"/>
-       </item>
-       <item row="2" column="2" colspan="3">
-        <widget class="QLineEdit" name="leAmount">
-         <property name="placeholderText">
-          <string/>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="5">
         <widget class="QComboBox" name="cbCurrency">
+         <property name="styleSheet">
+          <string notr="true">QComboBox:disabled {
+  background-color: #1464a0;
+  color: #ffffff;
+}</string>
+         </property>
          <item>
           <property name="text">
            <string>INR</string>
@@ -195,44 +156,6 @@ QPushButton:hover {
          </item>
         </widget>
        </item>
-       <item row="2" column="6">
-        <widget class="Line" name="line_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>CreditPeriod</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="2" colspan="2">
-        <widget class="QLineEdit" name="lineEdit"/>
-       </item>
-       <item row="3" column="4">
-        <widget class="QLabel" name="label_5">
-         <property name="text">
-          <string>Days</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>Narretion</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="2" colspan="4">
-        <widget class="QTextBrowser" name="tbNarretion">
-         <property name="textInteractionFlags">
-          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="4">
         <widget class="Line" name="line_4">
          <property name="styleSheet">
@@ -243,13 +166,37 @@ QPushButton:hover {
          </property>
         </widget>
        </item>
-       <item row="6" column="4">
-        <widget class="QPushButton" name="pdAddRaw">
-         <property name="text">
-          <string>Add Data</string>
+       <item row="3" column="2" colspan="2">
+        <widget class="QLineEdit" name="lineEdit"/>
+       </item>
+       <item row="2" column="2" colspan="3">
+        <widget class="QLineEdit" name="leAmount">
+         <property name="placeholderText">
+          <string/>
          </property>
-         <property name="shortcut">
-          <string>Return, Enter</string>
+        </widget>
+       </item>
+       <item row="0" column="3">
+        <widget class="QRadioButton" name="rbCredit">
+         <property name="text">
+          <string>Credit</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="4">
+        <widget class="QLabel" name="label_5">
+         <property name="text">
+          <string>Days</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="2" colspan="2">
+        <widget class="QComboBox" name="cbAccountName"/>
+       </item>
+       <item row="0" column="2">
+        <widget class="QRadioButton" name="rbCash">
+         <property name="text">
+          <string>Cash</string>
          </property>
         </widget>
        </item>
@@ -263,13 +210,72 @@ QPushButton:hover {
          </property>
         </widget>
        </item>
-       <item row="7" column="4">
-        <widget class="Line" name="line_3">
+       <item row="3" column="1">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>CreditPeriod</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Type</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="Line" name="line_5">
          <property name="styleSheet">
           <string notr="true">background-color: transparent</string>
          </property>
          <property name="orientation">
           <enum>Qt::Vertical</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Account</string>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="4">
+        <widget class="QPushButton" name="pdAddRaw">
+         <property name="text">
+          <string>Add Data</string>
+         </property>
+         <property name="shortcut">
+          <string>Return, Enter</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="Line" name="line">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Narretion</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="6">
+        <widget class="Line" name="line_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="2" colspan="4">
+        <widget class="QTextBrowser" name="tbNarretion">
+         <property name="textInteractionFlags">
+          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextEditable|Qt::TextEditorInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
          </property>
         </widget>
        </item>
