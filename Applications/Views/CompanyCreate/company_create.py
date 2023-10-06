@@ -1,5 +1,6 @@
+from PyQt5.QtGui import QRegExpValidator, QIntValidator
 from PyQt5.QtWidgets import *
-from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel
+from PyQt5.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel, QRegExp
 import csv
 # from tabletask import Ui_MainWindow
 import os
@@ -22,3 +23,29 @@ class CompanyCreateWindow(QMainWindow):
         uic.loadUi(ui_login, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.setStyleSheet(dt3)
+
+        # Create and set a QRegExpValidator for text fields
+        text_pattern = QRegExp("^[A-Za-z]*$")
+        text_validator = QRegExpValidator(text_pattern)
+        email_pattern = r'^[\w\d\.-]+@[\w\.-]+\.\w+$'
+        # Create a QRegExpValidator with the custom pattern
+        email_validator = QRegExpValidator(QRegExp(email_pattern))
+
+        # Create and set a QIntValidator for integer fields
+        int_validator = QIntValidator()
+        website_pattern = QRegExp("^[A-Za-z0-9\s\-\(\)_]+$")
+        website_validator = QRegExpValidator(website_pattern)
+        self.leComapnyName.setValidator(text_validator)
+        self.leMobile.setValidator(int_validator)
+        self.leMailingName.setValidator(text_validator)
+
+        self.leState.setValidator(text_validator)
+        self.leCountry.setValidator(text_validator)
+        self.lePincode.setValidator(int_validator)
+        self.leFax.setValidator(int_validator)
+        self.leEmail.setValidator(email_validator)
+        self.leWebsite.setValidator(website_validator)
+        self.leCurrencySymbol.setValidator(text_validator)
+        self.leFormalName.setValidator(text_validator)
+
+

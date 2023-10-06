@@ -9,7 +9,7 @@ from functools import partial
 from PyQt5.QtCore import QModelIndex
 import numpy as np
 from PyQt5.QtCore import *
-from PyQt5.QtGui import QStandardItem, QDoubleValidator
+from PyQt5.QtGui import QStandardItem, QDoubleValidator, QRegExpValidator, QIntValidator
 from PyQt5.QtGui import QStandardItemModel, QStandardItem
 
 from PyQt5.QtWidgets import *
@@ -43,7 +43,7 @@ from Applications.Views.Voucher.reciept_entry import RecieptEntryWindow
 from Applications.Views.Voucher.sales_entry import SalesEntryWindow
 from Applications.Views.Voucher.table import Terminal
 
-#---------------------------------------------------- All Objects ---------------------------------------------#
+###################################################### All Objects #########################################################
 def allObjects(main):
     main.gateway = GatewaysWindow()  # Gateway Window
     main.companycreate = CompanyCreateWindow()  # Create Company Window
@@ -66,7 +66,7 @@ def allObjects(main):
     main.ledgerblance = LedgerBalanceWindow()
 
 
-    #-------------------------------------- Voucher Object --------------------------------
+    ############################################### Voucher Object ######################################
     main.createvoucher = CreateVoucherWindow()  # Create Voucher Window
     main.paymententry = PaymentEntryWindow()
     main.salesentry = SalesEntryWindow()
@@ -100,13 +100,13 @@ def allObjects(main):
     main.fCreateCompany.layout().addWidget(main.companycreate)
 
 
-#--------------------------------------------------------- All Slots -----------------------------------------#
+##############################################  All Slots ###########################################
 
 def allSlots(main):
-    #-----------------------  Login Window ----------------------------------------------#
+    ###############################################  Login Window ###################################
 
     # main.creategroup.pbCreate
-    # ------------------------------- Create Company Window --------------------------#
+    ########################################## Create Company Window ################################
     main.companycreate.pbSubmit.clicked.connect(lambda: createCompany(main))
     main.companycreate.pbSubmit.clicked.connect(main.companycreate.close)
     main.companycreate.pbClose.clicked.connect(main.companycreate.close)
@@ -115,8 +115,8 @@ def allSlots(main):
     # Connect the "Add" button to the clear function
     main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
 
+    ################################# Gateway Window ###############################################
 
-    #-------------------------------- Gateway Window -------------------------------#
     main.gateway.pbCreateMaster.clicked.connect(lambda: masterList(main))
     main.gateway.pbAlterMaster.clicked.connect(lambda: showAlterMasterPage(main))
     main.gateway.pbDayBook.clicked.connect(lambda: showDayBook(main))
@@ -197,6 +197,7 @@ def allSlots(main):
     main.createvoucher.pbCurConvsn.clicked.connect(lambda: setVoucherType(main))
     main.createvoucher.pbContra.clicked.connect(lambda : setVoucherType(main))
     main.createvoucher.pbCreateLedger.clicked.connect(lambda :createLedger(main))
+    main.createvoucher.pbBack.clicked.connect(lambda: on_pbBack_clicked(main))
     main.createvoucher.pbBack.clicked.connect(main.createvoucher.close)
     main.currconventry.pbcancel.clicked.connect(main.currconventry.close)
 
@@ -724,6 +725,14 @@ def createLedgerPage(main):
         main.createledger.cbUnderBranch.addItems(branch_name)
 
         main.branches = branches
+
+        text_pattern = QRegExp("^[A-Za-z]*$")
+        text_validator = QRegExpValidator(text_pattern)
+        int_validator = QIntValidator()
+        main.createledger.leCountry.setValidator(text_validator)
+        main.createledger.lePincode.setValidator(int_validator)
+        main.createledger.leBalance.setValidator(int_validator)
+
     except:
         print(traceback.print_exc())
 
@@ -1215,7 +1224,7 @@ def enableOnly(main,button):
 def on_pbBack_clicked(main):
     try:
         setEnableAllButton(main)
-        main.createvoucher.hide()
+        main.createvoucher.close()
     except:
         print(traceback.print_exc())
 
