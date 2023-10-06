@@ -118,8 +118,10 @@
          </property>
          <property name="styleSheet">
           <string notr="true">background-color:#f5f6fa;
+
+color:#293241;
+
 font: 63 18pt &quot;Segoe UI Semibold&quot;;
-color:#000000;
 </string>
          </property>
          <property name="frameShape">
@@ -185,9 +187,7 @@ border:none;
              <item row="0" column="0">
               <widget class="QLabel" name="label">
                <property name="styleSheet">
-                <string notr="true">font: 75 17pt &quot;Sitka Display&quot;;
-color:#293241;
-font: 75 18pt &quot;Palatino Linotype&quot;;</string>
+                <string notr="true"/>
                </property>
                <property name="text">
                 <string>Welcome To MBAS</string>

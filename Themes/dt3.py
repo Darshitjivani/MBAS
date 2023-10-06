@@ -2080,8 +2080,8 @@ font: 63 9pt "Segoe UI Semibold";
   padding-top: 2px;
   /* This fixes 103, 111 */
   padding-bottom: 2px;
-  padding-left: 4px;
-  padding-right: 4px;
+  padding-left: 2px;
+  padding-right: 2px;
   min-width: 10px;
 }
 
@@ -2093,7 +2093,8 @@ font: 63 9pt "Segoe UI Semibold";
 }
 
 QDateEdit::drop-down, QDateTimeEdit::drop-down {
-  
+     color:#000000;
+
   subcontrol-origin: padding;
   subcontrol-position: top right;
   width: 12px;
@@ -2111,6 +2112,7 @@ font: 63 9pt "Segoe UI Semibold";
 
 QDateEdit::down-arrow:on, QDateEdit::down-arrow:hover, QDateEdit::down-arrow:focus, QDateTimeEdit::down-arrow:on, QDateTimeEdit::down-arrow:hover, QDateTimeEdit::down-arrow:focus {
   image: url(":/qss_icons/rc/arrow_down.png");
+   color:#000000;
 }
 
 QDateEdit QAbstractItemView, QDateTimeEdit QAbstractItemView {

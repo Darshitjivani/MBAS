@@ -257,7 +257,9 @@ def loginFunction(main):
         password = main.login.lePassword.text()
         command = ''' SELECT * FROM User_table WHERE username= ? AND password = ? '''
         cursor = main.db_connection.cursor()
+
         ############################### Alert for user name and password ##############################
+
         if not user:
             QMessageBox.warning(main, 'Warning', 'Please Fill The Username ')
             return
