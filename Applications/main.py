@@ -80,21 +80,21 @@ class UIMain(QMainWindow):
 
     #---------------------------------- Movement of window ----------------------------------#
 
-    def mousePressEvent(self, event: QMouseEvent):
-        if event.button() == Qt.LeftButton:
-            self.offset = event.globalPos() - self.pos()
-            self.dragging = True
-
-
-    def mouseMoveEvent(self, event: QMouseEvent):
-        if self.dragging:
-            self.move(event.globalPos() - self.offset)
-
-
-    def mouseReleaseEvent(self, event: QMouseEvent):
-        if event.button() == Qt.LeftButton:
-            self.dragging = False
-            self.offset = None
+    # def mousePressEvent(self, event: QMouseEvent):
+    #     if event.button() == Qt.LeftButton:
+    #         self.offset = event.globalPos() - self.pos()
+    #         self.dragging = True
+    #
+    #
+    # def mouseMoveEvent(self, event: QMouseEvent):
+    #     if self.dragging:
+    #         self.move(event.globalPos() - self.offset)
+    #
+    #
+    # def mouseReleaseEvent(self, event: QMouseEvent):
+    #     if event.button() == Qt.LeftButton:
+    #         self.dragging = False
+    #         self.offset = None
 
 
 if __name__ == '__main__':
