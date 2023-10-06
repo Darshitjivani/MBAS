@@ -973,15 +973,15 @@ def deleteLedger(main):
 
 def updateLedgerList(main):
 
+    main.alterledgerlist.listWidget.clear()
     if not main.ledger_list_shown:
         try:
-            # Clear the existing items in the list widget
-            main.alterledgerlist.listWidget.clear()
+            # Clear the existing items in the list widge
 
             # Fetch the updated ledger data from the database
             cursor = main.db_connection.cursor()
-            query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table WHERE  CompanyID =?'''
-            cursor.execute(query,(main.companyID,))
+            query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table Where CompanyID = ? '''
+            cursor.execute(query, (main.companyID,))
             ledger_data = cursor.fetchall()
             main.db_connection.commit()
             cursor.close()
