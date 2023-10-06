@@ -836,8 +836,8 @@ def alterLedgerPage(main,ledger_name,ledger_id):
 
         try:
             cursor = main.db_connection.cursor()
-            query = '''SELECT * FROM AccountMaster_table WHERE AcMasterID = ?'''
-            cursor.execute(query, (ledger_id,))
+            query = '''SELECT * FROM AccountMaster_table WHERE AcMasterID = ? AND CompanyID =?'''
+            cursor.execute(query, (ledger_id,main.companyID,))
             ledger_data = cursor.fetchone()
             group_roles = getGroupRoles(main)
             company_groups = getGroupsCreatedByCompany(main)
@@ -980,8 +980,8 @@ def updateLedgerList(main):
 
             # Fetch the updated ledger data from the database
             cursor = main.db_connection.cursor()
-            query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table'''
-            cursor.execute(query)
+            query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table WHERE  CompanyID =?'''
+            cursor.execute(query,(main.companyID,))
             ledger_data = cursor.fetchall()
             main.db_connection.commit()
             cursor.close()
