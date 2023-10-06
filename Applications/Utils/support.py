@@ -99,7 +99,6 @@ def allObjects(main):
     ##################################### Company Create ###############################################
     main.fCreateCompany.layout().addWidget(main.companycreate)
 
-
 #--------------------------------------------------------- All Slots -----------------------------------------#
 
 def allSlots(main):
@@ -108,13 +107,12 @@ def allSlots(main):
     # main.creategroup.pbCreate
     # ------------------------------- Create Company Window --------------------------#
     main.companycreate.pbSubmit.clicked.connect(lambda: createCompany(main))
-    main.companycreate.pbSubmit.clicked.connect(main.companycreate.hide)
-    main.companycreate.pbClose.clicked.connect(main.companycreate.hide)
+    main.companycreate.pbSubmit.clicked.connect(main.companycreate.close)
+    main.companycreate.pbClose.clicked.connect(main.companycreate.close)
     main.pbCreateCompany.clicked.connect(main.companycreate.show)
 
     # Connect the "Add" button to the clear function
     main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
-
 
 
     #-------------------------------- Gateway Window -------------------------------#
@@ -133,13 +131,13 @@ def allSlots(main):
     main.gateway.pbLedgerBalance.clicked.connect(main.gateway.showLedgerBalanceFrame)
     main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
     main.gateway.pbClose.clicked.connect(main.gateway.close)
-    main.balancesheet.pbBack.clicked.connect(main.balancesheet.hide)
+    main.balancesheet.pbBack.clicked.connect(main.balancesheet.close)
 
     # -------------------------------- Master List Window -------------------------------#
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
     main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
-    main.masterlist.pbBack.clicked.connect(main.masterlist.hide)
+    main.masterlist.pbBack.clicked.connect(main.masterlist.close)
     main.masterlist.pbCreateGroup.clicked.connect(main.masterlist.showCreateGroup)
     main.masterlist.pbCreateBranch.clicked.connect(main.masterlist.showCreateBranch)
     main.masterlist.pdCreateLedger.clicked.connect(main.masterlist.showCreateLadger)
@@ -155,20 +153,23 @@ def allSlots(main):
 
     # ------------------------------ Alter Master List Window ---------------------------#
     main.altermasterlist.pbAlterGroup.clicked.connect(lambda: alterGroupListpage(main))
-    main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerListpage(main))
+    main.altermasterlist.pbAlterLedger.clicked.connect(lambda: updateLedgerList(main))
     main.altermasterlist.pbAlterBranch.clicked.connect(lambda: alterBranchList(main))
-    main.altermasterlist.pbBack.clicked.connect(main.altermasterlist.hide)
+    main.altermasterlist.pbBack.clicked.connect(main.altermasterlist.close)
     main.altermasterlist.pbAlterGroup.clicked.connect(main.altermasterlist.showAlterGroup)
     main.altermasterlist.pbAlterLedger.clicked.connect(main.altermasterlist.showAlterLedger)
     #####################################################################################
     main.altermasterlist.pbAlterBranch.clicked.connect(main.altermasterlist.showAlterBranch)
-    main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
-    main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
+    main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.close)
+    main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.close)
 
     #---------------------------- Create Branch Window ----------------------------------#
     main.createbranch.pbSubmit.clicked.connect(lambda: saveBranchData(main))
     main.alterledger.pbSubmit.clicked.connect(lambda: saveAlterLedgerData(main))
+    main.alterledger.pbSubmit.clicked.connect(lambda: updateLedgerList(main))
     main.alterledger.pbDelete.clicked.connect(lambda: deleteLedger(main))
+    main.alterledger.pbDelete.clicked.connect(lambda: updateLedgerList(main))
+
     main.alterledger.pbClose.clicked.connect(main.alterledger.close)
 
     # -------------------------Alter Branch Window----------------------------------------#
@@ -191,29 +192,29 @@ def allSlots(main):
     main.createvoucher.pbCurConvsn.clicked.connect(lambda: setVoucherType(main))
     main.createvoucher.pbContra.clicked.connect(lambda : setVoucherType(main))
     main.createvoucher.pbCreateLedger.clicked.connect(lambda :createLedger(main))
-    main.createvoucher.pbBack.clicked.connect(main.createvoucher.hide)
-    main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
+    main.createvoucher.pbBack.clicked.connect(main.createvoucher.close)
+    main.currconventry.pbcancel.clicked.connect(main.currconventry.close)
 
         #-----------------------------        Contra Window ----------------------------#
     main.contraentry.pdAddRaw.clicked.connect(lambda: addRawInContra(main))
-    main.contraentry.pbcancel.clicked.connect(main.contraentry.hide)
+    main.contraentry.pbcancel.clicked.connect(main.contraentry.close)
 
         #--------------------------------------- Receipt Window ------------------------------#
     main.recieptentry.pdAddRaw.clicked.connect(lambda: addRawInReciept(main))
-    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
+    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.close)
 
         #------------------------------------  Payment Window ------------------------------#
     main.paymententry.pdAddRaw.clicked.connect(lambda: addRawInPayment(main))
-    main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
+    main.paymententry.pbcancel.clicked.connect(main.paymententry.close)
 
         #------------------------------------  Sales Window ------------------------------#
     main.salesentry.pdAddRaw.clicked.connect(lambda: addRawInSales(main))
-    main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
+    main.salesentry.pbcancel.clicked.connect(main.salesentry.close)
 
 
     #------------------------------------  Purchase Window ------------------------------#
     main.purchaseentry.pdAddRaw.clicked.connect(lambda: addRawInPurchase(main))
-    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
+    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.close)
 
 
     #----------------------------------- Day Book Window ------------------------------------------#
@@ -221,7 +222,7 @@ def allSlots(main):
     main.daybook.tableView.doubleClicked.connect(lambda : dayBookDoubleClicked(main))
     main.daybook.pbGetData.clicked.connect(lambda: filterDataByDateRange(main))
     main.daybook.tableView.doubleClicked.connect(lambda: dayBookDoubleClicked(main))
-    main.daybook.pbBack.clicked.connect(main.daybook.hide)
+    main.daybook.pbBack.clicked.connect(main.daybook.close)
 
     # ------------------------------------- Trial Balance ------------------------------#
 
@@ -235,7 +236,7 @@ def allSlots(main):
     main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
     main.datefilter.pbGetData.clicked.connect(main.datefilter.close)
     main.datefilter.pbCancel.clicked.connect(main.datefilter.close)
-    main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
+    main.trialbalance.pbBack.clicked.connect(main.trialbalance.close)
 
     # ------------------------------------- Ledger Balance ------------------------------#
     main.ledgerblance.pbBack.clicked.connect(main.ledgerblance.close)
@@ -778,61 +779,28 @@ def saveledger(main):
                 # User chose to continue, show the gateway window
                 main.createledger.hide()
                 main.masterlist.show()
-
+                clearCreateLedgerField(main)
             else:
                 # User chose not to continue, clear the company creation UI
-                main.companycreate.clearFields()
+                pass
 
         except sqlite3.Error as e:
             print("Error executing query:", e)
             QMessageBox.critical(main, 'Error', 'Error creating Ledger entry.')
     except:
         print(traceback.print_exc())
-    updateLedgerList(main)
 
+def clearCreateLedgerField(main):
+    try:
+        main.createledger.leAcName.clear()
+        main.createledger.leMailingName.clear()
+        main.createledger.ptAddress.clear()
+        main.createledger.leCountry.clear()
+        main.createledger.lePincode.clear()
+        main.createledger.leBalance.clear()
 
-ledger_list_shown = False
-def alterLedgerListpage(main):
-    global ledger_list_shown  # Declare the flag variable as global
-
-    # Check if the ledger list is already shown, and show it only if it's not shown
-    if not ledger_list_shown:
-        try:
-            company_id = main.companyID
-            command = ''' SELECT * FROM AccountMaster_table WHERE CompanyID = ? '''
-            cursor = main.db_connection.cursor()
-
-            try:
-                cursor.execute(command, (company_id,))
-                ledger_data = cursor.fetchall()
-
-                main.listWidget.clear()
-
-                for ledger in ledger_data:
-                    ledger_name = ledger[1]
-                    ledger_id = ledger[0]
-
-                    item = QListWidgetItem()
-                    ledger_button = QPushButton(ledger_name)
-                    ledger_button.clicked.connect(
-                        lambda _, name=ledger_name, id=ledger_id: alterLedgerPage(main, name, id))
-                    item.setSizeHint(ledger_button.sizeHint())
-                    main.alterledgerlist.listWidget.addItem(item)
-                    main.alterledgerlist.listWidget.setItemWidget(item, ledger_button)
-                    item.setData(Qt.UserRole, ledger_id)
-
-                # Set the flag to True, indicating that the ledger list is now shown
-                ledger_list_shown = True
-            except sqlite3.Error as e:
-                print("Error executing query:", e)
-            cursor.close()
-        except:
-            print(traceback.print_exc())
-    else:
-        pass
-    main.alterledgerlist.show()
-    updateLedgerList(main)
-
+    except:
+        print(traceback.print_exc())
 
 def alterLedgerPage(main,ledger_name,ledger_id):
 
@@ -980,27 +948,43 @@ def deleteLedger(main):
 
 
 def updateLedgerList(main):
-    try:
-        # Clear the existing items in the list widget
-        main.listWidget.clear()
 
-        # Fetch the updated ledger data from the database
-        cursor = main.db_connection.cursor()
-        query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table'''
-        cursor.execute(query)
-        ledger_data = cursor.fetchall()
-        main.db_connection.commit()
-        cursor.close()
+    if not main.ledger_list_shown:
+        try:
+            # Clear the existing items in the list widget
+            main.alterledgerlist.listWidget.clear()
 
-        # Populate the list widget with the ledger data
-        for item in ledger_data:
-            ledger_id, ledger_name = item
-            list_item = QListWidgetItem(ledger_name)
-            list_item.setData(Qt.UserRole, ledger_id)  # Store the ledger ID as user data
-            main.listWidget.addItem(list_item)
+            # Fetch the updated ledger data from the database
+            cursor = main.db_connection.cursor()
+            query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table'''
+            cursor.execute(query)
+            ledger_data = cursor.fetchall()
+            main.db_connection.commit()
+            cursor.close()
 
-    except sqlite3.Error as e:
-        print("Error updating ledger list:", e)
+            # Populate the list widget with the ledger data
+            for item in ledger_data:
+
+                ledger_name = item[1]
+                ledger_id = item[0]
+
+                item = QListWidgetItem()
+                ledger_button = QPushButton(ledger_name)
+                ledger_button.clicked.connect(
+                    lambda _, name=ledger_name, id=ledger_id: alterLedgerPage(main, name, id))
+                item.setSizeHint(ledger_button.sizeHint())
+                main.alterledgerlist.listWidget.addItem(item)
+                main.alterledgerlist.listWidget.setItemWidget(item, ledger_button)
+                item.setData(Qt.UserRole, ledger_id)
+
+            main.ledger_list_shown = False
+
+        except sqlite3.Error as e:
+            print("Error updating ledger list:", e)
+
+    else:
+        pass
+    main.alterledgerlist.show()
 
 # ------------------------------------ For Branch ---------------------------------------
 

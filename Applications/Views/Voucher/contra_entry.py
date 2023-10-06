@@ -26,6 +26,8 @@ class ContraEnteryWindow(QMainWindow):
         y = (screen_geometry.height() - window_geometry.height()) // 2
         self.move(x, y)
 
+
+
         # ----------------------------------- For Window Movement ----------------------------------$
     #     self.dragging = False
     #     self.offset = None

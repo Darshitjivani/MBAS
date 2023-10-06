@@ -18,6 +18,7 @@ def initialObjects(main):
 def initVariables(main):
     try:
         main.is_filtered = False
+        main.ledger_list_shown = False
     except:
         print(traceback.print_exc())
 
