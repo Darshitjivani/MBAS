@@ -26,6 +26,7 @@ from Resources.icons import icons_rc
 class UIMain(QMainWindow):
     def __init__(self):
         global is_filtered
+        global ledger_list_shown
         super(UIMain, self).__init__()
         loc1 = os.getcwd().split('Application')
         ui_main = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
@@ -46,7 +47,7 @@ class UIMain(QMainWindow):
 
         self.pbMaximized.clicked.connect(self.showmaxORnormal)
         self.pbMinimized.clicked.connect(self.showminimized)
-
+        dark = qdarkstyle.load_stylesheet()
         self.setStyleSheet(dt3)
 
     def showminimized(self):

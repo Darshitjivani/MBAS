@@ -108,13 +108,12 @@ def allSlots(main):
     # main.creategroup.pbCreate
     # ------------------------------- Create Company Window --------------------------#
     main.companycreate.pbSubmit.clicked.connect(lambda: createCompany(main))
-    main.companycreate.pbSubmit.clicked.connect(main.companycreate.hide)
-    main.companycreate.pbClose.clicked.connect(main.companycreate.hide)
+    main.companycreate.pbSubmit.clicked.connect(main.companycreate.close)
+    main.companycreate.pbClose.clicked.connect(main.companycreate.close)
     main.pbCreateCompany.clicked.connect(main.companycreate.show)
 
     # Connect the "Add" button to the clear function
     main.pbCreateCompany.clicked.connect(lambda: clearCompanyCreateFields(main))
-
 
 
     #-------------------------------- Gateway Window -------------------------------#
@@ -133,13 +132,13 @@ def allSlots(main):
     main.gateway.pbLedgerBalance.clicked.connect(main.gateway.showLedgerBalanceFrame)
     main.gateway.pbChangeCompany.clicked.connect(lambda: goToMainWindow(main))
     main.gateway.pbClose.clicked.connect(main.gateway.close)
-    main.balancesheet.pbBack.clicked.connect(main.balancesheet.hide)
+    main.balancesheet.pbBack.clicked.connect(main.balancesheet.close)
 
     # -------------------------------- Master List Window -------------------------------#
     main.masterlist.pbCreateGroup.clicked.connect(lambda: creategrouppage(main))
     main.masterlist.pdCreateLedger.clicked.connect(lambda: createLedgerPage(main))
     main.masterlist.pbCreateBranch.clicked.connect(lambda: createBranchpage(main))
-    main.masterlist.pbBack.clicked.connect(main.masterlist.hide)
+    main.masterlist.pbBack.clicked.connect(main.masterlist.close)
     main.masterlist.pbCreateGroup.clicked.connect(main.masterlist.showCreateGroup)
     main.masterlist.pbCreateBranch.clicked.connect(main.masterlist.showCreateBranch)
     main.masterlist.pdCreateLedger.clicked.connect(main.masterlist.showCreateLadger)
@@ -155,20 +154,23 @@ def allSlots(main):
 
     # ------------------------------ Alter Master List Window ---------------------------#
     main.altermasterlist.pbAlterGroup.clicked.connect(lambda: alterGroupListpage(main))
-    main.altermasterlist.pbAlterLedger.clicked.connect(lambda: alterLedgerListpage(main))
+    main.altermasterlist.pbAlterLedger.clicked.connect(lambda: updateLedgerList(main))
     main.altermasterlist.pbAlterBranch.clicked.connect(lambda: alterBranchList(main))
-    main.altermasterlist.pbBack.clicked.connect(main.altermasterlist.hide)
+    main.altermasterlist.pbBack.clicked.connect(main.altermasterlist.close)
     main.altermasterlist.pbAlterGroup.clicked.connect(main.altermasterlist.showAlterGroup)
     main.altermasterlist.pbAlterLedger.clicked.connect(main.altermasterlist.showAlterLedger)
     #####################################################################################
     main.altermasterlist.pbAlterBranch.clicked.connect(main.altermasterlist.showAlterBranch)
-    main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.hide)
-    main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.hide)
+    main.alterledgerlist.pbClose.clicked.connect(main.alterledgerlist.close)
+    main.altergrouplist.pbClose.clicked.connect(main.altergrouplist.close)
 
     #---------------------------- Create Branch Window ----------------------------------#
     main.createbranch.pbSubmit.clicked.connect(lambda: saveBranchData(main))
     main.alterledger.pbSubmit.clicked.connect(lambda: saveAlterLedgerData(main))
+    main.alterledger.pbSubmit.clicked.connect(lambda: updateLedgerList(main))
     main.alterledger.pbDelete.clicked.connect(lambda: deleteLedger(main))
+    main.alterledger.pbDelete.clicked.connect(lambda: updateLedgerList(main))
+
     main.alterledger.pbClose.clicked.connect(main.alterledger.close)
 
     # -------------------------Alter Branch Window----------------------------------------#
@@ -195,29 +197,29 @@ def allSlots(main):
     main.createvoucher.pbCurConvsn.clicked.connect(lambda: setVoucherType(main))
     main.createvoucher.pbContra.clicked.connect(lambda : setVoucherType(main))
     main.createvoucher.pbCreateLedger.clicked.connect(lambda :createLedger(main))
-    main.createvoucher.pbBack.clicked.connect(lambda : on_pbBack_clicked(main))
-    main.currconventry.pbcancel.clicked.connect(main.currconventry.hide)
+    main.createvoucher.pbBack.clicked.connect(main.createvoucher.close)
+    main.currconventry.pbcancel.clicked.connect(main.currconventry.close)
 
         #-----------------------------        Contra Window ----------------------------#
     main.contraentry.pdAddRaw.clicked.connect(lambda: addRawInContra(main))
-    main.contraentry.pbcancel.clicked.connect(main.contraentry.hide)
+    main.contraentry.pbcancel.clicked.connect(main.contraentry.close)
 
         #--------------------------------------- Receipt Window ------------------------------#
     main.recieptentry.pdAddRaw.clicked.connect(lambda: addRawInReciept(main))
-    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.hide)
+    main.recieptentry.pbcancel.clicked.connect(main.recieptentry.close)
 
         #------------------------------------  Payment Window ------------------------------#
     main.paymententry.pdAddRaw.clicked.connect(lambda: addRawInPayment(main))
-    main.paymententry.pbcancel.clicked.connect(main.paymententry.hide)
+    main.paymententry.pbcancel.clicked.connect(main.paymententry.close)
 
         #------------------------------------  Sales Window ------------------------------#
     main.salesentry.pdAddRaw.clicked.connect(lambda: addRawInSales(main))
-    main.salesentry.pbcancel.clicked.connect(main.salesentry.hide)
+    main.salesentry.pbcancel.clicked.connect(main.salesentry.close)
 
 
     #------------------------------------  Purchase Window ------------------------------#
     main.purchaseentry.pdAddRaw.clicked.connect(lambda: addRawInPurchase(main))
-    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.hide)
+    main.purchaseentry.pbcancel.clicked.connect(main.purchaseentry.close)
 
 
     #----------------------------------- Day Book Window ------------------------------------------#
@@ -225,7 +227,7 @@ def allSlots(main):
     main.daybook.tableView.doubleClicked.connect(lambda : dayBookDoubleClicked(main))
     main.daybook.pbGetData.clicked.connect(lambda: filterDataByDateRange(main))
     main.daybook.tableView.doubleClicked.connect(lambda: dayBookDoubleClicked(main))
-    main.daybook.pbBack.clicked.connect(main.daybook.hide)
+    main.daybook.pbBack.clicked.connect(main.daybook.close)
 
     # ------------------------------------- Trial Balance ------------------------------#
 
@@ -239,7 +241,7 @@ def allSlots(main):
     main.trialbalance.pbFilter.clicked.connect(lambda: filterClicked(main))
     main.datefilter.pbGetData.clicked.connect(main.datefilter.close)
     main.datefilter.pbCancel.clicked.connect(main.datefilter.close)
-    main.trialbalance.pbBack.clicked.connect(main.trialbalance.hide)
+    main.trialbalance.pbBack.clicked.connect(main.trialbalance.close)
 
     # ------------------------------------- Ledger Balance ------------------------------#
     main.ledgerblance.pbBack.clicked.connect(main.ledgerblance.close)
@@ -730,27 +732,21 @@ def saveledger(main):
     '''This Function will execute the Query to save the data of ledger into database.'''
     try:
         name = main.createledger.leAcName.text()
-        print(name)
         mailing_name = main.createledger.leMailingName.text()
         address = main.createledger.ptAddress.toPlainText()
         country = main.createledger.leCountry.text()
         pincode = main.createledger.lePincode.text()
         balance = main.createledger.leBalance.text()
 
-
         selected_role = main.createledger.cbUnderGroup.currentText()
-        print("selected_role", selected_role)
         selected_branch_text = main.createledger.cbUnderBranch.currentText()
-        print("selected_branch_text", selected_branch_text)
 
         selected_branch_index = None
         for branch in main.branches:
             if branch[1] == selected_branch_text:
                 selected_branch_index = branch[0]
                 break
-        print("selecetd branch index:", selected_branch_index)
         if selected_branch_index is None:
-            print("Selected branch not found in the branchs list.")
             return
 
             # Perform the database insert operation
@@ -761,7 +757,6 @@ def saveledger(main):
                 update_query = '''UPDATE AccountMaster_table SET Ac_name=?,Under_groupName=?, Mailing_name=?,Address=?,
                                 Country=?,Pincode=?,Balance=? WHERE AcMasterID=?'''
                 update_values = (name,selected_role,mailing_name,address,country,pincode,balance,main.ledgerID)
-                print("update values:",update_values)
                 cursor.execute(update_query, update_values)
 
                 update_query2 = ''' UPDATE Opening_Balance SET OpeningBalance=?,Ac_name=? WHERE AcMasterID=?'''
@@ -774,7 +769,6 @@ def saveledger(main):
                                 ,Country,Pincode,Balance,BranchID)
                                           VALUES (?,?,?,?,?,?,?,?,?,?)'''
                 values = (main.companyID,name,selected_role,selected_branch_text,mailing_name,address,country,pincode,balance,selected_branch_index)
-                print("vaues:", values)
                 cursor.execute(insert_query, values)
 
 
@@ -807,63 +801,30 @@ def saveledger(main):
                 # User chose to continue, show the gateway window
                 main.createledger.hide()
                 main.masterlist.show()
-                # main.gateway.updateTitleLabel(company_name)
-
+                clearCreateLedgerField(main)
             else:
                 # User chose not to continue, clear the company creation UI
-                main.companycreate.clearFields()
+                pass
 
         except sqlite3.Error as e:
             print("Error executing query:", e)
             QMessageBox.critical(main, 'Error', 'Error creating Ledger entry.')
     except:
         print(traceback.print_exc())
-    # alterLedgerListpage(main)
     updateLedgerList(main)
 
 
-ledger_list_shown = False
-def alterLedgerListpage(main):
-    global ledger_list_shown  # Declare the flag variable as global
+def clearCreateLedgerField(main):
+    try:
+        main.createledger.leAcName.clear()
+        main.createledger.leMailingName.clear()
+        main.createledger.ptAddress.clear()
+        main.createledger.leCountry.clear()
+        main.createledger.lePincode.clear()
+        main.createledger.leBalance.clear()
 
-    # Check if the ledger list is already shown, and show it only if it's not shown
-    if not ledger_list_shown:
-        try:
-            company_id = main.companyID
-            command = ''' SELECT * FROM AccountMaster_table WHERE CompanyID = ? '''
-            cursor = main.db_connection.cursor()
-
-            try:
-                cursor.execute(command, (company_id,))
-                ledger_data = cursor.fetchall()
-
-                main.listWidget.clear()
-
-                for ledger in ledger_data:
-                    ledger_name = ledger[1]
-                    ledger_id = ledger[0]
-
-                    item = QListWidgetItem()
-                    ledger_button = QPushButton(ledger_name)
-                    ledger_button.clicked.connect(
-                        lambda _, name=ledger_name, id=ledger_id: alterLedgerPage(main, name, id))
-                    item.setSizeHint(ledger_button.sizeHint())
-                    main.alterledgerlist.listWidget.addItem(item)
-                    main.alterledgerlist.listWidget.setItemWidget(item, ledger_button)
-                    item.setData(Qt.UserRole, ledger_id)
-
-                # Set the flag to True, indicating that the ledger list is now shown
-                ledger_list_shown = True
-            except sqlite3.Error as e:
-                print("Error executing query:", e)
-            cursor.close()
-        except:
-            print(traceback.print_exc())
-    else:
-        pass
-    main.alterledgerlist.show()
-    updateLedgerList(main)
-
+    except:
+        print(traceback.print_exc())
 
 def alterLedgerPage(main,ledger_name,ledger_id):
 
@@ -1011,27 +972,43 @@ def deleteLedger(main):
 
 
 def updateLedgerList(main):
-    try:
-        # Clear the existing items in the list widget
-        main.listWidget.clear()
 
-        # Fetch the updated ledger data from the database
-        cursor = main.db_connection.cursor()
-        query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table'''
-        cursor.execute(query)
-        ledger_data = cursor.fetchall()
-        main.db_connection.commit()
-        cursor.close()
+    if not main.ledger_list_shown:
+        try:
+            # Clear the existing items in the list widget
+            main.alterledgerlist.listWidget.clear()
 
-        # Populate the list widget with the ledger data
-        for item in ledger_data:
-            ledger_id, ledger_name = item
-            list_item = QListWidgetItem(ledger_name)
-            list_item.setData(Qt.UserRole, ledger_id)  # Store the ledger ID as user data
-            main.listWidget.addItem(list_item)
+            # Fetch the updated ledger data from the database
+            cursor = main.db_connection.cursor()
+            query = '''SELECT AcMasterID, Ac_name FROM AccountMaster_table'''
+            cursor.execute(query)
+            ledger_data = cursor.fetchall()
+            main.db_connection.commit()
+            cursor.close()
 
-    except sqlite3.Error as e:
-        print("Error updating ledger list:", e)
+            # Populate the list widget with the ledger data
+            for item in ledger_data:
+
+                ledger_name = item[1]
+                ledger_id = item[0]
+
+                item = QListWidgetItem()
+                ledger_button = QPushButton(ledger_name)
+                ledger_button.clicked.connect(
+                    lambda _, name=ledger_name, id=ledger_id: alterLedgerPage(main, name, id))
+                item.setSizeHint(ledger_button.sizeHint())
+                main.alterledgerlist.listWidget.addItem(item)
+                main.alterledgerlist.listWidget.setItemWidget(item, ledger_button)
+                item.setData(Qt.UserRole, ledger_id)
+
+            main.ledger_list_shown = False
+
+        except sqlite3.Error as e:
+            print("Error updating ledger list:", e)
+
+    else:
+        pass
+    main.alterledgerlist.show()
 
 # ------------------------------------ For Branch ---------------------------------------
 
@@ -1300,17 +1277,8 @@ def showVoucherPage(main):
 
         main.createvoucher.pbSubmit.setVisible(False)
         main.createvoucher.model.dataChanged.connect(lambda: updateSumsOnSelectionChange(main))
-        # main.createvoucher.model.dataChanged.connect(lambda: enableVoucherButtonInPage(main))
-        # main.createvoucher.model.rowsRemoved.connect(
-        #     lambda parent, first, last: setEnableAllButton(main) if last == -1 else None)
-
-        # main.createvoucher.model.rowsRemoved.connect(lambda parent, first, last: setEnableAllButton(main))
-
-
     except:
         print(traceback.print_exc())
-
-
 
 
 def getVoucherType(main):
@@ -1351,7 +1319,6 @@ def saveVoucherData(main):
     try:
         try:
             company_id = main.companyID
-            print("company id", company_id)
             main.voucherNo = main.createvoucher.leVoucherNo.text()
 
             voucher_type = main.createvoucher.lbVoucherType.text()
@@ -3324,7 +3291,6 @@ def fetchDayBookData(main):
         """
         cursor.execute(command, (main.companyID,))
         data = cursor.fetchall()
-        print("Data :", data)
         main.daybook.table[0:main.ledgerblance.last_serialno]=[0,0,0,0,0,0,0,0]
         main.daybook.model.DelRows(0,main.daybook.model.last_serialno)
         main.daybook.last_serialno = 0
@@ -3535,7 +3501,7 @@ def showAlterVoucher(main , voucherNo):
             dr_accounts = defaultdict(float)
             cr_accounts = defaultdict(float)
             for raw in voucher_data:
-                # print("alter voucher")
+
                 main.createvoucher.leVoucherNo.setText(raw[1])
                 main.createvoucher.lbVoucherType.setText(raw[2])
                 # Assuming voucher_data[3] contains a date string in the format 'YYYY-MM-DD'
@@ -3570,18 +3536,13 @@ def showAlterVoucher(main , voucherNo):
                 DRAmt=raw[13]
                 CRAmt=raw[14]
                 Currency=raw[15]
-                # print("Dr Account_____________________", DRAccount)
-                # print("Cr Account_____________________", CRAccount)
 
 
                 # Update consolidated amounts
                 if DRAccount:
                     dr_accounts[DRAccount] += DRAmt
-                    print("dr account-------------", dr_accounts[DRAccount])
                 if CRAccount:
                     cr_accounts[CRAccount] += CRAmt
-                    print("cr account-------------", cr_accounts[CRAccount])
-            print("dr account items----------------", dr_accounts.items())
             # Update the table with consolidated data
             for account, amount in dr_accounts.items():
                 main.createvoucher.table[main.createvoucher.last_serialno,] = ['Dr', account, amount, 0,
@@ -3589,14 +3550,12 @@ def showAlterVoucher(main , voucherNo):
                 main.createvoucher.last_serialno += 1
                 main.createvoucher.model.last_serialno += 1
                 main.createvoucher.model.insertRows()
-            print("cr account items----------------",  cr_accounts.items())
             for account, amount in cr_accounts.items():
                 main.createvoucher.table[main.createvoucher.last_serialno,] = ['Cr', account, 0, amount,
                                                                                Currency]
                 main.createvoucher.last_serialno += 1
                 main.createvoucher.model.last_serialno += 1
                 main.createvoucher.model.insertRows()
-            print("alter voucher table--------------", main.createvoucher.table)
             ind = main.createvoucher.model.index(0, 0)
             ind1 = main.createvoucher.model.index(0, 1)
             main.createvoucher.model.dataChanged.emit(ind, ind1)
@@ -3912,9 +3871,10 @@ def trialBalanceDoubleClicked(main):
                 command = """SELECT 
                                  Date,Perticulars ,Debit ,Credit ,Currency 
                             FROM 
-                                 Ledger_table """
+                                 Ledger_table 
+                            WHERE  CompanyID =?"""
 
-                cursor.execute(command,)
+                cursor.execute(command,(main.companyID,))
                 data = cursor.fetchall()
                 idx = main.trialbalance.tableView.selectedIndexes()[1].data()
                 filtered_data = [row for row in data if row[1] == idx]
