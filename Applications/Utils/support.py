@@ -400,8 +400,6 @@ def clearCompanyCreateFields(main):
     main.companycreate.leCurrencySymbol.clear()
     main.companycreate.leFormalName.clear()
 
-
-
 def listOfCompany(main):
 
     ''' Show the List of Comapny When clicked on 'List Of Company' button.'''
