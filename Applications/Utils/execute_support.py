@@ -9,9 +9,11 @@ from Applications.Views.Login.login import LoginWindow
 
 def initialObjects(main):
     # -------------------- Path of Database --------------------------#
-    loc1 = os.getcwd().split('Application')
+    loc1 = os.getcwd().split('Applications')
     db_path = os.path.join(loc1[0], 'Database', 'MBAS1.db')
     main.db_connection = sqlite3.connect(db_path)
+
+
 
     main.login = LoginWindow()  # Login Window
 
