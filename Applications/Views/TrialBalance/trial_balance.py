@@ -33,7 +33,6 @@ class TrialBalanceWindow(QMainWindow):
 
             self.heads = ['Date','Perticular', 'Debit Amount INR', 'Credit Amount INR', 'Debit Amount USD', 'Credit Amount USD']
             self.visibleColumns = len(self.heads)
-            print('len(self.heads)',len(self.heads))
             self.table = np.zeros((2000, len(self.heads)), dtype=object)
 
             self.model = ModelTB(self.table, self.heads)

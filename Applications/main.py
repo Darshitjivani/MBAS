@@ -32,7 +32,6 @@ class UIMain(QMainWindow):
         ui_main = os.path.join(loc1[0], 'Resources', 'UI', 'HomeWindow.ui')
         uic.loadUi(ui_main, self)
         self.setWindowFlag(Qt.FramelessWindowHint)
-        self.pbMaximized.clicked.connect(self.showmaximized)
         self.dragging = False
         self.offset = None
         initVariables(self)

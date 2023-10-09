@@ -1186,10 +1186,7 @@ QComboBox QAbstractItemView {
 
 
 
-QComboBox QAbstractItemView:selected {
-  background: #1464A0;
-  color: #ffffff;
-}
+
 
 QComboBox QAbstractItemView:alternate {
   background: #e6e6fa;

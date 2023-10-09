@@ -482,6 +482,9 @@ font: 63 11pt &quot;Segoe UI Semibold&quot;;
               <height>16777215</height>
              </size>
             </property>
+            <property name="whatsThis">
+             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; text-decoration: underline;&quot;&gt;G&lt;/span&gt;roup&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            </property>
             <property name="styleSheet">
              <string notr="true">QPushButton {
                                                 font: 63 11pt Segoe UI Semibold;
